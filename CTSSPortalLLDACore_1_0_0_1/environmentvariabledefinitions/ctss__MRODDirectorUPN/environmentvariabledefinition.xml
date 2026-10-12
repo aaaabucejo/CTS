@@ -1,0 +1,11 @@
+<environmentvariabledefinition schemaname="ctss__MRODDirectorUPN">
+  <defaultvalue>adkpmg@wjl5s.onmicrosoft.com 	</defaultvalue>
+  <displayname default="ctss_MRODDirectorUPN">
+    <label description="ctss_MRODDirectorUPN" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.0</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

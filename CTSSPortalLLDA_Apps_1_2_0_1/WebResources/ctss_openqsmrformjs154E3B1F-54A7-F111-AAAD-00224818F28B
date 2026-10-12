@@ -1,0 +1,25 @@
+// E5.8 — Open QSMR Form command handler.
+// The custom page unique name is set once E6.1 exists (see mda-e5-build-guide.md E5.8);
+// until then the button proves the navigation contract by showing the resolved recordId.
+var CTSS_QSMR_PAGE_NAME = "ctss_qsmrreportform_1b25a";
+
+function openQSMRForm(primaryControl) {
+    var recordId = primaryControl.data.entity.getId().replace(/[{}]/g, "");
+    if (!CTSS_QSMR_PAGE_NAME) {
+        Xrm.Navigation.openAlertDialog({
+            title: "QSMR page not registered yet",
+            text: "Navigation contract OK. recordId = " + recordId +
+                "\n\nSet CTSS_QSMR_PAGE_NAME in ctss_openqsmrform.js to the E6 custom page unique name to enable navigation."
+        });
+        return;
+    }
+    var pageInput = {
+        pageType: "custom",
+        name: CTSS_QSMR_PAGE_NAME,
+        entityName: "ctss_ctss_qsmrreport",
+        recordId: recordId
+    };
+    var navigationOptions = { target: 2, position: 1, width: { value: 80, unit: "%" } };
+    Xrm.Navigation.navigateTo(pageInput, navigationOptions)
+        .catch(function (e) { Xrm.Navigation.openAlertDialog({ text: e.message }); });
+}

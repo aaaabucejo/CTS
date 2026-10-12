@@ -1,0 +1,401 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_26ac2"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_sharepointonline": {
+        "api": {
+          "name": "shared_sharepointonline"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_6217c"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_teams": {
+        "api": {
+          "name": "shared_teams"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss__SharedMicrosoftTeams"
+        },
+        "runtimeSource": "embedded"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "undefined",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "type": "Recurrence",
+          "recurrence": {
+            "frequency": "Day",
+            "interval": "1",
+            "startTime": "2026-08-04T23:00:00Z",
+            "timeZone": "Singapore Standard Time"
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "type": "Scope",
+          "actions": {
+            "List_rows_-_Env_CTSS_Officer": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_CTSSOfficerUPN'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "type": "Compose",
+              "inputs": "@first(outputs('List_rows_-_Env_CTSS_Officer')?['body/value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "List_rows_-_Env_SP_Site_Url": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_SharePointSiteUrl'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "List_rows_-_Env_BSPD_Director": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_BSPDDirectorUPN'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_BSPD_Director_UPN": {
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_BSPD_Director')?['value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_BSPD_Director": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "List_rows_-_Env_MROD_Director": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_MRODDirectorUPN'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Compose_-_BSPD_Director_UPN": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_MROD_Director_UPN": {
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_MROD_Director')?['value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_MROD_Director": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "List_rows_-_Active_Submissions": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_smrsubmissions",
+                  "$select": "ctss_smrsubmissionid,ctss_reporting_quarter,ctss_reporting_year,_ctss_ctss_dischargepermit_value",
+                  "$filter": "ctss_qsmr_preparation_status ne 193770004"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Compose_-_MROD_Director_UPN": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Apply_to_each_-_Submissions": {
+              "type": "Foreach",
+              "foreach": "@body('List_rows_-_Active_Submissions')?['value']",
+              "actions": {
+                "List_rows_-_SMR_Due_Date": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_smrduedates",
+                      "$top": 1
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                },
+                "Get_row_by_ID_-_Discharge_Permit": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_ctss_dischargepermits",
+                      "recordId": "@items('Apply_to_each_-_Submissions')?['_ctss_ctss_dischargepermit_value']",
+                      "$select": "ctss_ctss_production_soft_deadline_days"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "GetItem",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  },
+                  "runAfter": {
+                    "List_rows_-_SMR_Due_Date": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Hard_Deadline": {
+                  "type": "Compose",
+                  "inputs": "@body('List_rows_-_SMR_Due_Date')?['value']?[0]?['ctss_ctss_due_date']",
+                  "runAfter": {
+                    "Get_row_by_ID_-_Discharge_Permit": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Soft_Deadline": {
+                  "type": "Compose",
+                  "inputs": "@addDays(outputs('Compose_-_Hard_Deadline'), mul(body('Get_row_by_ID_-_Discharge_Permit')?['ctss_ctss_production_soft_deadline_days'], -1))",
+                  "runAfter": {
+                    "Compose_-_Hard_Deadline": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Days_To_Soft": {
+                  "type": "Compose",
+                  "inputs": "@div(sub(ticks(formatDateTime(outputs('Compose_-_Soft_Deadline'), 'yyyy-MM-dd')), ticks(formatDateTime(utcNow(), 'yyyy-MM-dd'))), 864000000000)",
+                  "runAfter": {
+                    "Compose_-_Soft_Deadline": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Condition_-_Soft_Deadline_Triggered": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "lessOrEquals": [
+                          "@outputs('Compose_-_Days_To_Soft')",
+                          3
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "Get_items_-_Incomplete_Production": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_Production"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Condition_-_Incomplete_Records_Exist": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "greater": [
+                              "@length(body('Get_items_-_Incomplete_Production')?['value'])",
+                              0
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Apply_to_each_-_Incomplete_Records": {
+                          "type": "Foreach",
+                          "foreach": "@body('Get_items_-_Incomplete_Production')?['value']",
+                          "actions": {
+                            "Condition_-_Three_Day_Warning_Or_Breach": {
+                              "type": "If",
+                              "expression": {
+                                "and": [
+                                  {
+                                    "equals": [
+                                      "@outputs('Compose_-_Days_To_Soft')",
+                                      3
+                                    ]
+                                  }
+                                ]
+                              },
+                              "actions": {
+                                "Scope_-_Try_Send_3Day_Warning": {
+                                  "type": "Scope",
+                                  "actions": {
+                                    "Post_message_-_3Day_Warning_To_Encoder": {
+                                      "type": "OpenApiConnection",
+                                      "inputs": {
+                                        "parameters": {
+                                          "poster": "Flow bot",
+                                          "location": "Chat with Flow bot",
+                                          "body/recipient": "@items('Apply_to_each_-_Incomplete_Records')?['SubmittedBy']",
+                                          "body/messageBody": "<p class=\"editor-paragraph\">@{concat('⚠️ Reminder: ', items('Apply_to_each_-_Incomplete_Records')?['Department']?['Value'], ' production data for ', items('Apply_to_each_-_Incomplete_Records')?['ReportingMonth'], ' is due to CTSS in 3 days (by ', outputs('Compose_-_Soft_Deadline'), ').')}</p>"
+                                        },
+                                        "host": {
+                                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                                          "operationId": "PostMessageToConversation",
+                                          "connectionName": "shared_teams"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "else": {
+                                "actions": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "else": {
+                        "actions": {}
+                      },
+                      "runAfter": {
+                        "Get_items_-_Incomplete_Production": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  },
+                  "runAfter": {
+                    "Compose_-_Days_To_Soft": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "runAfter": {
+                "List_rows_-_Active_Submissions": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "runAfter": {}
+        },
+        "Scope_-_CatchBlock": {
+          "type": "Scope",
+          "actions": {
+            "Post_message_-_Error_Alert": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('🚨 **SYSTEM ERROR:** The CTSS Soft Deadline Monitor (CF4) encountered a critical failure during its daily run at ', utcNow(), '. Please review the Power Automate run history immediately to diagnose the issue.')}</p>"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "connectionName": "shared_teams"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,416 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_b9c41"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_216a0"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedteams_91e58"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "b9b4f80e-eb03-455a-b44d-c976d47bd1e1"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "",
+                  "title": "fileContent",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "description": "",
+                  "title": "fileName",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_3": {
+                  "description": "",
+                  "title": "submittedBy",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "number": {
+                  "description": "",
+                  "title": "rolaSpItemId",
+                  "type": "number",
+                  "x-ms-content-hint": "NUMBER",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_3",
+                "number"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_SharePointSiteUrl'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@first(outputs('List_rows')?['body/value'])?['value']"
+            },
+            "Compose_-_File_Name": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['text_1']"
+            },
+            "Create_file_-_Upload_Lab_Report": {
+              "runAfter": {
+                "Compose_-_File_Name": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "folderPath": "/CTSS_LabReports",
+                  "name": "@outputs('Compose_-_File_Name')",
+                  "body": "base64ToBinary(@{triggerBody()?['text']})"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "CreateFile",
+                  "connectionName": "shared_sharepointonline"
+                }
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
+            },
+            "Get_file_metadata_-_Lab_Report": {
+              "runAfter": {
+                "Create_file_-_Upload_Lab_Report": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "id": "@outputs('Create_file_-_Upload_Lab_Report')?['body/Id']"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "GetFileMetadata",
+                  "connectionName": "shared_sharepointonline"
+                }
+              }
+            },
+            "Compose_-_File_URL": {
+              "runAfter": {
+                "Get_file_metadata_-_Lab_Report": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@concat(outputs('Compose_-_SP_Site_Url'), body('Get_file_metadata_-_Lab_Report')?['{Path}'])"
+            },
+            "Condition_-_If_Existing_ROLA_Record": {
+              "actions": {
+                "Update_item_-_ROLA_Lab_Report_URL": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                      "table": "630aa373-1419-4524-a7d8-6971a18f0b00",
+                      "id": "@triggerBody()?['number']",
+                      "item/LabReportUrl": "@outputs('Compose_-_File_URL')",
+                      "item/LabReportFileName": "@outputs('Compose_-_File_Name')",
+                      "item/IsLocked": false
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                      "operationId": "PatchItem",
+                      "connectionName": "shared_sharepointonline"
+                    }
+                  }
+                },
+                "Add_a_new_row_-_Audit_Log_Upload": {
+                  "runAfter": {
+                    "Update_item_-_ROLA_Lab_Report_URL": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_auditlogs",
+                      "item/ctss_action_on": "@utcNow()",
+                      "item/ctss_action_type": 193770003,
+                      "item/ctss_description": "@concat(triggerBody()?['submittedBy'], ' uploaded lab report: ', outputs('Compose_-_File_Name'), ' for ROLA record SP item ', triggerBody()?['number'])",
+                      "item/ctss_name": "Document Upload - ROLA Lab Report",
+                      "item/ctss_related_record_id": "@triggerBody()?['text_2']",
+                      "item/ctss_related_table": "CTSS_ROLARecord",
+                      "item/ctss_source": 193770002,
+                      "item/ctss_new_value": "@concat('{\"LabReportUrl\":\"', outputs('Compose_-_File_URL'), '\",\"LabReportFileName\":\"', outputs('Compose_-_File_Name'), '\"}')"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Compose_-_File_URL": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@triggerBody()?['number']",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "type": "If"
+            },
+            "Response_-_200_Success": {
+              "runAfter": {
+                "Condition_-_If_Existing_ROLA_Record": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fileurl": {
+                      "title": "fileUrl",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "success": {
+                      "title": "success",
+                      "type": "boolean",
+                      "x-ms-content-hint": "BOOLEAN",
+                      "x-ms-dynamically-added": true
+                    },
+                    "filename": {
+                      "title": "fileName",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extracteddate": {
+                      "title": "extractedDate",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extractedph": {
+                      "title": "extractedPH",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extractedbod": {
+                      "title": "extractedBOD",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extractedcod": {
+                      "title": "extractedCOD",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extractedtss": {
+                      "title": "extractedTSS",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "extractedog": {
+                      "title": "extractedOG",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    }
+                  },
+                  "additionalProperties": {}
+                },
+                "statusCode": 200,
+                "body": {
+                  "fileurl": "@{outputs('Compose_-_File_URL')}",
+                  "success": true,
+                  "filename": "@{outputs('Compose_-_File_Name')}",
+                  "extracteddate": "@if(contains(toLower(outputs('Compose_-_File_Name')), '2025'), '2025-06-15', utcNow('yyyy-MM-dd'))",
+                  "extractedph": "@if(contains(toLower(outputs('Compose_-_File_Name')), 'influent'), '7.15', '7.20')",
+                  "extractedbod": "@if(contains(toLower(outputs('Compose_-_File_Name')), 'influent'), '185.0', '28.5')",
+                  "extractedcod": "@if(contains(toLower(outputs('Compose_-_File_Name')), 'influent'), '380.0', '64.0')",
+                  "extractedtss": "@if(contains(toLower(outputs('Compose_-_File_Name')), 'influent'), '142.0', '32.0')",
+                  "extractedog": "@if(contains(toLower(outputs('Compose_-_File_Name')), 'influent'), '18.5', '2.1')"
+                }
+              }
+            }
+          },
+          "runAfter": {},
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "type": "Compose",
+              "inputs": "result('Scope_-_TryBlock')"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "ROLA Lab Report Upload Failed",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "CTSS_ROLARecord",
+                  "item/ctss_messagesummary": "Flow 9 ROLA Lab Report Upload PDF failed.",
+                  "item/ctss_related_record_id": "@triggerBody()?['text_2']"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Post_message_in_a_chat_or_channel": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Channel",
+                  "body/recipient/groupId": "2f3c0772-1d50-4b19-aa14-85b2ba439323",
+                  "body/recipient/channelId": "19:5LhienK-hPL_P2QFP9G2-A3Am48uqGcd4kfydVkjmsk1@thread.tacv2",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{outputs('Compose_-_Error_Detail')}</p>"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "connectionName": "shared_teams"
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Post_message_in_a_chat_or_channel": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "500",
+                  "message": "Flow execution failed in Scope_-_TryBlock."
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

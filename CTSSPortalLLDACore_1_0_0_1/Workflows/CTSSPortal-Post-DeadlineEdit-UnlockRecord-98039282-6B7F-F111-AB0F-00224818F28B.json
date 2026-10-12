@@ -1,0 +1,484 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline": {
+        "api": {
+          "name": "shared_sharepointonline"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_b3ab4426aedb464c8cb6319ad3771d77"
+        },
+        "runtimeSource": "invoker"
+      },
+      "shared_commondataserviceforapps": {
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_26ac2"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_teams": {
+        "api": {
+          "name": "shared_teams"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss__SharedMicrosoftTeams"
+        },
+        "runtimeSource": "invoker"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "title": "itemId",
+                  "type": "number",
+                  "x-ms-dynamically-added": true,
+                  "description": "number",
+                  "x-ms-content-hint": "NUMBER"
+                },
+                "text_1": {
+                  "title": "overrideBy",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "text",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "overrideById",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "text",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "overrideReason",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "text",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text": {
+                  "title": "targetList",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "targetList",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "number",
+                "text_1",
+                "text_2",
+                "text_3",
+                "text"
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "e97ae22c-d34f-467b-8896-dee3f59e1fa2"
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "type": "Scope",
+          "actions": {
+            "Condition_-_Override_Reason_Provided": {
+              "type": "If",
+              "expression": {
+                "not": {
+                  "equals": [
+                    "triggerBody()?['overrideReason']",
+                    ""
+                  ]
+                }
+              },
+              "actions": {},
+              "else": {
+                "actions": {
+                  "Response_-_400_Reason_Required": {
+                    "type": "Response",
+                    "kind": "PowerApp",
+                    "inputs": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "title": "success",
+                            "x-ms-dynamically-added": true,
+                            "type": "boolean"
+                          },
+                          "message": {
+                            "title": "message",
+                            "x-ms-dynamically-added": true,
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {}
+                      },
+                      "statusCode": 200,
+                      "body": {
+                        "success": "No",
+                        "message": "Override reason is required."
+                      }
+                    },
+                    "metadata": {
+                      "operationMetadataId": "90717f8c-d377-442b-9ce5-b8db0469691e"
+                    }
+                  },
+                  "Terminate_-_Cancelled_No_Reason": {
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Cancelled"
+                    },
+                    "runAfter": {
+                      "Response_-_400_Reason_Required": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "ea329de4-af49-4fe8-9b13-1aa5040bac5b"
+                    }
+                  }
+                }
+              },
+              "metadata": {
+                "operationMetadataId": "ea975b12-5fcf-4585-b550-c92e654415f8"
+              }
+            },
+            "Switch_-_Target_List": {
+              "type": "Switch",
+              "expression": "@triggerBody()['text']",
+              "default": {
+                "actions": {}
+              },
+              "cases": {
+                "Case": {
+                  "actions": {
+                    "Update_item": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                          "id": "@triggerBody()['number']",
+                          "item/IsLocked": false,
+                          "item/LockOverrideBy": "/systemusers(@{triggerBody()['text_1']})",
+                          "item/LockOverrideReason": "@triggerBody()['text_3']"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      },
+                      "metadata": {
+                        "operationMetadataId": "9ce6382c-ef46-4565-9b07-3f6549c02f66"
+                      }
+                    }
+                  },
+                  "case": "CTSS_Production"
+                },
+                "Case_2": {
+                  "actions": {
+                    "Update_item_2": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "aa01f854-e3a0-478d-8eaf-f41f19fa0a8c",
+                          "id": "@triggerBody()?['itemId']",
+                          "item/CuM": 0,
+                          "item/IsLocked": false
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      },
+                      "metadata": {
+                        "operationMetadataId": "0f6f9205-3cda-47c9-930f-1965ec6f339a"
+                      }
+                    }
+                  },
+                  "case": "CTSS_WaterConsumption"
+                },
+                "Case_3": {
+                  "actions": {
+                    "Update_item_3": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "093a57a5-d150-45a6-9a97-7d1404124dac",
+                          "id": "@triggerBody()?['itemId']",
+                          "item/IsLocked": false,
+                          "item/LockOverrideBy": "triggerBody()?['overrideBy']",
+                          "item/LockOverrideReason": "triggerBody()?['overrideReason']"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      },
+                      "metadata": {
+                        "operationMetadataId": "c15c1469-e701-42c6-b909-86e39ddbec6b"
+                      }
+                    }
+                  },
+                  "case": "CTSS_STP"
+                },
+                "Case_4": {
+                  "actions": {
+                    "Update_item_4": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "630aa373-1419-4524-a7d8-6971a18f0b00",
+                          "id": "@triggerBody()?['itemId']",
+                          "item/IsLocked": false,
+                          "item/LockOverrideBy": "triggerBody()?['overrideBy']",
+                          "item/LockOverrideReason": "triggerBody()?['overrideReason']"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      },
+                      "metadata": {
+                        "operationMetadataId": "1f0be021-17c7-4821-9cc6-ea001553c08d"
+                      }
+                    }
+                  },
+                  "case": "CTSS_ROLARecord"
+                }
+              },
+              "runAfter": {
+                "Condition_-_Override_Reason_Provided": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ce39799b-eed9-4d72-bc21-fb110eff7018"
+              }
+            },
+            "Add_a_new_row": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_auditlogs",
+                  "item/ctss_action_on": "@utcNow()",
+                  "item/ctss_action_type": 193770004,
+                  "item/ctss_description": "@concat('Post-deadline edit granted by ', triggerBody()?['overrideBy'], ' on ', triggerBody()?['targetList'], ' item ', triggerBody()?['itemId'], '. Reason: ', triggerBody()?['overrideReason'])",
+                  "item/ctss_name": "Add_a_new_row_-_Audit_Log_Override",
+                  "item/ctss_related_record_id": "@string(triggerBody()?['itemId'])",
+                  "item/ctss_related_table": "@triggerBody()?['targetList']",
+                  "item/ctss_source": 193770002,
+                  "item/ctss_action_by@odata.bind": "  @{concat('/systemusers(', triggerBody()?['text_2'], ')')}"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Switch_-_Target_List": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1dd4ac7e-67e8-48d4-96b2-6cc7521af0f1"
+              }
+            },
+            "Scope_-_CatchBlock": {
+              "type": "Scope",
+              "actions": {
+                "Compose_-_Error_Detail": {
+                  "type": "Compose",
+                  "inputs": "json(result('Scope_-_TryBlock'))",
+                  "metadata": {
+                    "operationMetadataId": "e871ce21-400f-48ca-aed4-82d1d2a55766"
+                  }
+                },
+                "Add_a_new_row_-_Notification_Log_Failed": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_notificationlogs",
+                      "item/ctss_name": "Add_a_new_row_-_Notification_Log_Failed",
+                      "item/ctss_notification_type": 193770006,
+                      "item/ctss__related_table": "@triggerBody()?['targetList']"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  },
+                  "runAfter": {
+                    "Compose_-_Error_Detail": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "4c6698ed-a8b2-4dbd-ab1b-33adcf610c10"
+                  }
+                },
+                "Post_message_-_Flow_Failure_Alert": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "poster": "Flow bot",
+                      "location": "Chat with Flow bot",
+                      "body/recipient": "Klyde@wjl5s.onmicrosoft.com",
+                      "body/messageBody": "<p class=\"editor-paragraph\">@{concat('Flow failure: CTSS Portal - Post-Deadline Edit - Unlock Record. Error: ', if(greater(length(string(outputs('Compose_-_Error_Detail'))), 500), substring(string(outputs('Compose_-_Error_Detail')), 0, 500), string(outputs('Compose_-_Error_Detail'))))}</p>"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                      "operationId": "PostMessageToConversation",
+                      "connectionName": "shared_teams"
+                    }
+                  },
+                  "runAfter": {
+                    "Respond_to_a_Power_App_or_flow": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "60d459e8-ce20-44ae-89c7-bb662e337e1c"
+                  }
+                },
+                "Terminate_-_Flow_Failed": {
+                  "type": "Terminate",
+                  "inputs": {
+                    "runStatus": "Failed"
+                  },
+                  "runAfter": {
+                    "Post_message_-_Flow_Failure_Alert": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "2a05387c-ff58-49d0-90b3-952bd2bf2ed4"
+                  }
+                },
+                "Respond_to_a_Power_App_or_flow": {
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "title": "success",
+                          "x-ms-dynamically-added": true,
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "title": "message",
+                          "x-ms-dynamically-added": true,
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": {}
+                    },
+                    "statusCode": 200,
+                    "body": {
+                      "success": "No",
+                      "message": "@{string(outputs('Compose_-_Error_Detail'))}"
+                    }
+                  },
+                  "runAfter": {
+                    "Add_a_new_row_-_Notification_Log_Failed": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "641286fe-97e1-4142-8925-e874251cf597"
+                  }
+                }
+              },
+              "runAfter": {
+                "Response_-_200_Success": [
+                  "TimedOut",
+                  "Failed",
+                  "Skipped"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "e15e3272-e015-4255-8371-3c8e37fc7784"
+              }
+            },
+            "Response_-_200_Success": {
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": {}
+                },
+                "statusCode": 200,
+                "body": {
+                  "success": "Yes",
+                  "message": "Record unlocked. Override logged"
+                }
+              },
+              "runAfter": {
+                "Add_a_new_row": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "46bc5893-e2c8-4a5b-8f2c-1b2dd2fa007a"
+              }
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "f2dbd13a-7443-45f2-bd0b-5b5cee473f60"
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

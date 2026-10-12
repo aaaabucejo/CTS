@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="ctss_SharePointSiteurl">
+  <defaultvalue>https://wjl5s.sharepoint.com/sites/CTSPortal</defaultvalue>
+  <description default="CTSS sharepoint site url">
+    <label description="CTSS sharepoint site url" languagecode="1033" />
+  </description>
+  <displayname default=" ctss_SharePointSiteurl">
+    <label description=" ctss_SharePointSiteurl" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.1</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

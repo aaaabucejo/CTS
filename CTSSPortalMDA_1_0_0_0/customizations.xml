@@ -1,0 +1,1182 @@
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.149" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00149">
+  <Entities>
+    <Entity>
+      <Name LocalizedName="CTSS_Production" OriginalName="CTSS_Production">ctss_Production</Name>
+      <EntityInfo>
+        <entity Name="ctss_Production" unmodified="1">
+          <attributes />
+        </entity>
+      </EntityInfo>
+      <SavedQueries>
+        <savedqueries>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{e5add001-0000-4e55-b1d0-000000000003}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="2" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Pending Production Review" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Director Approved and waiting for CTSS to take them on." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{c150d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="4" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - Accepted by CTSS" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="CTSS has taken these on (For CTSS Review) - awaiting quarter lock." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{d650d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - All by Status" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Every production record with its status - the catch-all view." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{b350d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="1" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - Awaiting Director" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Submitted by the department, Teams approval card still outstanding." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{ba50d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="3" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - Director Returned" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Returned by the Director for correction - back with the encoder." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{cf50d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="0" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - Draft" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Still a draft in the department's canvas app." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{c850d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_productionid">
+                  <cell name="ctss_title" width="220" />
+                  <cell name="ctss_department" width="90" />
+                  <cell name="ctss_productiontype" width="150" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_productionvalue" width="120" />
+                  <cell name="ctss_recordstatus" width="150" />
+                  <cell name="ctss_reviewedby" width="170" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_production">
+                  <attribute name="ctss_productionid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_department" />
+                  <attribute name="ctss_productiontype" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_productionvalue" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedby" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="5" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Production - Locked" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Locked as part of a submitted QSMR quarter." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+        </savedqueries>
+      </SavedQueries>
+      <RibbonDiffXml>
+        <CustomActions />
+        <Templates>
+          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+        </Templates>
+        <CommandDefinitions />
+        <RuleDefinitions>
+          <TabDisplayRules />
+          <DisplayRules />
+          <EnableRules />
+        </RuleDefinitions>
+        <LocLabels />
+      </RibbonDiffXml>
+    </Entity>
+    <Entity>
+      <Name LocalizedName="CTSS_ROLARecord" OriginalName="CTSS_ROLARecord">ctss_ROLARecord</Name>
+      <EntityInfo>
+        <entity Name="ctss_ROLARecord" unmodified="1">
+          <attributes />
+        </entity>
+      </EntityInfo>
+      <SavedQueries>
+        <savedqueries>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{e5add001-0000-4e55-b1d0-000000000001}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_submittedon" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="2" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Pending ROLA Review" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Lab certificates submitted to CTSS and awaiting validation." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{cfedcc3a-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_validatedby" width="180" />
+                  <cell name="ctss_validatedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_validatedby" />
+                  <attribute name="ctss_validatedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="4" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="ROLA - Accepted" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Certificates CTSS has accepted. Only these are read by the QSMR page." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{9750d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="ROLA - All by Status" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Every lab certificate with its status - the catch-all view." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{c8edcc3a-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="in">
+                      <value>0</value>
+                      <value>1</value>
+                    </condition>
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="ROLA - Awaiting BFU Submission" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Lab certificates still in Draft or Submitted in the BFU app - not yet with CTSS." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{9050d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_validatedby" width="180" />
+                  <cell name="ctss_validatedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_validatedby" />
+                  <attribute name="ctss_validatedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_validationstatus" operator="eq" value="2" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="ROLA - Failed Validation" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="ValidationStatus = Failed, whatever the record status. Compliance follow-up list." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{8950d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_rolarecordid">
+                  <cell name="ctss_title" width="200" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_entrytype" width="100" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_validationstatus" width="130" />
+                  <cell name="ctss_validatedby" width="180" />
+                  <cell name="ctss_validatedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_rolarecord">
+                  <attribute name="ctss_rolarecordid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_entrytype" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_validationstatus" />
+                  <attribute name="ctss_validatedby" />
+                  <attribute name="ctss_validatedon" />
+                  <order attribute="ctss_reportingmonth" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="3" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="ROLA - Returned to BFU" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Certificates sent back to BFU for correction." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+        </savedqueries>
+      </SavedQueries>
+      <RibbonDiffXml>
+        <CustomActions />
+        <Templates>
+          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+        </Templates>
+        <CommandDefinitions />
+        <RuleDefinitions>
+          <TabDisplayRules />
+          <DisplayRules />
+          <EnableRules />
+        </RuleDefinitions>
+        <LocLabels />
+      </RibbonDiffXml>
+    </Entity>
+    <Entity>
+      <Name LocalizedName="CTSS_STP" OriginalName="CTSS_STP">ctss_STP</Name>
+      <EntityInfo>
+        <entity Name="ctss_STP" unmodified="1">
+          <attributes />
+        </entity>
+      </EntityInfo>
+      <SavedQueries>
+        <savedqueries>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{e5add001-0000-4e55-b1d0-000000000002}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_stpid">
+                  <cell name="ctss_title" width="160" />
+                  <cell name="ctss_readingdate" width="110" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_hoursofoperation" width="110" />
+                  <cell name="ctss_effluentflowreading" width="130" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_stp">
+                  <attribute name="ctss_stpid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_readingdate" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_hoursofoperation" />
+                  <attribute name="ctss_effluentflowreading" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_readingdate" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="2" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="Pending STP Review" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Daily readings submitted to CTSS and awaiting review." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{ac50d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_stpid">
+                  <cell name="ctss_title" width="160" />
+                  <cell name="ctss_readingdate" width="110" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_hoursofoperation" width="110" />
+                  <cell name="ctss_effluentflowreading" width="130" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_stp">
+                  <attribute name="ctss_stpid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_readingdate" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_hoursofoperation" />
+                  <attribute name="ctss_effluentflowreading" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_readingdate" descending="true" />
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="STP - All by Status" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Every daily reading with its status - the catch-all view." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{9e50d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_stpid">
+                  <cell name="ctss_title" width="160" />
+                  <cell name="ctss_readingdate" width="110" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_hoursofoperation" width="110" />
+                  <cell name="ctss_effluentflowreading" width="130" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_submittedby" width="200" />
+                  <cell name="ctss_submittedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_stp">
+                  <attribute name="ctss_stpid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_readingdate" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_hoursofoperation" />
+                  <attribute name="ctss_effluentflowreading" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_submittedby" />
+                  <attribute name="ctss_submittedon" />
+                  <order attribute="ctss_readingdate" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="in">
+                      <value>0</value>
+                      <value>1</value>
+                    </condition>
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="STP - Awaiting BFU Submission" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Daily readings still Draft or Submitted in the BFU app - not yet with CTSS." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+          <savedquery>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <isquickfindquery>0</isquickfindquery>
+            <isprivate>0</isprivate>
+            <isdefault>0</isdefault>
+            <savedqueryid>{a550d340-a3b1-f111-aaad-00224818f28b}</savedqueryid>
+            <layoutxml>
+              <grid name="resultset" jump="ctss_title" select="1" icon="1" preview="1">
+                <row name="result" id="ctss_stpid">
+                  <cell name="ctss_title" width="160" />
+                  <cell name="ctss_readingdate" width="110" />
+                  <cell name="ctss_reportingmonth" width="120" />
+                  <cell name="ctss_effluentflowreading" width="130" />
+                  <cell name="ctss_recordstatus" width="140" />
+                  <cell name="ctss_reviewedbyctss" width="180" />
+                  <cell name="ctss_reviewedon" width="150" />
+                </row>
+              </grid>
+            </layoutxml>
+            <querytype>0</querytype>
+            <fetchxml>
+              <fetch version="1.0" mapping="logical">
+                <entity name="ctss_stp">
+                  <attribute name="ctss_stpid" />
+                  <attribute name="ctss_title" />
+                  <attribute name="ctss_readingdate" />
+                  <attribute name="ctss_reportingmonth" />
+                  <attribute name="ctss_effluentflowreading" />
+                  <attribute name="ctss_recordstatus" />
+                  <attribute name="ctss_reviewedbyctss" />
+                  <attribute name="ctss_reviewedon" />
+                  <order attribute="ctss_readingdate" descending="true" />
+                  <filter type="and">
+                    <condition attribute="ctss_recordstatus" operator="eq" value="3" />
+                  </filter>
+                </entity>
+              </fetch>
+            </fetchxml>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <LocalizedNames>
+              <LocalizedName description="STP - Reviewed" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="Readings CTSS has reviewed. Only these are summed by Compute Aggregates." languagecode="1033" />
+            </Descriptions>
+          </savedquery>
+        </savedqueries>
+      </SavedQueries>
+      <RibbonDiffXml>
+        <CustomActions />
+        <Templates>
+          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+        </Templates>
+        <CommandDefinitions />
+        <RuleDefinitions>
+          <TabDisplayRules />
+          <DisplayRules />
+          <EnableRules />
+        </RuleDefinitions>
+        <LocLabels />
+      </RibbonDiffXml>
+    </Entity>
+  </Entities>
+  <Roles></Roles>
+  <Workflows></Workflows>
+  <FieldSecurityProfiles></FieldSecurityProfiles>
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <WebResources>
+    <WebResource>
+      <WebResourceId>{b77278dc-1aaa-f111-aaad-00224818f28b}</WebResourceId>
+      <Name>ctss_portal_219d9d82_icon</Name>
+      <DisplayName>CTSS Portal Icon</DisplayName>
+      <WebResourceType>11</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/ctss_portal_219d9d82_iconB77278DC-1AAA-F111-AAAD-00224818F28B</FileName>
+    </WebResource>
+  </WebResources>
+  <CustomControls />
+  <AppModuleSiteMaps>
+    <AppModuleSiteMap>
+      <SiteMapUniqueName>ctss_portal_219d9d82</SiteMapUniqueName>
+      <EnableCollapsibleGroups>False</EnableCollapsibleGroups>
+      <ShowHome>True</ShowHome>
+      <ShowPinned>True</ShowPinned>
+      <ShowRecents>True</ShowRecents>
+      <SiteMap IntroducedVersion="7.0.0.0">
+        <Area Id="area_0" ResourceId="SitemapDesigner.NewTitle" DescriptionResourceId="SitemapDesigner.NewTitle" ShowGroups="true" IntroducedVersion="7.0.0.0">
+          <Titles>
+            <Title LCID="1033" Title="CTSS Portal" />
+          </Titles>
+          <Group Id="group_0_0" ResourceId="SitemapDesigner.NewGroup" DescriptionResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+            <Titles>
+              <Title LCID="1033" Title="Compliance" />
+            </Titles>
+            <SubArea Id="subarea_fa82bf78" Icon="/_imgs/imagestrips/transparent_spacer.gif" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA" Page="ctss_ctssdashboard_48673">
+              <Titles>
+                <Title LCID="1033" Title="CTSS_Dashboard" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_0_0" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_smrsubmission" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="SMR Submissions" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_0_1" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_ctss_qsmrreport" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="QSMR Reports" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_0_2" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_ctss_dischargepermit" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Discharge Permits" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_0_3" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_establishmentprofile" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Establishment Profiles" />
+              </Titles>
+            </SubArea>
+          </Group>
+          <Group Id="group_0_1" ResourceId="SitemapDesigner.NewGroup" DescriptionResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+            <Titles>
+              <Title LCID="1033" Title="Review Queues" />
+            </Titles>
+            <SubArea Id="sub_0_1_0" ResourceId="SitemapDesigner.NewSubArea" DefaultDashboard="8d0477ed-19aa-f111-aaad-00224818f28b" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Pending Review Queues" />
+              </Titles>
+            </SubArea>
+          </Group>
+          <Group Id="group_0_2" ResourceId="SitemapDesigner.NewGroup" DescriptionResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+            <Titles>
+              <Title LCID="1033" Title="Administration" />
+            </Titles>
+            <SubArea Id="sub_0_2_0" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_auditlog" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Audit Logs" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_2_1" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_notificationlog" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Notification Logs" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_2_2" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_smrduedate" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="SMR Due Dates" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_2_3" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_datacompleteness" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Data Completeness" />
+              </Titles>
+            </SubArea>
+          </Group>
+          <Group Id="group_0_3" ResourceId="SitemapDesigner.NewGroup" DescriptionResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+            <Titles>
+              <Title LCID="1033" Title="Configuration" />
+            </Titles>
+            <SubArea Id="sub_0_3_0" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_rolaparametermaster" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="ROLA Parameter Master" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_3_1" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_watermeter" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="Water Meters" />
+              </Titles>
+            </SubArea>
+            <SubArea Id="sub_0_3_2" ResourceId="SitemapDesigner.NewSubArea" Entity="ctss_config" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+              <Titles>
+                <Title LCID="1033" Title="System Config" />
+              </Titles>
+            </SubArea>
+          </Group>
+        </Area>
+      </SiteMap>
+      <LocalizedNames>
+        <LocalizedName description="CTSS Portal" languagecode="1033" />
+      </LocalizedNames>
+    </AppModuleSiteMap>
+  </AppModuleSiteMaps>
+  <AppModules>
+    <AppModule>
+      <UniqueName>ctss_portal_219d9d82</UniqueName>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <WebResourceId>953b9fac-1e5e-e611-80d6-00155ded156f</WebResourceId>
+      <OptimizedFor></OptimizedFor>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+      <FormFactor>1</FormFactor>
+      <ClientType>4</ClientType>
+      <NavigationType>0</NavigationType>
+      <AppModuleComponents>
+        <AppModuleComponent type="1" schemaName="ctss_notificationlog" />
+        <AppModuleComponent type="1" schemaName="ctss_smrduedate" />
+        <AppModuleComponent type="1" schemaName="ctss_config" />
+        <AppModuleComponent type="1" schemaName="ctss_rolaparametermaster" />
+        <AppModuleComponent type="1" schemaName="ctss_auditlog" />
+        <AppModuleComponent type="1" schemaName="ctss_ctss_qsmrreport" />
+        <AppModuleComponent type="1" schemaName="ctss_smrsubmission" />
+        <AppModuleComponent type="1" schemaName="ctss_datacompleteness" />
+        <AppModuleComponent type="1" schemaName="ctss_establishmentprofile" />
+        <AppModuleComponent type="1" schemaName="ctss_ctss_dischargepermit" />
+        <AppModuleComponent type="1" schemaName="ctss_watermeter" />
+        <AppModuleComponent type="60" id="{8d0477ed-19aa-f111-aaad-00224818f28b}" />
+        <AppModuleComponent type="60" id="{1330c1e4-030e-485e-8cb3-236d0b9c686c}" />
+        <AppModuleComponent type="60" id="{2ef3d811-24bb-4265-a714-2bbae579b65b}" />
+        <AppModuleComponent type="60" id="{27657e04-2942-41d0-8fe5-32fe26163473}" />
+        <AppModuleComponent type="60" id="{856aa690-144a-44de-a090-54b0af45aabb}" />
+        <AppModuleComponent type="60" id="{d07d5704-8427-4a2b-9863-54f391f1bc8e}" />
+        <AppModuleComponent type="60" id="{d6760e0d-aafc-4e49-b8cc-721b2d43d279}" />
+        <AppModuleComponent type="60" id="{6bca6a46-6195-4a59-8fac-7fffe22c09cd}" />
+        <AppModuleComponent type="60" id="{1c37324b-da1c-4262-9e9c-8df9bfe97180}" />
+        <AppModuleComponent type="60" id="{e04fb807-8d88-4480-a11c-a9ba992b32d5}" />
+        <AppModuleComponent type="60" id="{95eadaa7-91be-4d05-84b4-c352767aec6d}" />
+        <AppModuleComponent type="60" id="{d8f4ec7e-9589-4595-829f-decf4c284cd1}" />
+        <AppModuleComponent type="62" schemaName="ctss_portal_219d9d82" />
+        <AppModuleComponent type="26" id="{e7a6cfeb-25af-4fd6-9ae9-0bd148f6ec4e}" />
+        <AppModuleComponent type="26" id="{60601929-9b85-4458-bb4c-15ee218a0108}" />
+        <AppModuleComponent type="26" id="{f16be209-171d-4188-b003-213e1e206bfa}" />
+        <AppModuleComponent type="26" id="{7c8c92d7-fcc8-4ea3-acd1-26962232efde}" />
+        <AppModuleComponent type="26" id="{727e7330-05ca-4de8-9fe3-3e3b6469b621}" />
+        <AppModuleComponent type="26" id="{3bdf241f-8b47-4ec6-94b6-4926fc5cd515}" />
+        <AppModuleComponent type="26" id="{a877da6f-5ca7-4a5a-90aa-616da4212bf5}" />
+        <AppModuleComponent type="26" id="{18ebe956-a38d-4738-b8c6-6b05a234515c}" />
+        <AppModuleComponent type="26" id="{38139b7c-d264-4135-89fd-7d2460823034}" />
+        <AppModuleComponent type="26" id="{7a2d601c-14f4-457f-9106-8a2727bcd564}" />
+        <AppModuleComponent type="26" id="{c73bc529-9fc7-4c2a-a9b9-ab42833b1c64}" />
+        <AppModuleComponent type="26" id="{093dc36f-08da-46bd-8493-b0a40bf1674c}" />
+        <AppModuleComponent type="26" id="{dfd9ca4b-b242-4422-84e8-bcdbe9c5ae55}" />
+        <AppModuleComponent type="26" id="{5d4c5aea-b1c6-4c33-bb55-c3ea3607841f}" />
+        <AppModuleComponent type="26" id="{3cd8aa72-7b14-49ab-9c16-cab2da30943a}" />
+        <AppModuleComponent type="26" id="{184aae98-dad1-41a3-b3cf-d3a5da0fbed5}" />
+        <AppModuleComponent type="26" id="{f41ade69-a18f-46a2-b3f9-dcc673f4557f}" />
+        <AppModuleComponent type="26" id="{95a412c2-cbec-49bb-8081-ecebee6b193d}" />
+        <AppModuleComponent type="26" id="{a8776290-d945-4dc3-a16d-ef39626fe80b}" />
+      </AppModuleComponents>
+      <AppModuleRoleMaps>
+        <Role id="{627090ff-40a3-4053-8790-584edc5be201}" />
+        <Role id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+      </AppModuleRoleMaps>
+      <LocalizedNames>
+        <LocalizedName description="CTSS Portal" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="CTSS-DGS back-office portal for LLDA SMR compliance — review, validation, QSMR preparation" languagecode="1033" />
+      </Descriptions>
+      <appsettings>
+        <appsetting settingdefinitionid.uniquename="AppChannel">
+          <iscustomizable>1</iscustomizable>
+          <value>1</value>
+        </appsetting>
+      </appsettings>
+    </AppModule>
+  </AppModules>
+  <EntityDataProviders />
+  <CanvasApps>
+    <CanvasApp>
+      <Name>ctss_qsmrreportform_1b25a</Name>
+      <AppVersion>2026-09-17T08:17:50Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1845","primaryDeviceHeight":"3200","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true","sienaVersion":"20260917T061822Z-3.26091.9.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>QSMR Report Form</DisplayName>
+      <Description>v.4
+
+base update
+- No formula error base
+- UI update 1
+- UI update 2
+- UI update 3, hardcoded removed?
+- UI update 4, making progress with the D.4
+- UI update 5, near on D sections
+- UI update 6, black boxes are gone
+- UI update 7
+- Update 8, fixing WTP population
+- Update 9, Loaded WTP data
+-Update 10, updated qsmr</Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"f5160a4c-b566-4154-bc16-eeb6e4d3f362":{"id":"/providers/microsoft.powerapps/apis/shared_logicflows","displayName":"Logic flows","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4908/logicflows/icon.png","dataSources":["CTSSPortal-QSMRReport-ComputeAggregates"],"dependencies":["69840da1-a334-4121-b03e-5a9e0b545889","4939b1af-537e-4b35-9263-ee49df246394","2af97632-c701-4268-bb12-2f242bccdb38"],"dependents":[],"parameterHints":{"workflowName":{"value":"150d2647-b47e-4969-b44d-d27f3297b6df"},"workflowEntityId":{"value":"22336dfd-4c95-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - QSMR Report - Compute Aggregates"},"69840da1-a334-4121-b03e-5a9e0b545889":{"value":"shared_commondataserviceforapps-1"},"4939b1af-537e-4b35-9263-ee49df246394":{"value":"shared_sharepointonline-2"},"2af97632-c701-4268-bb12-2f242bccdb38":{"value":"shared_teams-1"}},"parameterHintsV2":{"workflowName":{"value":"150d2647-b47e-4969-b44d-d27f3297b6df"},"workflowEntityId":{"value":"22336dfd-4c95-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - QSMR Report - Compute Aggregates"},"shared_commondataserviceforapps-1":{"value":"69840da1-a334-4121-b03e-5a9e0b545889"},"shared_sharepointonline-2":{"value":"4939b1af-537e-4b35-9263-ee49df246394"},"shared_teams-1":{"value":"2af97632-c701-4268-bb12-2f242bccdb38"}},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["Run"]},"69840da1-a334-4121-b03e-5a9e0b545889":{"id":"/providers/microsoft.powerapps/apis/shared_commondataserviceforapps","displayName":"Microsoft Dataverse","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4939/commondataserviceforapps/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","authenticationType":"Oauth"},"4939b1af-537e-4b35-9263-ee49df246394":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"},"2af97632-c701-4268-bb12-2f242bccdb38":{"id":"/providers/microsoft.powerapps/apis/shared_teams","displayName":"Microsoft Teams","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1826/1.0.1826.4868/teams/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"}}</ConnectionReferences>
+      <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"QSMR Reports":{"entitySetName":"ctss_ctss_qsmrreports","logicalName":"ctss_ctss_qsmrreport"},"SMR Submissions":{"entitySetName":"ctss_smrsubmissions","logicalName":"ctss_smrsubmission"},"Discharge Permits":{"entitySetName":"ctss_ctss_dischargepermits","logicalName":"ctss_ctss_dischargepermit"},"Establishment Profiles":{"entitySetName":"ctss_establishmentprofiles","logicalName":"ctss_establishmentprofile"},"CTSS_ROLARecords":{"entitySetName":"ctss_rolarecords","logicalName":"ctss_rolarecord"},"CTSS_ROLAParameters":{"entitySetName":"ctss_rolaparameters","logicalName":"ctss_rolaparameter"},"CTSS_STPS":{"entitySetName":"ctss_stps","logicalName":"ctss_stp"}}}}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>2</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"dependencyid":"22336dfd-4c95-f111-b8dc-00224818f28b","componenttype":29,"componenttypeplatformname":"Workflow"},{"logicalname":"ctss_ctss_qsmrreport","componenttype":1},{"logicalname":"ctss_smrsubmission","componenttype":1},{"logicalname":"ctss_ctss_dischargepermit","componenttype":1},{"logicalname":"ctss_establishmentprofile","componenttype":1},{"logicalname":"ctss_rolarecord","componenttype":1},{"logicalname":"ctss_rolaparameter","componenttype":1},{"logicalname":"ctss_stp","componenttype":1}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_qsmrreportform_1b25a_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_qsmrreportform_1b25a_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_qsmrreportform_1b25a_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssdashboard_48673</Name>
+      <AppVersion>2026-09-16T08:56:32Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1357","primaryDeviceHeight":"533","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true","sienaVersion":"20260912T054349Z-3.26085.9.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS_Dashboard</DisplayName>
+      <Description xsi:nil="true"></Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{}</ConnectionReferences>
+      <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"SMR Submissions":{"entitySetName":"ctss_smrsubmissions","logicalName":"ctss_smrsubmission"},"Data Completenesses":{"entitySetName":"ctss_datacompletenesses","logicalName":"ctss_datacompleteness"}}}}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>2</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"logicalname":"ctss_smrsubmission","componenttype":1},{"logicalname":"ctss_datacompleteness","componenttype":1}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssdashboard_48673_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssdashboard_48673_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssdashboard_48673_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+  </CanvasApps>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

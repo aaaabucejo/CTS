@@ -1,0 +1,708 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_d4ca7"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedteams_ef9dc"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_b3ab4426aedb464c8cb6319ad3771d77"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_an_item_is_created_or_modified": {
+          "recurrence": {
+            "interval": 3,
+            "frequency": "Minute"
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "operationMetadataId": "733b68c3-85bd-4cbd-8445-ed2cf3bb4cdb"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+              "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44"
+            },
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetOnUpdatedItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            }
+          },
+          "conditions": [
+            {
+              "expression": "@equals(triggerOutputs()?['body/RecordStatus/Value'], 'Submitted for Review')"
+            }
+          ]
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "1f052cd9-ff1d-488f-8f9f-e1ca893adc1e"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_SharePointSiteUrl'",
+                  "$top": 1
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "List_rows_-_Env_BSPD_Director": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1f10f48b-ab71-4e5d-a01e-f85be33ef0ab"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_BSPDDirectorUPN'",
+                  "$top": 1
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "70ceccfb-f0b2-4f58-b761-485d3dc7e945"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['value']"
+            },
+            "Compose_-_BSPD_Director_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_BSPD_Director": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "15c54360-af73-4d33-8c5e-f2d186beb5ec"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_BSPD_Director')?['value'])?['value']"
+            },
+            "List_rows_-_Env_MROD_Director": {
+              "runAfter": {
+                "Compose_-_BSPD_Director_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7f92656b-b070-42c6-a4dc-4cb58088655a"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_MRODDirectorUPN'",
+                  "$top": 1
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_MROD_Director_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_MROD_Director": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "46bae680-4fc0-4933-b9b5-3e2e5eb9a5d9"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_MROD_Director')?['value'])?['value']"
+            },
+            "List_rows_-_Env_CTSS_Officer": {
+              "runAfter": {
+                "Compose_-_MROD_Director_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "df4b3cfd-8154-4a3b-9388-263972bda4de"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_CTSSOfficerUPN'",
+                  "$top": 1
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "14e8e560-15cd-4385-9306-22127fd7c2c0"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_CTSS_Officer')?['value'])?['value']"
+            },
+            "Compose_-_Department": {
+              "runAfter": {
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "afb0c51d-a97a-4724-b480-9eb457d99235"
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['Department']?['Value']"
+            },
+            "Compose_-_Item_Id": {
+              "runAfter": {
+                "Compose_-_Department": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "97c7e97f-3545-44cf-a55b-f27943321888"
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['ID']"
+            },
+            "Compose_-_Production_Type": {
+              "runAfter": {
+                "Compose_-_Item_Id": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1547f914-b500-4170-bc28-cd3b30e40025"
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['ProductionType']?['Value']"
+            },
+            "Compose_-_Reporting_Month": {
+              "runAfter": {
+                "Compose_-_Production_Type": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "5c70aad4-0274-40ea-8a2d-e02d149eb64c"
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['ReportingMonth']"
+            },
+            "Compose_-_Submitted_By": {
+              "runAfter": {
+                "Compose_-_Reporting_Month": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f7ccd480-28d6-4525-956e-00ba07bd0ce4"
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['SubmittedBy']"
+            },
+            "Switch_-_Determine_Director_UPN": {
+              "runAfter": {
+                "Compose_-_Submitted_By": [
+                  "Succeeded"
+                ]
+              },
+              "cases": {
+                "Case": {
+                  "case": "BSPD",
+                  "actions": {
+                    "Set_variable_-_Director_UPN_BSPD": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "f299425e-651d-4186-bf6f-f4d1aae5dede"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "varDirectorUPN",
+                        "value": "@outputs('Compose_-_BSPD_Director_UPN')"
+                      }
+                    }
+                  }
+                },
+                "Case 2": {
+                  "case": "MROD",
+                  "actions": {
+                    "Set_variable_-_Director_UPN_MROD": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "e5a33104-840b-4d1b-aeba-be9d1d7bf042"
+                      },
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "varDirectorUPN",
+                        "value": "@outputs('Compose_-_MROD_Director_UPN')"
+                      }
+                    }
+                  }
+                }
+              },
+              "default": {
+                "actions": {
+                  "Terminate_-_Unknown_Department": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "7906bec5-1339-43d1-873d-4490427f418d"
+                    },
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Failed",
+                      "runError": {
+                        "message": "@concat('Unknown department value: ', outputs('Compose_-_Department'))"
+                      }
+                    }
+                  }
+                }
+              },
+              "expression": "@outputs('Compose_-_Department')",
+              "metadata": {
+                "operationMetadataId": "b84bd48f-0cbe-4676-9a2d-63181c616d60"
+              },
+              "type": "Switch"
+            },
+            "Post_Adaptive_Card_and_wait_-_Director_Approval": {
+              "runAfter": {
+                "Switch_-_Determine_Director_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d950eaaf-851c-4853-9fbf-824051725721"
+              },
+              "type": "OpenApiConnectionWebhook",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/body/messageBody": "@concat('{\r\n  \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\r\n  \"type\": \"AdaptiveCard\",\r\n  \"version\": \"1.3\",\r\n  \"body\": [\r\n    { \"type\": \"TextBlock\", \"text\": \"Production Data Approval Request\",\r\n      \"weight\": \"Bolder\", \"size\": \"Medium\" },\r\n    { \"type\": \"FactSet\", \"facts\": [\r\n      { \"title\": \"Department:\", \"value\": \"', outputs('Compose_-_Department'), '\" },\r\n      { \"title\": \"Production Line:\", \"value\": \"', outputs('Compose_-_Production_Type'), '\" },\r\n      { \"title\": \"Reporting Month:\", \"value\": \"', outputs('Compose_-_Reporting_Month'), '\" },\r\n      { \"title\": \"Production Volume:\", \"value\": \"', string(triggerBody()?['ProductionValue']), ' ', triggerBody()?['UnitOfMeasure']?['Value'], '\" },\r\n      { \"title\": \"Monthly Capacity:\", \"value\": \"', string(triggerBody()?['Capacity']), ' ', triggerBody()?['UnitOfMeasure']?['Value'], '\" },\r\n      { \"title\": \"Process Type:\", \"value\": \"', coalesce(triggerBody()?['ProcessType']?['Value'], 'Continuous'), '\" },\r\n      { \"title\": \"Submitted by:\", \"value\": \"', outputs('Compose_-_Submitted_By'), '\" }\r\n    ]},\r\n    { \"type\": \"Input.Text\", \"id\": \"reviewNotes\",\r\n      \"placeholder\": \"Notes (required if returning)\", \"isMultiline\": true }\r\n  ],\r\n  \"actions\": [\r\n    { \"type\": \"Action.Submit\", \"title\": \"Approve\",\r\n      \"data\": { \"action\": \"Approve\" } },\r\n    { \"type\": \"Action.Submit\", \"title\": \"Return for Correction\",\r\n      \"data\": { \"action\": \"Return\" } }\r\n  ]\r\n}')",
+                  "body/body/updateMessage": "Response received. Thank you.",
+                  "body/body/recipient/to": "@variables('varDirectorUPN')"
+                },
+                "host": {
+                  "connectionName": "shared_teams",
+                  "operationId": "PostCardAndWaitForResponse",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                }
+              }
+            },
+            "Post_message_-_Approval_Timeout_Alert": {
+              "runAfter": {
+                "Post_Adaptive_Card_and_wait_-_Director_Approval": [
+                  "TimedOut"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "2c24afce-ce81-480d-a430-d6b22a397e0a"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('�s�️ Director approval for ', outputs('Compose_-_Department'), ' production record ', outputs('Compose_-_Item_Id'), ' has timed out (7 days). Manual follow-up required.')}</p>"
+                },
+                "host": {
+                  "connectionName": "shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                }
+              }
+            },
+            "Compose_-_Director_Action": {
+              "runAfter": {
+                "Post_Adaptive_Card_and_wait_-_Director_Approval": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "85152765-bef2-4923-9d16-3cc38642137a"
+              },
+              "type": "Compose",
+              "inputs": "@body('Post_Adaptive_Card_and_wait_-_Director_Approval')?['data']?['action']"
+            },
+            "Compose_-_Review_Notes": {
+              "runAfter": {
+                "Compose_-_Director_Action": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3f7d31f5-1ad9-40eb-98b2-842c970b4589"
+              },
+              "type": "Compose",
+              "inputs": "@body('Post_Adaptive_Card_and_wait_-_Director_Approval')?['data']?['reviewNotes']"
+            },
+            "Compose_-_Director_Name": {
+              "runAfter": {
+                "Compose_-_Review_Notes": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52b8a600-52d9-45c4-93a6-a66496ca3933"
+              },
+              "type": "Compose",
+              "inputs": "@body('Post_Adaptive_Card_and_wait_-_Director_Approval')?['responder']?['displayName']"
+            },
+            "Condition_-_Director_Approved": {
+              "actions": {
+                "Update_item_-_Mark_Director_Approved": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "0c650a91-c287-46df-b113-6620997ea366"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                      "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                      "id": "@outputs('Compose_-_Item_Id')",
+                      "item/RecordStatus/Value": "Director Approved",
+                      "item/IsLocked": false,
+                      "item/ReviewedBy": "@outputs('Compose_-_Director_Name')",
+                      "item/ReviewedOn": "@utcNow()",
+                      "item/ReviewNotes": "@outputs('Compose_-_Review_Notes')"
+                    },
+                    "host": {
+                      "connectionName": "shared_sharepointonline",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    }
+                  }
+                },
+                "Add_a_new_row_-_Audit_Log_Approved": {
+                  "runAfter": {
+                    "Update_item_-_Mark_Director_Approved": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "885ae3dd-b86e-44a9-995f-cb47ac40c905"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_auditlogs",
+                      "item/ctss_action_on": "@utcNow()",
+                      "item/ctss_action_type": 193770000,
+                      "item/ctss_description": "@concat('Production record ', outputs('Compose_-_Item_Id'), ' (', outputs('Compose_-_Department'), ') approved by Director ', outputs('Compose_-_Director_Name'))",
+                      "item/ctss_name": "concat('Audit Log - ', outputs('Compose_-_Item_Id'))",
+                      "item/ctss_related_record_id": "@string(outputs('Compose_-_Item_Id'))",
+                      "item/ctss_related_table": "CTSS_Production",
+                      "item/ctss_source": 193770002,
+                      "item/ctss_new_value": "@concat('{\"RecordStatus\":\"Director Approved\",\"ReviewedBy\":\"', outputs('Compose_-_Director_Name'), '\"}')",
+                      "item/ctss_old_value": "{\"RecordStatus\":\"Submitted for Review\"}"
+                    },
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Compose_-_Director_Name": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Update_item_-_Mark_Director_Returned": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "43efa245-678c-4239-885d-bdc701fd3285"
+                    },
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "parameters": {
+                        "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                        "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                        "id": "@outputs('Compose_-_Item_Id')",
+                        "item/RecordStatus/Value": "Director Returned",
+                        "item/IsLocked": false,
+                        "item/ReviewedBy": "@outputs('Compose_-_Director_Name')",
+                        "item/ReviewedOn": "@utcNow()",
+                        "item/ReviewNotes": "@outputs('Compose_-_Review_Notes')"
+                      },
+                      "host": {
+                        "connectionName": "shared_sharepointonline",
+                        "operationId": "PatchItem",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                      }
+                    }
+                  },
+                  "Add_a_new_row_-_Audit_Log_Returned": {
+                    "runAfter": {
+                      "Update_item_-_Mark_Director_Returned": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "efdcefde-c2fe-4d62-aac4-e7a7519029f6"
+                    },
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "parameters": {
+                        "entityName": "ctss_auditlogs",
+                        "item/ctss_action_on": "@utcNow()",
+                        "item/ctss_action_type": 193770000,
+                        "item/ctss_description": "@concat('Production record ', outputs('Compose_-_Item_Id'), ' returned by Director ', outputs('Compose_-_Director_Name'), '. Notes: ', outputs('Compose_-_Review_Notes'))",
+                        "item/ctss_name": "@concat('Audit Log - ', outputs('Compose_-_Item_Id'))",
+                        "item/ctss_related_record_id": "@string(outputs('Compose_-_Item_Id'))",
+                        "item/ctss_related_table": "CTSS_Production",
+                        "item/ctss_source": 193770002,
+                        "item/ctss_new_value": "@concat('{\"RecordStatus\":\"Director Returned\",\"ReviewedBy\":\"', outputs('Compose_-_Director_Name'), '\"}')",
+                        "item/ctss_old_value": "{\"RecordStatus\":\"Submitted for Review\"}"
+                      },
+                      "host": {
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationId": "CreateRecord",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                      }
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@outputs('Compose_-_Director_Action')",
+                      "Approve"
+                    ]
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ce393ce6-b389-4e90-a364-3d05c316f0cd"
+              },
+              "type": "If"
+            },
+            "Add_a_new_row_-_Notification_Log": {
+              "runAfter": {
+                "Condition_-_Director_Approved": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d1e82028-0ba8-489a-8887-52436cdddae4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "@concat('Notification - ', outputs('Compose_-_Item_Id'))",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "CTSS_Production",
+                  "item/ctss_related_record_id": "@outputs('Compose_-_Item_Id')"
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_variable_-_Director_UPN": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e462c803-e507-4e6c-bf31-257884d9e109"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "b5e027e2-4090-470d-8619-25254bd96803"
+              },
+              "type": "Compose",
+              "inputs": "@result('Scope_-_TryBlock')"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7a3ca08e-3f3e-42ff-98de-c52b29fff64b"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "@concat('Failure - Production ', triggerBody()?['ID'])",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "CTSS_Production",
+                  "item/ctss_messagesummary": "@substring(string(outputs('Compose_-_Error_Detail')), 0, min(2000, length(string(outputs('Compose_-_Error_Detail')))))",
+                  "item/ctss_related_record_id": "@string(triggerBody()?['ID'])",
+                  "item/ctss_senttoname": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "item/ctss_status": 801300001
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Post_message_in_a_chat_or_channel_1": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3cab78d3-887f-414a-982c-354862836ab3"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "body/messageBody": "<div style=\"background-color: #FFF5F5; border-left: 4px solid #E53E3E; padding: 14px 18px; border-radius: 6px; font-family: 'Segoe UI', Arial, sans-serif; color: #2D3748;\">\n  <div style=\"font-size: 16px; font-weight: 700; color: #C53030; margin-bottom: 8px;\">\n    �s�️ Flow Execution Failure\n  </div>\n  <p style=\"margin: 0 0 12px 0; font-size: 13px; color: #4A5568;\">\n    An exception occurred during execution of the Director Approval workflow.\n  </p>\n  <table style=\"width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px;\">\n    <tbody><tr style=\"border-bottom: 1px solid #FED7D7;\">\n      <td style=\"padding: 6px 0; font-weight: 600; color: #742A2A; width: 35%;\">Flow Name</td>\n      <td style=\"padding: 6px 0; color: #2D3748;\">CTSS Portal - OnModify CTSS_Production - Director Approval</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid #FED7D7;\">\n      <td style=\"padding: 6px 0; font-weight: 600; color: #742A2A;\">Record ID</td>\n      <td style=\"padding: 6px 0; color: #2D3748;\">@{triggerBody()?['ID']}</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid #FED7D7;\">\n      <td style=\"padding: 6px 0; font-weight: 600; color: #742A2A;\">Error Summary</td>\n      <td style=\"padding: 6px 0; color: #C53030;\">@{substring(string(outputs('Compose_-_Error_Detail')), 0, min(500, length(string(outputs('Compose_-_Error_Detail')))))}</td>\n    </tr></tbody></table></div>"
+                },
+                "host": {
+                  "connectionName": "shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Post_message_in_a_chat_or_channel_1": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "9886d47c-af15-456a-b038-ce95fc1f69d8"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "message": "@concat('Flow failed: ', substring(string(outputs('Compose_-_Error_Detail')), 0, min(500, length(string(outputs('Compose_-_Error_Detail'))))))"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "516257f0-0edf-4a15-8349-f796d654987c"
+          },
+          "type": "Scope"
+        },
+        "Initialize_variable_-_Director_UPN": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "ef0356d7-ffb3-4f3b-bb08-a37a8872029e"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "varDirectorUPN",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,720 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_b9c41"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedteams_91e58"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Month",
+            "interval": 1,
+            "startTime": "2026-09-01T00:00:00Z"
+          },
+          "metadata": {
+            "operationMetadataId": "16878957-e6ce-4d7b-be3d-a5c97b62a24b"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "metadata": {
+                "operationMetadataId": "3853e047-8487-4fda-a3ba-407eb1abe62e"
+              },
+              "type": "Compose",
+              "inputs": "@result('Scope_-_TryBlock')"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "851a80cb-c0f3-4ff1-8cac-0e84f30ce9a7"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "@concat('Flow 10 Quarter Init Failed - ', utcNow())",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "ctss_smrsubmission",
+                  "item/ctss_messagesummary": "@substring(string(outputs('Compose_-_Error_Detail')), 0, 2000)",
+                  "item/ctss_related_record_id": "@outputs('Compose_-_Permit_Id')",
+                  "item/ctss_senttoname": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "item/ctss_status": 801300001
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Post_message_-_Flow_Failure_Alert": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b708e7ba-6b19-4e61-9752-9b5f7c575407"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('⚠️ Flow Failure: CTSS Portal - New Quarter - Initialize Submission (Flow 10). Error details: ', substring(string(outputs('Compose_-_Error_Detail')), 0, 500))}</p>"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "connectionName": "shared_teams"
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Post_message_-_Flow_Failure_Alert": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "e63c711f-7861-4ed4-8c0c-4e06836f3327"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "500",
+                  "message": "string(@{outputs('Compose_-_Error_Detail')})"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "10e99866-ca53-4ab6-841d-2e4bef918661"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_CTSS_Officer": {
+              "metadata": {
+                "operationMetadataId": "72a56db4-661f-457c-b670-e64e1f180de6"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_CTSSOfficerUPN'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ed354ce4-ff79-4a71-8cec-2c162e3278d7"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_CTSS_Officer')?['value'])?['value']"
+            },
+            "Compose_-_Current_Month": {
+              "runAfter": {
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "122a2e47-2401-46d4-bbf6-984105626738"
+              },
+              "type": "Compose",
+              "inputs": "@int(formatDateTime(utcNow(), 'MM'))"
+            },
+            "Condition_-_Is_Quarter_Start_Month": {
+              "actions": {
+                "Compose_-_New_Quarter": {
+                  "metadata": {
+                    "operationMetadataId": "0f387e59-4ce6-433c-a8fb-887d25bc2a8f"
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(equals(outputs('Compose_-_Current_Month'),8),1,if(equals(outputs('Compose_-_Current_Month'),11),2,if(equals(outputs('Compose_-_Current_Month'),2),3,4)))"
+                },
+                "Compose_-_Fiscal_Year": {
+                  "runAfter": {
+                    "Compose_-_New_Quarter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "a0b8dd62-b287-46e2-8ecb-45c8f658a899"
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(greaterOrEquals(outputs('Compose_-_Current_Month'), 8), add(int(formatDateTime(utcNow(), 'yyyy')), 1), int(formatDateTime(utcNow(), 'yyyy')))"
+                },
+                "List_rows_-_Existing_Submission": {
+                  "runAfter": {
+                    "Compose_-_Fiscal_Year": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e419ee54-0b48-47ab-ab1b-75a19e9eafd4"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_smrsubmissions",
+                      "$select": "ctss_smrsubmissionid",
+                      "$filter": "@concat('ctss_reporting_quarter eq ', string(outputs('Compose_-_New_Quarter')), ' and ctss_reporting_year eq ', string(outputs('Compose_-_Fiscal_Year')))"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                },
+                "Condition_-_Submission_Already_Exists": {
+                  "actions": {
+                    "Terminate_-_Already_Initialized": {
+                      "metadata": {
+                        "operationMetadataId": "202e73e4-b9cc-4cf3-bba3-35ef8ac9b3bc"
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "List_rows_-_Existing_Submission": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "List_rows_-_Active_Permit": {
+                        "metadata": {
+                          "operationMetadataId": "1ea758b3-6902-499d-995b-ab921b31ae54"
+                        },
+                        "type": "OpenApiConnection",
+                        "inputs": {
+                          "parameters": {
+                            "entityName": "ctss_ctss_dischargepermits",
+                            "$select": "ctss_ctss_dischargepermitid",
+                            "$orderby": "createdon desc"
+                          },
+                          "host": {
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                            "operationId": "ListRecords",
+                            "connectionName": "shared_commondataserviceforapps"
+                          }
+                        }
+                      },
+                      "Condition_-_Active_Permit_Found": {
+                        "actions": {
+                          "Compose_-_Permit_Id": {
+                            "metadata": {
+                              "operationMetadataId": "b9e4745f-eeff-414a-b3d3-4bfd9a756a63"
+                            },
+                            "type": "Compose",
+                            "inputs": "@first(body('List_rows_-_Active_Permit')?['value'])?['ctss_ctss_dischargepermitid']"
+                          },
+                          "Compose_-_New_Submission_Id": {
+                            "runAfter": {
+                              "Add_a_new_row_-_SMR_Submission": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "b96f5add-cd2c-4e9b-b976-bfa598a06ccc"
+                            },
+                            "type": "Compose",
+                            "inputs": "@body('Add_a_new_row_-_SMR_Submission')?['ctss_smrsubmissionid']"
+                          },
+                          "Add_a_new_row_-_DC_STP": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "1454de75-80da-4c9a-aa3d-14d6cb497ffd"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770000,
+                                "item/ctss_name": "STP Operational Data",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_ROLA_Influent": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "489bf8c3-7b5e-43de-abbd-d6c497dcb940"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770001,
+                                "item/ctss_name": "ROLA Influent",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_ROLA_Effluent": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "3455e757-7f2e-4759-9cc8-b6295218892d"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770002,
+                                "item/ctss_name": "ROLA Effluent",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_BSPD": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "128cd433-3926-46ad-a5d6-83c857739549"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770003,
+                                "item/ctss_name": "BSPD Production",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_MROD": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "38e68a3f-2988-4114-bb34-ed89976cabcc"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770004,
+                                "item/ctss_name": "MROD Production",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_Permit": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "6013f3c0-4b71-4051-b314-122575e0f531"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770005,
+                                "item/ctss_name": "Discharge Permit",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_DC_General": {
+                            "runAfter": {
+                              "Compose_-_New_Submission_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "4a37df5f-3cc1-4ab4-9c49-35edfe1e0e6f"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_datacompletenesses",
+                                "item/ctss_ctss_status": 193770000,
+                                "item/ctss_data_group": 193770006,
+                                "item/ctss_name": "General Information",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_sent_on": "@utcNow()",
+                                "item/ctss_sent_to_name": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "item/ctss_status": 193770000,
+                                "item/ctss__smr_submission@odata.bind": "@concat('/ctss_smrsubmissions(', outputs('Compose_-_New_Submission_Id'), ')')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_Audit_Log_Init": {
+                            "runAfter": {
+                              "Add_a_new_row_-_DC_STP": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_ROLA_Influent": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_ROLA_Effluent": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_BSPD": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_MROD": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_Permit": [
+                                "Succeeded"
+                              ],
+                              "Add_a_new_row_-_DC_General": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "0e361188-9f53-44b6-b725-6192c2d4447e"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_auditlogs",
+                                "item/ctss_action_on": "@utcNow()",
+                                "item/ctss_action_type": 193770000,
+                                "item/ctss_description": "@concat('Auto-initialized SMR Submission for Q', string(outputs('Compose_-_New_Quarter')), ' FY', string(outputs('Compose_-_Fiscal_Year')), '. Linked to Discharge Permit ', outputs('Compose_-_Permit_Id'), '. 7 data completeness rows created.')",
+                                "item/ctss_name": "From CTSS Portal - New Quarter - Initialize Submission",
+                                "item/ctss_related_record_id": "@outputs('Compose_-_New_Submission_Id')",
+                                "item/ctss_related_table": "ctss_smrsubmission",
+                                "item/ctss_source": 193770002,
+                                "item/ctss_new_value": "@concat('{\"ctss_qsmr_preparation_status\":193770000,\"ctss_reporting_quarter\":', string(outputs('Compose_-_New_Quarter')), ',\"ctss_reporting_year\":', string(outputs('Compose_-_Fiscal_Year')), '}')"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          },
+                          "Post_message_-_Quarter_Initialized": {
+                            "runAfter": {
+                              "Add_a_new_row_-_Audit_Log_Init": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "89d30f9b-0e62-4762-aace-02763b73142c"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "poster": "Flow bot",
+                                "location": "Chat with Flow bot",
+                                "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                "body/messageBody": "<p class=\"editor-paragraph\">@{concat('🆕 Q', string(outputs('Compose_-_New_Quarter')), ' FY', string(outputs('Compose_-_Fiscal_Year')), ' has been initialized. The SMR Submission record is now active and data completeness tracking has begun. Flow 6 will begin recomputing status from today.')}</p>"
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                                "operationId": "PostMessageToConversation",
+                                "connectionName": "shared_teams"
+                              }
+                            }
+                          },
+                          "Add_a_new_row_-_SMR_Submission": {
+                            "runAfter": {
+                              "Compose_-_Permit_Id": [
+                                "Succeeded"
+                              ]
+                            },
+                            "metadata": {
+                              "operationMetadataId": "95c36813-1d05-46f0-91eb-86f60df1cb45"
+                            },
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "parameters": {
+                                "entityName": "ctss_smrsubmissions",
+                                "item/ctss_bsp_spc_employee_count": 850,
+                                "item/ctss_month_year": "@formatDateTime(utcNow(), 'yyyy-MM-01')",
+                                "item/ctss_name": "@concat('Q', string(outputs('Compose_-_New_Quarter')), ' FY', string(outputs('Compose_-_Fiscal_Year')))",
+                                "item/ctss_reporting_quarter": "@int(outputs('Compose_-_New_Quarter'))",
+                                "item/ctss_reporting_year": "@int(outputs('Compose_-_Fiscal_Year'))",
+                                "item/ctss_ctss_dischargepermit@odata.bind": "@concat('/ctss_ctss_dischargepermits(', outputs('Compose_-_Permit_Id'), ')')",
+                                "item/ctss_qsmr_preparation_status": 193770000,
+                                "item/ctss_submission_blocked": false
+                              },
+                              "host": {
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                                "operationId": "CreateRecord",
+                                "connectionName": "shared_commondataserviceforapps"
+                              }
+                            }
+                          }
+                        },
+                        "runAfter": {
+                          "List_rows_-_Active_Permit": [
+                            "Succeeded"
+                          ]
+                        },
+                        "else": {
+                          "actions": {
+                            "Post_message_in_a_chat_or_channel": {
+                              "metadata": {
+                                "operationMetadataId": "7bd4e1b2-f856-4d1d-b947-9adcc43a0202"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "parameters": {
+                                  "poster": "Flow bot",
+                                  "location": "Chat with Flow bot",
+                                  "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('⚠️ Cannot initialize Q', string(outputs('Compose_-_New_Quarter')), ' FY', string(outputs('Compose_-_Fiscal_Year')), ' — no active Discharge Permit found. Please create or renew the Discharge Permit in the CTSS Portal MDA.')}</p>"
+                                },
+                                "host": {
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                                  "operationId": "PostMessageToConversation",
+                                  "connectionName": "shared_teams"
+                                }
+                              }
+                            },
+                            "Terminate_-_No_Active_Permit": {
+                              "runAfter": {
+                                "Post_message_in_a_chat_or_channel": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "4e457066-c5dd-4882-9b22-069953f06842"
+                              },
+                              "type": "Terminate",
+                              "inputs": {
+                                "runStatus": "Failed",
+                                "runError": {
+                                  "message": "No active Discharge Permit. Initialization aborted."
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "expression": {
+                          "and": [
+                            {
+                              "greater": [
+                                "@length(body('List_rows_-_Active_Permit')?['value'])",
+                                0
+                              ]
+                            }
+                          ]
+                        },
+                        "metadata": {
+                          "operationMetadataId": "4a25ec19-62b3-42d9-8c02-223446d57ee5"
+                        },
+                        "type": "If"
+                      }
+                    }
+                  },
+                  "expression": {
+                    "and": [
+                      {
+                        "greater": [
+                          "@length(body('List_rows_-_Existing_Submission')?['value'])",
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "dd313dfa-0302-4fcd-870d-570ee092905a"
+                  },
+                  "type": "If"
+                }
+              },
+              "runAfter": {
+                "Compose_-_Current_Month": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Terminate": {
+                    "metadata": {
+                      "operationMetadataId": "cf8c4862-48bc-4036-b4ed-2c8c80851d77"
+                    },
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Succeeded"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@or(equals(outputs('Compose_-_Current_Month'),8),equals(outputs('Compose_-_Current_Month'),11),equals(outputs('Compose_-_Current_Month'),2),equals(outputs('Compose_-_Current_Month'),5))",
+                      "@true"
+                    ]
+                  },
+                  {
+                    "equals": [
+                      "",
+                      ""
+                    ]
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1e72b73e-2c37-4eeb-8a7e-eed53cd24468"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "ee177a39-f516-451b-aaa8-3772dd67b3f7"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

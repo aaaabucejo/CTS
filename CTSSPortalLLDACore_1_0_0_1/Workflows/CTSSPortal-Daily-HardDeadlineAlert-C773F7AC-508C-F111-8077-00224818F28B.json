@@ -1,0 +1,477 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_26ac2"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_teams": {
+        "api": {
+          "name": "shared_teams"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ctss__SharedMicrosoftTeams"
+        },
+        "runtimeSource": "embedded"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "undefined",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "type": "Recurrence",
+          "recurrence": {
+            "frequency": "Day",
+            "interval": "1",
+            "startTime": "2026-07-29T23:00:00Z",
+            "timeZone": "Singapore Standard Time"
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "type": "Scope",
+          "actions": {
+            "List_rows_-_Env_CTSS_Officer": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_CTSSOfficerUPN'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "List_rows_-_Env_Alert_Days": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_HardDeadlineAlertDays'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_CTSS_Officer')?['value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_Alert_Days_Raw": {
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_Alert_Days')?['value'])?['value']",
+              "runAfter": {
+                "List_rows_-_Env_Alert_Days": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Compose_-_Alert_Days_Array": {
+              "type": "Compose",
+              "inputs": "@split(outputs('Compose_-_Alert_Days_Raw'), ',')",
+              "runAfter": {
+                "Compose_-_Alert_Days_Raw": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "List_rows_-_Active_Submission": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_smrsubmissions",
+                  "$select": "ctss_smrsubmissionid,ctss_reporting_quarter,ctss_reporting_year,ctss_qsmr_preparation_status,_ctss_ctss_dischargepermit_value",
+                  "$filter": "ctss_qsmr_preparation_status ne 193770004 and ctss_qsmr_preparation_status ne 193770003 and ctss_reporting_year ne null and ctss_reporting_quarter ne null",
+                  "$orderby": "ctss_reporting_year desc,ctss_reporting_quarter asc",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              },
+              "runAfter": {
+                "Compose_-_Alert_Days_Array": [
+                  "Succeeded"
+                ],
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Condition_-_Active_Submission_Exists": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@length(body('List_rows_-_Active_Submission')?['value'])",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Compose_-_Submission_Id": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_Active_Submission')?['value'])?['ctss_smrsubmissionid']"
+                },
+                "Compose_-_Quarter": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_Active_Submission')?['value'])?['ctss_reporting_quarter']",
+                  "runAfter": {
+                    "Compose_-_Submission_Id": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Year": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_Active_Submission')?['value'])?['ctss_reporting_year']",
+                  "runAfter": {
+                    "Compose_-_Quarter": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Permit_Id": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_Active_Submission')?['value'])?['_ctss_ctss_dischargepermit_value']",
+                  "runAfter": {
+                    "Compose_-_Year": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Current_Status": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_Active_Submission')?['value'])?['ctss_qsmr_preparation_status']",
+                  "runAfter": {
+                    "Compose_-_Permit_Id": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "List_rows_-_SMR_Due_Date": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_smrduedates",
+                      "$select": "ctss_ctss_due_date",
+                      "$filter": "@concat('_ctss_ctss_discharge_permit_value eq ''', outputs('Compose_-_Permit_Id'), ''' and ctss_ctss_quarter eq ', string(outputs('Compose_-_Quarter')), ' and ctss_ctss_reporting_year eq ', string(outputs('Compose_-_Year')))",
+                      "$top": 1
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  },
+                  "runAfter": {
+                    "Compose_-_Current_Status": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Hard_Deadline": {
+                  "type": "Compose",
+                  "inputs": "@first(body('List_rows_-_SMR_Due_Date')?['value'])?['ctss_ctss_due_date']",
+                  "runAfter": {
+                    "List_rows_-_SMR_Due_Date": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Compose_-_Days_Remaining": {
+                  "type": "Compose",
+                  "inputs": "@if(empty(outputs('Compose_-_Hard_Deadline')), 999, div(sub(ticks(formatDateTime(outputs('Compose_-_Hard_Deadline'),'yyyy-MM-dd')), ticks(formatDateTime(utcNow(),'yyyy-MM-dd'))), 864000000000))",
+                  "runAfter": {
+                    "Compose_-_Hard_Deadline": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Apply_to_each_-_Alert_Days": {
+                  "type": "Foreach",
+                  "foreach": "@outputs('Compose_-_Alert_Days_Array')",
+                  "actions": {
+                    "Condition_-_Days_Match_Alert": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@outputs('Compose_-_Days_Remaining')",
+                              "@int(trim(item()))"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "List_rows_-_Data_Completeness": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_datacompletenesses",
+                              "$select": "ctss_data_group,ctss_status",
+                              "$filter": "@concat('_ctss__smr_submission_value eq ''', outputs('Compose_-_Submission_Id'), '''')"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "ListRecords",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          }
+                        },
+                        "Compose_-_Completeness_Summary": {
+                          "type": "Compose",
+                          "inputs": "@join(body('List_rows_-_Data_Completeness')?['value'], '\\n')",
+                          "runAfter": {
+                            "List_rows_-_Data_Completeness": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Post_message_-_Hard_Deadline_Alert": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "poster": "Flow bot",
+                              "location": "Chat with Flow bot",
+                              "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                              "body/messageBody": "<p class=\"editor-paragraph\">@{concat('LLDA Deadline Alert - ', string(outputs('Compose_-_Days_Remaining')), ' day(s) remaining\\nQuarter: Q', string(outputs('Compose_-_Quarter')), ' ', string(outputs('Compose_-_Year')), '\\nHard deadline: ', outputs('Compose_-_Hard_Deadline'), '\\n\\nData completeness:\\n', outputs('Compose_-_Completeness_Summary'))}</p>"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                              "operationId": "PostMessageToConversation",
+                              "connectionName": "shared_teams"
+                            }
+                          },
+                          "runAfter": {
+                            "Compose_-_Completeness_Summary": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Add_a_new_row_-_Notification_Log_Alert": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_notificationlogs",
+                              "item/ctss_name": "Hard Deadline Alert",
+                              "item/ctss_notification_type": "@if(equals(int(trim(item())),7), 193770002, if(equals(int(trim(item())),4), 193770003, 193770004))",
+                              "item/ctss__related_table": "ctss_smrsubmission",
+                              "item/ctss_senttoname": "@\r\noutputs('Compose_-_CTSS_Officer_UPN')",
+                              "item/ctss_status": 801300000
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "CreateRecord",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          },
+                          "runAfter": {
+                            "Post_message_-_Hard_Deadline_Alert": [
+                              "Succeeded"
+                            ]
+                          }
+                        }
+                      },
+                      "else": {
+                        "actions": {}
+                      }
+                    },
+                    "Condition_-_Is_Overdue": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "less": [
+                              "@outputs('Compose_-_Days_Remaining')",
+                              0
+                            ]
+                          },
+                          {
+                            "not": {
+                              "equals": [
+                                "@outputs('Compose_-_Current_Status')",
+                                193770004
+                              ]
+                            }
+                          },
+                          {
+                            "equals": [
+                              "@item()",
+                              "@first(outputs('Compose_-_Alert_Days_Array'))"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Update_a_row_-_Set_Overdue": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_smrsubmissions",
+                              "recordId": "@outputs('Compose_-_Submission_Id')",
+                              "item/ctss_qsmr_preparation_status": 193770004
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "UpdateOnlyRecord",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          }
+                        },
+                        "Post_message_-_Overdue_Alert": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "poster": "Flow bot",
+                              "location": "Chat with Flow bot",
+                              "body/recipient": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                              "body/messageBody": "<p class=\"editor-paragraph\">@{concat('?? OVERDUE: Q', string(outputs('Compose_-_Quarter')), ' ', string(outputs('Compose_-_Year')), ' SMR submission is now OVERDUE. Deadline was ', outputs('Compose_-_Hard_Deadline'), '. Immediate action required.')}</p>"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                              "operationId": "PostMessageToConversation",
+                              "connectionName": "shared_teams"
+                            }
+                          },
+                          "runAfter": {
+                            "Update_a_row_-_Set_Overdue": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Add_a_new_row_-_Audit_Log_Overdue": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_auditlogs",
+                              "item/ctss_action_on": "@utcNow()",
+                              "item/ctss_action_type": 193770000,
+                              "item/ctss_description": "@concat('SMR Submission Q', string(outputs('Compose_-_Quarter')), ' ', string(outputs('Compose_-_Year')), ' automatically set to Overdue - hard deadline ', outputs('Compose_-_Hard_Deadline'), ' passed without submission')",
+                              "item/ctss_name": "Overdue Status Change",
+                              "item/ctss_related_record_id": "@outputs('Compose_-_Submission_Id')",
+                              "item/ctss_related_table": "ctss_smrsubmission",
+                              "item/ctss_source": 193770002,
+                              "item/ctss_new_value": "{\"ctss_qsmr_preparation_status\":193770004}",
+                              "item/ctss_old_value": "@concat('{\"ctss_qsmr_preparation_status\":', string(outputs('Compose_-_Current_Status')), '}')"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "CreateRecord",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          },
+                          "runAfter": {
+                            "Post_message_-_Overdue_Alert": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Add_a_new_row_-_Notification_Log_Overdue": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_notificationlogs",
+                              "item/ctss_name": "Overdue Notification",
+                              "item/ctss_notification_type": 193770005,
+                              "item/ctss__related_table": "ctss_smrsubmission",
+                              "item/ctss_senttoname": "@outputs('Compose_-_CTSS_Officer_UPN')",
+                              "item/ctss_status": 801300000
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "CreateRecord",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          },
+                          "runAfter": {
+                            "Add_a_new_row_-_Audit_Log_Overdue": [
+                              "Succeeded"
+                            ]
+                          }
+                        }
+                      },
+                      "else": {
+                        "actions": {}
+                      },
+                      "runAfter": {
+                        "Condition_-_Days_Match_Alert": [
+                          "Succeeded"
+                        ]
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Compose_-_Days_Remaining": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Terminate_-_No_Active_Submission": {
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Succeeded"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "List_rows_-_Active_Submission": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "runAfter": {}
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,10 @@
+<environmentvariabledefinition schemaname="ctss_HardDeadlineAlertDays">
+  <displayname default="Hard Deadline Alert Days">
+    <label description="Hard Deadline Alert Days" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.1</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

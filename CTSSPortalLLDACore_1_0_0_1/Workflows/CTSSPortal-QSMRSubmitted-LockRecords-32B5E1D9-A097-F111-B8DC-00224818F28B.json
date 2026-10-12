@@ -1,0 +1,832 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_0b82f"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedsharepointonline_94964"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedteams_4a03a"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "bcfdc1be-4e20-498d-829d-4e40bd1e7cd9"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "smrSubmissionId",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "GUID of the ctss_smrsubmission record",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "ctssOfficerName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Display name (User().FullName)",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "ctssOfficerId",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Dataverse systemuser GUID of the officer",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "d9a2acb1-2ca2-4330-a4fc-b4f82740136f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "environmentvariabledefinitions",
+                  "$filter": "schemaname eq 'ctss__SharePointSiteUrl'",
+                  "$expand": "environmentvariabledefinition_environmentvariablevalue($select=value)"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a57040ff-4bea-4506-84b0-4fe8989b0563"
+              },
+              "type": "Compose",
+              "inputs": "@coalesce(first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['environmentvariabledefinition_environmentvariablevalue']?[0]?['value'], first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['defaultvalue'])\r\n"
+            },
+            "List_rows_-_Env_CTSS_Officer": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1d366edc-91d7-494f-93d0-aaa3152a8bd3"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "environmentvariabledefinitions",
+                  "$filter": "schemaname eq 'ctss_CTSSOfficerUPN'",
+                  "$expand": "environmentvariabledefinition_environmentvariablevalue($select=value)"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "025fb2cb-00c3-4ab4-ba0d-f049625c6513"
+              },
+              "type": "Compose",
+              "inputs": "@coalesce(triggerBody()?['ctssOfficerUPN'], triggerBody()?['text_3'], triggerBody()?['text_2'], triggerBody()?['text_1'], triggerBody()?['UserEmail'])"
+            },
+            "Get_a_row_by_ID_-_SMR_Submission": {
+              "runAfter": {
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "2980703b-5992-45e3-9bee-b6957744fcde"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "ctss_smrsubmissions",
+                  "recordId": "@outputs('Compose_-_In_SMR_Submission')",
+                  "$select": "ctss_smrsubmissionid,ctss_reporting_quarter,ctss_reporting_year,ctss_submission_blocked,ctss_qsmr_preparation_status"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Condition_-_Submission_Not_Blocked": {
+              "actions": {
+                "Compose_-_Quarter": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "5b5d2b1f-819f-48a9-86a3-eb26ec0afbe8"
+                  },
+                  "type": "Compose",
+                  "inputs": "@body('Get_a_row_by_ID_-_SMR_Submission')?['ctss_reporting_quarter']"
+                },
+                "Compose_-_Year": {
+                  "runAfter": {
+                    "Compose_-_Quarter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "45e92d32-f203-4b74-b3f9-d5f09ef39f59"
+                  },
+                  "type": "Compose",
+                  "inputs": "@body('Get_a_row_by_ID_-_SMR_Submission')?['ctss_reporting_year']"
+                },
+                "Compose_-_Quarter_Start": {
+                  "runAfter": {
+                    "Compose_-_Year": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "922ad56a-7897-4a2e-a5eb-154d5967a874"
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(equals(int(replace(string(outputs('Compose_-_Quarter')),'Q','')),1),concat(string(sub(int(outputs('Compose_-_Year')),1)),'-08-01T00:00:00Z'),if(equals(int(replace(string(outputs('Compose_-_Quarter')),'Q','')),2),concat(string(sub(int(outputs('Compose_-_Year')),1)),'-11-01T00:00:00Z'),if(equals(int(replace(string(outputs('Compose_-_Quarter')),'Q','')),3),concat(string(outputs('Compose_-_Year')),'-02-01T00:00:00Z'),concat(string(outputs('Compose_-_Year')),'-05-01T00:00:00Z'))))"
+                },
+                "Compose_-_Quarter_End": {
+                  "runAfter": {
+                    "Compose_-_Quarter_Start": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "ac7dc1ad-1130-4ceb-a616-a2f0f578e380"
+                  },
+                  "type": "Compose",
+                  "inputs": "@addToTime(outputs('Compose_-_Quarter_Start'), 3, 'Month', 'yyyy-MM-ddTHH:mm:ssZ')"
+                },
+                "Compose_-_SP_Date_Filter": {
+                  "runAfter": {
+                    "Compose_-_Quarter_End": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "ed4b1ce8-0edd-492a-9627-a6fbf86ae13c"
+                  },
+                  "type": "Compose",
+                  "inputs": "@concat('ReportingMonth ge ''',formatDateTime(outputs('Compose_-_Quarter_Start'),'yyyy-MM-dd'),'T00:00:00Z'' and ReportingMonth lt ''',formatDateTime(outputs('Compose_-_Quarter_End'),'yyyy-MM-dd'),'T00:00:00Z''')"
+                },
+                "Update_a_row_-_Set_Submitted": {
+                  "runAfter": {
+                    "Compose_-_SP_Date_Filter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "1ca7237f-f213-413f-8ff4-a71e36b7920f"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateOnlyRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "ctss_smrsubmissions",
+                      "recordId": "@outputs('Compose_-_In_SMR_Submission')",
+                      "item/ctss_date_of_submission": "@utcNow()",
+                      "item/ctss_qsmr_preparation_status": 193770003,
+                      "item/ctss_submitted_by@odata.bind": "@concat('systemusers(', outputs('Compose_-_Officer_ID'), ')')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Get_items_-_STP_Quarter": {
+                  "runAfter": {
+                    "Update_a_row_-_Set_Submitted": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "b9a928be-f668-422a-8864-2fa6dd70a961"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline",
+                      "operationId": "GetItems",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                      "table": "CTSS_STP",
+                      "$filter": "@outputs('Compose_-_SP_Date_Filter')",
+                      "$top": 5000
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Get_items_-_ROLA_Quarter": {
+                  "runAfter": {
+                    "Update_a_row_-_Set_Submitted": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "eb5fecd6-eed8-4c0f-a89b-ca984d59d47f"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline",
+                      "operationId": "GetItems",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                      "table": "CTSS_ROLARecord",
+                      "$filter": "@outputs('Compose_-_SP_Date_Filter')",
+                      "$top": 100
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Get_items_-_Production_Quarter": {
+                  "runAfter": {
+                    "Update_a_row_-_Set_Submitted": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "bfb36b6b-3fa0-4c71-b150-7b76572de7c2"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline",
+                      "operationId": "GetItems",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                      "table": "CTSS_Production",
+                      "$filter": "@outputs('Compose_-_SP_Date_Filter')",
+                      "$top": 100
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Apply_to_each_-_Lock_STP": {
+                  "foreach": "@body('Get_items_-_STP_Quarter')?['value']",
+                  "actions": {
+                    "Update_item": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "5aeaecf2-cdd5-4774-a3d2-7a9167bfc7ee"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                        },
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "093a57a5-d150-45a6-9a97-7d1404124dac",
+                          "id": "@items('Apply_to_each_-_Lock_STP')?['ID']",
+                          "item/IsLocked": true
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Get_items_-_STP_Quarter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "757a1f8a-8ae0-4008-96dc-7c98b1d1de4c"
+                  },
+                  "type": "Foreach",
+                  "runtimeConfiguration": {
+                    "concurrency": {
+                      "repetitions": 10
+                    }
+                  }
+                },
+                "Apply_to_each_-_Lock_ROLA": {
+                  "foreach": "@body('Get_items_-_ROLA_Quarter')?['value']",
+                  "actions": {
+                    "Update_item_1": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "9566798a-0dc9-4032-8d6d-93720cb4ed59"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                        },
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "630aa373-1419-4524-a7d8-6971a18f0b00",
+                          "id": "@items('Apply_to_each_-_Lock_ROLA')?['ID']",
+                          "item/IsLocked": true
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Get_items_-_ROLA_Quarter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "28d9b1ca-8873-4cde-84c8-f1fa4b84a533"
+                  },
+                  "type": "Foreach",
+                  "runtimeConfiguration": {
+                    "concurrency": {
+                      "repetitions": 1
+                    }
+                  }
+                },
+                "Apply_to_each_-_Lock_Production": {
+                  "foreach": "@body('Get_items_-_Production_Quarter')?['value']",
+                  "actions": {
+                    "Update_item_2": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "75a220c8-9714-4f39-8d5d-1d0edff0b649"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_sharepointonline",
+                          "operationId": "PatchItem",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                        },
+                        "parameters": {
+                          "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                          "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                          "id": "@items('Apply_to_each_-_Lock_Production')?['ID']",
+                          "item/IsLocked": true
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "Get_items_-_Production_Quarter": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "b09ae26b-3fd8-4654-b20a-1d9d91d55b1e"
+                  },
+                  "type": "Foreach",
+                  "runtimeConfiguration": {
+                    "concurrency": {
+                      "repetitions": 1
+                    }
+                  }
+                },
+                "Add_a_new_row_-_Audit_Log_Submission": {
+                  "runAfter": {
+                    "Apply_to_each_-_Lock_ROLA": [
+                      "Succeeded"
+                    ],
+                    "Apply_to_each_-_Lock_STP": [
+                      "Succeeded"
+                    ],
+                    "Apply_to_each_-_Lock_Production": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "ddd7a664-867d-4592-b5af-ecce52f9df39"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "ctss_auditlogs",
+                      "item/ctss_action_on": "@utcNow()",
+                      "item/ctss_action_type": 193770000,
+                      "item/ctss_description": "@concat('QSMR submitted by ', outputs('Compose_-_Officer_Name'), ' for Q', string(outputs('Compose_-_Quarter')), ' FY', string(outputs('Compose_-_Year')), '. All contributing SP records locked.')",
+                      "item/ctss_name": "@concat('QSMR Submission Audit - Q', string(outputs('Compose_-_Quarter')), ' FY', string(outputs('Compose_-_Year')))",
+                      "item/ctss_related_record_id": "@outputs('Compose_-_In_SMR_Submission')",
+                      "item/ctss_related_table": "ctss_smrsubmission",
+                      "item/ctss_source": 193770002,
+                      "item/ctss_action_by@odata.bind": "@concat('systemusers(', outputs('Compose_-_Officer_ID'), ')')",
+                      "item/ctss_new_value": "@concat('{\"ctss_qsmr_preparation_status\":193770003,\"ctss_date_of_submission\":\"', utcNow(), '\",\"ctss_submitted_by\":\"', triggerBody()?['ctssOfficerName'], '\"}')",
+                      "item/ctss_old_value": "@concat('{\"ctss_qsmr_preparation_status\":', string(body('Get_a_row_by_ID_-_SMR_Submission')?['ctss_qsmr_preparation_status']), '}')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Post_message_-_Submission_Confirmed": {
+                  "runAfter": {
+                    "Get_a_row_by_ID_-_Officer_User": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "05558c13-a084-489c-a48a-666b13676301"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_teams",
+                      "operationId": "PostMessageToConversation",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                    },
+                    "parameters": {
+                      "poster": "Flow bot",
+                      "location": "Chat with Flow bot",
+                      "body/recipient": "@body('Get_a_row_by_ID_-_Officer_User')?['internalemailaddress']",
+                      "body/messageBody": "<p class=\"editor-paragraph\">@{concat('? QSMR for Q', string(outputs('Compose_-_Quarter')), ' FY', string(outputs('Compose_-_Year')), ' submitted successfully by ', outputs('Compose_-_Officer_Name'), ' on ', formatDateTime(utcNow(),'MMMM d, yyyy'), '. All contributing records are now locked.')}</p>"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Response_-_200_Success": {
+                  "runAfter": {
+                    "Post_message_-_Submission_Confirmed": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "99829b04-6aa5-4c96-8b21-e180741c7f28"
+                  },
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "success": "@true",
+                      "message": "@{concat('Submitted on ', formatDateTime(utcNow(),'MMMM d, yyyy'), ' by ', triggerBody()?['ctssOfficerName'])}"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "title": "success",
+                          "x-ms-dynamically-added": true,
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "title": "message",
+                          "x-ms-dynamically-added": true,
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "Get_a_row_by_ID_-_Officer_User": {
+                  "runAfter": {
+                    "Add_a_new_row_-_Audit_Log_Submission": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "c2aa0bd9-30bd-444a-9051-e35cce04f15b"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "GetItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "systemusers",
+                      "recordId": "@outputs('Compose_-_Officer_ID')"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_a_row_by_ID_-_SMR_Submission": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Response_-_409_Blocked": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "dfd90f06-0bbc-40db-8207-4921f32e2a05"
+                    },
+                    "type": "Response",
+                    "kind": "PowerApp",
+                    "inputs": {
+                      "statusCode": 200,
+                      "body": {
+                        "success": "@false",
+                        "message": "\"Submission is blocked. Resolve all Missing/Blocking data groups before submitting.\""
+                      },
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "title": "success",
+                            "x-ms-dynamically-added": true,
+                            "type": "boolean"
+                          },
+                          "message": {
+                            "title": "message",
+                            "x-ms-dynamically-added": true,
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Terminate_-_Blocked": {
+                    "runAfter": {
+                      "Response_-_409_Blocked": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "9dea7745-adf4-42f1-b94d-3eed2c764acc"
+                    },
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Cancelled"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@body('Get_a_row_by_ID_-_SMR_Submission')?['ctss_submission_blocked']",
+                      "@false"
+                    ]
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "0abcd9e1-117b-4414-b067-67f8cd432b64"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {
+            "Compose_-_Officer_ID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1bb6bdd4-4e54-4d41-a904-e6ec78687793"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Filter_array_-_Failed_Actions": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "bbef296d-c9c6-48f4-940c-ac303e54cfbc"
+              },
+              "type": "Query",
+              "inputs": {
+                "from": "@result('Scope_-_TryBlock')",
+                "where": "@equals(item()?['status'],false)"
+              }
+            },
+            "Compose_-_Error_Detail": {
+              "runAfter": {
+                "Filter_array_-_Failed_Actions": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "18af42ed-1e15-4b97-9303-bbf2c19d2201"
+              },
+              "type": "Compose",
+              "inputs": "@if(empty(body('Filter_array_-_Failed_Actions')), 'Unknown error', body('Filter_array_-_Failed_Actions')?[0]?['outputs']?['body']?['error']?['message'])\r\n"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "6c461153-d8f3-4563-9966-fbd2cdc5a0c7"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "QSMR Submission Failed",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "ctss_smrsubmission"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Post_message_-_Flow_Failure_Alert": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3da748ba-cc3e-41fb-bb47-bcc44b8003fc"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                },
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@triggerOutputs()?['headers']?['x-ms-user-email']",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('?? <b>FLOW FAILURE ALERT: QSMR Submission Process</b><br><br>', 'An error occurred while attempting to submit the QSMR and lock contributing SharePoint records.<br><br>', '<b>Submitted By:</b> ', triggerBody()?['ctssOfficerName'], '<br>', '<b>Submission ID:</b> ', triggerBody()?['smrSubmissionId'], '<br>', '<b>Error Details:</b> ', string(outputs('Compose_-_Error_Detail')), '<br>', '<b>Timestamp:</b> ', formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss UTC'))}</p>"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Response_-_500_Error": {
+              "runAfter": {
+                "Post_message_-_Flow_Failure_Alert": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d538847d-91ee-4478-9c69-10566302d1f6"
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "success": "@false",
+                  "message": "@{take(string(outputs('Compose_-_Error_Detail')), 500)}"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Response_-_500_Error": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b568c8b9-2700-4c7d-af4f-d0c43681b00a"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed"
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "255a3a38-3894-4332-93fd-0a5f81d6ac2c"
+          },
+          "type": "Scope"
+        },
+        "Compose_-_In_SMR_Submission": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "e70526ec-c91b-485e-b1fc-4b3de3edb8b9"
+          },
+          "type": "Compose",
+          "inputs": "@coalesce(triggerBody()?['smrSubmissionId'], triggerBody()?['text'])"
+        },
+        "Compose_-_Officer_ID": {
+          "runAfter": {
+            "Compose_-_Officer_Name": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ca99382a-5b0e-4c4f-b36b-1961d8eaa8aa"
+          },
+          "type": "Compose",
+          "inputs": "@coalesce(triggerBody()?['ctssOfficerId'], triggerBody()?['text_2'])"
+        },
+        "Compose_-_Officer_Name": {
+          "runAfter": {
+            "Compose_-_In_SMR_Submission": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5b4852f1-5df1-47f1-ac4d-f6b785d0c37b"
+          },
+          "type": "Compose",
+          "inputs": "@coalesce(triggerBody()?['ctssOfficerName'], triggerBody()?['text_1'])"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

@@ -1,0 +1,8 @@
+ctss_ctss_days_remaining: =DateDiff(UTCToday(), ctss_ctss_expiration_date, TimeUnit.Days)
+ctss_ctss_permit_validity_status: |-
+    =If(
+        DateDiff(UTCToday(), ctss_ctss_expiration_date, TimeUnit.Days)<0, "Expired",
+        DateDiff(UTCToday(), ctss_ctss_expiration_date, TimeUnit.Days)<=30, "Expiring",
+        "Valid"
+    )
+ctss_ctss_validity_period: =DateDiff(ctss_ctss_date_issued, ctss_ctss_expiration_date, TimeUnit.Months)

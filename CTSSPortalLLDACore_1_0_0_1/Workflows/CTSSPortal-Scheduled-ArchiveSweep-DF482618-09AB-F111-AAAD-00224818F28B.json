@@ -1,0 +1,810 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_a453a"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_b54b9"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Month",
+            "interval": 1,
+            "timeZone": "Singapore Standard Time",
+            "startTime": "2026-10-01T21:30:00Z"
+          },
+          "metadata": {
+            "operationMetadataId": "a5572e1e-3969-43bf-8446-83cee4f80076"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_SharePointSiteUrl'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@   first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['value']"
+            },
+            "List_rows_-_Env_Archive_After_Days": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_ArchiveAfterDays'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_Archive_After_Days": {
+              "runAfter": {
+                "List_rows_-_Env_Archive_After_Days": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@if(empty(first(body('List_rows_-_Env_Archive_After_Days')?['value'])?['value']), 730, int(first(body('List_rows_-_Env_Archive_After_Days')?['value'])?['value']))"
+            },
+            "List_rows_-_Env_Flow_Admin_Email": {
+              "runAfter": {
+                "Compose_-_Archive_After_Days": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_FlowAdminEmail'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_Flow_Admin_Email": {
+              "runAfter": {
+                "List_rows_-_Env_Flow_Admin_Email": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "first(body('List_rows_-_Env_Flow_Admin_Email')?['value'])?['value']"
+            },
+            "Get_items_-_Check_Kill_Switch": {
+              "runAfter": {
+                "Compose_-_Flow_Admin_Email": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "table": "CTSS_Config",
+                  "$filter": "Title eq 'ArchiveSweepEnabled'",
+                  "$top": 1
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "GetItems",
+                  "connectionName": "shared_sharepointonline"
+                }
+              }
+            },
+            "Condition_-_Archive_Sweep_Enabled": {
+              "actions": {
+                "Compose_-_Dwell_Cutoff_Date": {
+                  "type": "Compose",
+                  "inputs": "@subtractFromTime(utcNow(), outputs('Compose_-_Archive_After_Days'), 'Day', 'yyyy-MM-ddTHH:mm:ssZ')"
+                },
+                "List_rows_-_Aged_Submitted_SMR_Cycles": {
+                  "runAfter": {
+                    "Compose_-_Dwell_Cutoff_Date": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_smrsubmissions",
+                      "$select": "ctss_smrsubmissionid,ctss_reporting_quarter,ctss_reporting_year,ctss_reporting_period_start,ctss_reporting_period_end",
+                      "$filter": "statecode eq 0 and ctss_reporting_period_end lt '@{outputs('Compose_-_Dwell_Cutoff_Date')}' and ctss_date_of_submission ne null"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                },
+                "Apply_to_each_-_Aged_SMR_Submission": {
+                  "foreach": "@body('List_rows_-_Aged_Submitted_SMR_Cycles')?['value']",
+                  "actions": {
+                    "Update_a_row_-_Archive_SMR_Submission": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "entityName": "ctss_smrsubmissions",
+                          "recordId": "@items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_smrsubmissionid']",
+                          "item/ctss_archiveddate": "@utcNow('yyyy-MM-dd')",
+                          "item/statecode": 1,
+                          "item/statuscode": 193770001
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                          "operationId": "UpdateOnlyRecord",
+                          "connectionName": "shared_commondataserviceforapps"
+                        }
+                      }
+                    },
+                    "Condition_-_QSMR_Report_Exists": {
+                      "actions": {
+                        "Update_a_row_-_Archive_QSMR_Report": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "entityName": "ctss_ctss_qsmrreports",
+                              "recordId": "@first(body('List_rows_-_QSMR_Report_For_Submission')?['value'])?['ctss_ctss_qsmrreportid']",
+                              "item/statecode": 1
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                              "operationId": "UpdateOnlyRecord",
+                              "connectionName": "shared_commondataserviceforapps"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "List_rows_-_QSMR_Report_For_Submission": [
+                          "Succeeded"
+                        ]
+                      },
+                      "else": {
+                        "actions": {}
+                      },
+                      "expression": {
+                        "and": [
+                          {
+                            "greater": [
+                              "@length(body('List_rows_-_QSMR_Report_For_Submission')?['value'])",
+                              0
+                            ]
+                          }
+                        ]
+                      },
+                      "type": "If"
+                    },
+                    "Compose_-_SP_Period_Filter_-_WaterConsumption": {
+                      "runAfter": {
+                        "Condition_-_QSMR_Report_Exists": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Compose",
+                      "inputs": "@concat('FromDate ge ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_start'], ''' and ToDate le ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_end'], ''' and ArchiveStatus eq ''Active''')"
+                    },
+                    "Get_items_-_Archived_STP": {
+                      "runAfter": {
+                        "Compose_-_SP_Period_Filter_-_STP": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_STP",
+                          "$filter": "@outputs('Compose_-_SP_Period_Filter_-_STP')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_STP_Item": {
+                      "foreach": "@body('Get_items_-_Archived_STP')?['value']",
+                      "actions": {
+                        "Update_item_-_Archive_STP": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_STP",
+                              "id": "@items('Apply_to_each_-_STP_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_items_-_Archived_STP": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Get_items_-_Archived_ROLA": {
+                      "runAfter": {
+                        "Compose_-_SP_Period_Filter_-_ROLARecord": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_ROLARecord",
+                          "$filter": "@outputs('Compose_-_SP_Period_Filter_-_ROLARecord')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_ROLA_Item": {
+                      "foreach": "@body('Get_items_-_Archived_ROLA')?['value']",
+                      "actions": {
+                        "Update_item_-_Archive_ROLA": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_ROLARecord",
+                              "id": "@items('Apply_to_each_-_ROLA_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_items_-_Archived_ROLA": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Get_items_-_Archived_Production": {
+                      "runAfter": {
+                        "Apply_to_each_-_ROLA_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_Production",
+                          "$filter": "@outputs('Compose_-_SP_Period_Filter_-_STP')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_Production_Item": {
+                      "foreach": "@body('Get_items_-_Archived_Production')?['value']",
+                      "actions": {
+                        "Update_item_-_Archive_Production": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_Production",
+                              "id": "@items('Apply_to_each_-_Production_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_items_-_Archived_Production": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Get_items_-_Archived_WaterConsumption": {
+                      "runAfter": {
+                        "Apply_to_each_-_Production_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_WaterConsumption",
+                          "$filter": "@outputs('Compose_-_SP_Period_Filter_-_WaterConsumption')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_WaterConsumption_Item": {
+                      "foreach": "@body('Get_items_-_Archived_WaterConsumption')?['value']",
+                      "actions": {
+                        "Update_item_-_Archive_WaterConsumption": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_WaterConsumption",
+                              "id": "@items('Apply_to_each_-_WaterConsumption_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_items_-_Archived_WaterConsumption": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Get_items_-_Archived_ROLAParameter": {
+                      "runAfter": {
+                        "Apply_to_each_-_WaterConsumption_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_ROLAParameter",
+                          "$filter": "@concat('Quarter eq ''Q', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_quarter']), ''' and Year eq ''', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_year']), ''' and ArchiveStatus eq ''Active''')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_ROLAParameter_Item": {
+                      "foreach": "@body('Get_items_-_Archived_ROLAParameter')?['value']",
+                      "actions": {
+                        "Update_item_-_Archive_ROLAParameter": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_ROLAParameter",
+                              "id": "@items('Apply_to_each_-_ROLAParameter_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_items_-_Archived_ROLAParameter": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Get_files_-_Archived_LabReports": {
+                      "runAfter": {
+                        "Apply_to_each_-_ROLAParameter_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                          "table": "CTSS_LabReports",
+                          "$filter": "@concat('ReportingQuarter eq ''Q', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_quarter']), ''' and ReportingYear eq ''', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_year']), ''' and ArchiveStatus eq ''Active''')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                          "operationId": "GetFileItems",
+                          "connectionName": "shared_sharepointonline"
+                        }
+                      }
+                    },
+                    "Apply_to_each_-_LabReports_Item": {
+                      "foreach": "@body('Get_files_-_Archived_LabReports')?['value']",
+                      "actions": {
+                        "Update_file_properties_-_Archive_LabReport": {
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "parameters": {
+                              "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                              "table": "CTSS_LabReports",
+                              "id": "@items('Apply_to_each_-_LabReports_Item')?['ID']",
+                              "item": "@json(concat('{\"ArchiveStatus\": \"Archived\", \"ArchivedDate\": \"', utcNow('yyyy-MM-dd'), '\"}'))"
+                            },
+                            "host": {
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                              "operationId": "PatchFileItem",
+                              "connectionName": "shared_sharepointonline"
+                            }
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "Get_files_-_Archived_LabReports": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Foreach"
+                    },
+                    "Add_a_new_row_-_Audit_Log_SMR_Archived": {
+                      "runAfter": {
+                        "Apply_to_each_-_LabReports_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "entityName": "ctss_auditlogs",
+                          "item/ctss_action_on": "@utcNow()",
+                          "item/ctss_action_type": 193770002,
+                          "item/ctss_description": "@concat('Lifecycle sweep archived SMR Submission for Q', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_quarter']), ' FY', string(items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_year']))",
+                          "item/ctss_name": "SMR Submission Archived",
+                          "item/ctss_related_record_id": "@items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_smrsubmissionid']",
+                          "item/ctss_related_table": "ctss_smrsubmission",
+                          "item/ctss_source": 193770002
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                          "operationId": "CreateRecord",
+                          "connectionName": "shared_commondataserviceforapps"
+                        }
+                      }
+                    },
+                    "List_rows_-_QSMR_Report_For_Submission": {
+                      "runAfter": {
+                        "Update_a_row_-_Archive_SMR_Submission": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "entityName": "ctss_ctss_qsmrreports",
+                          "$filter": "@concat('_ctss_smr_submission_value eq ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_smrsubmissionid'], '''')"
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                          "operationId": "ListRecords",
+                          "connectionName": "shared_commondataserviceforapps"
+                        }
+                      }
+                    },
+                    "Compose_-_SP_Period_Filter_-_STP": {
+                      "runAfter": {
+                        "Compose_-_SP_Period_Filter_-_WaterConsumption": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Compose",
+                      "inputs": "@concat('ReportingMonth ge ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_start'], ''' and ReportingMonth le ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_end'], ''' and ArchiveStatus eq ''Active''')"
+                    },
+                    "Compose_-_SP_Period_Filter_-_ROLARecord": {
+                      "runAfter": {
+                        "Apply_to_each_-_STP_Item": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Compose",
+                      "inputs": "@concat('ReportingMonth ge ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_start'], ''' and ReportingMonth le ''', items('Apply_to_each_-_Aged_SMR_Submission')?['ctss_reporting_period_end'], ''' and ArchiveStatus eq ''Active''')"
+                    }
+                  },
+                  "runAfter": {
+                    "List_rows_-_Aged_Submitted_SMR_Cycles": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Foreach"
+                }
+              },
+              "runAfter": {
+                "Get_items_-_Check_Kill_Switch": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Terminate_-_Sweep_Disabled_By_Config": {
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Succeeded"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@bool(first(body('Get_items_-_Check_Kill_Switch')?['value'])?['ConfigValue'])",
+                      true
+                    ]
+                  }
+                ]
+              },
+              "type": "If"
+            },
+            "List_rows_-_Expired_Permits": {
+              "runAfter": {
+                "Condition_-_Archive_Sweep_Enabled": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_ctss_dischargepermits",
+                  "$select": "ctss_ctss_dischargepermitid,ctss_name,ctss_ctss_date_issued,ctss_ctss_expiration_date,statuscode,statecode,_ctss_ctss_establishment_profile_value",
+                  "$filter": "statecode eq 0 and ctss_ctss_expiration_date lt '@{convertFromUtc(utcNow(), 'Singapore Standard Time', 'yyyy-MM-dd')}'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Apply_to_each_-_Expired_Permit": {
+              "foreach": "@body('List_rows_-_Expired_Permits')?['value']",
+              "actions": {
+                "List_rows_-_Active_Successor_Permits": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_ctss_dischargepermits",
+                      "$filter": "@concat('statecode eq 0 and statuscode eq 1 and ctss_ctss_dischargepermitid ne ''', items('Apply_to_each_-_Expired_Permit')?['ctss_ctss_dischargepermitid'], ''' and ctss_ctss_date_issued gt ''', items('Apply_to_each_-_Expired_Permit')?['ctss_ctss_date_issued'], '''', if(empty(items('Apply_to_each_-_Expired_Permit')?['_ctss_ctss_establishment_profile_value']), ' and ctss_ctss_dischargepermitid eq null', concat(' and _ctss_ctss_establishment_profile_value eq ''', items('Apply_to_each_-_Expired_Permit')?['_ctss_ctss_establishment_profile_value'], '''')))",
+                      "$top": 1
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                },
+                "Condition_-_Successor_Permit_Exists": {
+                  "actions": {
+                    "Update_a_row_-_Archive_Permit": {
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "entityName": "ctss_ctss_dischargepermits",
+                          "recordId": "@items('Apply_to_each_-_Expired_Permit')?['ctss_ctss_dischargepermitid']",
+                          "item/statecode": 1,
+                          "item/statuscode": 193770002
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                          "operationId": "UpdateOnlyRecord",
+                          "connectionName": "shared_commondataserviceforapps"
+                        }
+                      }
+                    },
+                    "Add_a_new_row_-_Audit_Log_Permit_Archived": {
+                      "runAfter": {
+                        "Update_a_row_-_Archive_Permit": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "parameters": {
+                          "entityName": "ctss_auditlogs",
+                          "item/ctss_action_on": "@utcNow()",
+                          "item/ctss_action_type": 193770009,
+                          "item/ctss_description": "@concat('Lifecycle sweep archived superseded permit ', items('Apply_to_each_-_Expired_Permit')?['ctss_Name'])",
+                          "item/ctss_name": "Discharge Permit Archived",
+                          "item/ctss_related_record_id": "@items('Apply_to_each_-_Expired_Permit')?['ctss_ctss_dischargepermitid']",
+                          "item/ctss_related_table": "ctss_ctss_dischargepermit",
+                          "item/ctss_source": 193770002
+                        },
+                        "host": {
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                          "operationId": "CreateRecord",
+                          "connectionName": "shared_commondataserviceforapps"
+                        }
+                      }
+                    }
+                  },
+                  "runAfter": {
+                    "List_rows_-_Active_Successor_Permits": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {}
+                  },
+                  "expression": {
+                    "and": [
+                      {
+                        "greater": [
+                          "@length(body('List_rows_-_Active_Successor_Permits')?['value'])",
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  "type": "If"
+                }
+              },
+              "runAfter": {
+                "List_rows_-_Expired_Permits": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Foreach"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "8489d8de-c2d5-4996-904a-0317a11b12c1"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "type": "Compose",
+              "inputs": "@concat('Flow 12 (Archive Sweep) failed during execution. Run URL: https://make.powerautomate.com/environments/', workflow()?['tags']?['environmentName'], '/flows/', workflow()?['name'], '/runs/', workflow()?['run']?['name'])"
+            },
+            "Add_a_new_row_-_Audit_Log_Flow_Failure": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_auditlogs",
+                  "item/ctss_action_on": "@utcNow()",
+                  "item/ctss_action_type": 193770010,
+                  "item/ctss_description": "@outputs('Compose_-_Error_Detail')",
+                  "item/ctss_name": "Flow 12 Archive Sweep Failure",
+                  "item/ctss_related_record_id": "@workflow()?['run']?['name']",
+                  "item/ctss_related_table": "none",
+                  "item/ctss_source": 193770002
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Terminate_-_CatchBlock_Failed": {
+              "runAfter": {
+                "Add_a_new_row_-_Audit_Log_Flow_Failure": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "500",
+                  "message": "@outputs('Compose_-_Error_Detail')"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

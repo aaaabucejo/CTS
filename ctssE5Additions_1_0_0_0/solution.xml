@@ -1,0 +1,189 @@
+<ImportExportXml version="9.2.26093.149" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.149" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00149">
+  <SolutionManifest>
+    <UniqueName>ctssE5Additions</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="CTSS E5 Additions" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="New-only components for E5: pending review views, Component C dashboard, QSMR command button. Contains no entity metadata." languagecode="1033" />
+    </Descriptions>
+    <Version>1.0.0.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>ctss_</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CTSS" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>ctss</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>19377</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="ctss_ctss_qsmrreport" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_production" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_rolarecord" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_stp" behavior="0" />
+      <RootComponent type="62" schemaName="ctss_portal_56ab9de9" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_production" displayName="CTSS_Production" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_rolarecord" displayName="CTSS_ROLARecord" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_stp" displayName="CTSS_STP" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_name" displayName="Name" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" solution="Active" />
+        <Dependent type="10" schemaName="cr1d1_ctss_ctss_qsmrreport_Value_ctss_smrsubmission" displayName="cr1d1_ctss_ctss_qsmrreport_Value_ctss_smrsubmission" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_name" displayName="Name" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" solution="Active" />
+        <Dependent type="10" schemaName="ctss_ctss_qsmrreport_ctss_smr_submission_ctss_smrsubmission" displayName="ctss_ctss_qsmrreport_ctss_smr_submission_ctss_smrsubmission" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="61" schemaName="ctss_openqsmrform.js" displayName="ctss_openqsmrform.js" solution="Active" />
+        <Dependent type="50" schemaName="ctss_ctss_qsmrreport:RibbonDiffXml" displayName="ctss_ctss_qsmrreport:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_capacityunit" displayName="Capacity Unit" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p1_capacity_unit" displayName="D3 P1 Capacity Unit" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_capacityunit" displayName="Capacity Unit" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p2_capacity_unit" displayName="D3 P2 Capacity Unit" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_capacityunit" displayName="Capacity Unit" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p3_capacity_unit" displayName="D3 P3 Capacity Unit" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_capacityunit" displayName="Capacity Unit" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p4_capacity_unit" displayName="D3 P4 Capacity Unit" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_capacityunit" displayName="Capacity Unit" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p5_capacity_unit" displayName="D3 P5 Capacity Unit" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_chemicaltreatmentmethod" displayName="Chemical Treatment Method" solution="Active" />
+        <Dependent type="2" schemaName="ctss_chemical_methods" displayName="D4 Chemical Methods" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_flowmetertype" displayName="ctss_flowmetertype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_flow_meter_types" displayName="D5 Flow Meter Types" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_processtype" displayName="ctss_processtype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p1_process_type" displayName="D3 P1 Process Type" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_processtype" displayName="ctss_processtype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p2_process_type" displayName="D3 P2 Process Type" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_processtype" displayName="ctss_processtype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p3_process_type" displayName="D3 P3 Process Type" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_processtype" displayName="ctss_processtype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p4_process_type" displayName="D3 P4 Process Type" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_processtype" displayName="ctss_processtype" solution="Active" />
+        <Dependent type="2" schemaName="ctss_p5_process_type" displayName="D3 P5 Process Type" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_secondarytreatmentkind" displayName="ctss_secondarytreatmentkind" solution="Active" />
+        <Dependent type="2" schemaName="ctss_secondary_kinds" displayName="D4 Secondary Kinds" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_sludgedewateringmethod" displayName="ctss_sludgewateringmethod" solution="Active" />
+        <Dependent type="2" schemaName="ctss_sludge_dewatering_methods" displayName="D6 Dewatering Methods" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_sludgedisposalmethod" displayName="ctss_sludgedisposalmethod" solution="Active" />
+        <Dependent type="2" schemaName="ctss_sludge_disposal_methods" displayName="D6 Disposal Methods" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_ctss_sludgedryingmethod" displayName="ctss_sludgedryingmethod" solution="Active" />
+        <Dependent type="2" schemaName="ctss_sludge_drying_methods" displayName="D6 Drying Methods" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="ctss_primarytreatmentmethod" displayName="Primary Treatment Method" solution="Active" />
+        <Dependent type="2" schemaName="ctss_primary_methods" displayName="D4 Primary Methods" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

@@ -1,0 +1,1058 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_b9c41"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_216a0"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "4a737f02-6012-4211-bb0a-2be514dfd7a0"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "recordId",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "GUID of the Dataverse record to restore",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "entityName",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "ctss_smrsubmission or ctss_ctss_dischargepermit",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "restoreReason",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Mandatory justification (minimum 10 characters)",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "callerUPN",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "User Principal Name of caller (User().Email)",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "Compose_-_In_Record_ID": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "ae12381b-842e-4493-9025-eb070e610d32"
+              },
+              "type": "Compose",
+              "inputs": "@coalesce(triggerBody()?['recordId'], triggerBody()?['text'])"
+            },
+            "Compose_-_In_Entity_Name": {
+              "runAfter": {
+                "Compose_-_In_Record_ID": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "abd9f592-7751-4270-8296-170d5ad5dae8"
+              },
+              "type": "Compose",
+              "inputs": "@toLower(trim(string(coalesce(triggerBody()?['entityName'], triggerBody()?['text_1']))))"
+            },
+            "Compose_-_In_Restore_Reason": {
+              "runAfter": {
+                "Compose_-_In_Entity_Name": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "38a11081-600c-4be3-8ced-c7c157e7bd20"
+              },
+              "type": "Compose",
+              "inputs": "@trim(string(coalesce(triggerBody()?['restoreReason'], triggerBody()?['text_2'])))"
+            },
+            "Compose_-_In_Caller_UPN": {
+              "runAfter": {
+                "Compose_-_In_Restore_Reason": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cb9be0f9-8c20-4e8d-95c8-d355690bc34f"
+              },
+              "type": "Compose",
+              "inputs": "@toLower(trim(string(coalesce(triggerBody()?['callerUPN'], triggerBody()?['text_3']))))"
+            },
+            "List_rows_-_Env_SP_Site_Url": {
+              "runAfter": {
+                "Compose_-_In_Caller_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "547ce721-5e83-47f8-ba58-9e89804ffde4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "environmentvariabledefinitions",
+                  "$filter": "schemaname eq 'ctss_SharePointSiteurl' or schemaname eq 'ctss__SharePointSiteUrl'",
+                  "$expand": "environmentvariabledefinition_environmentvariablevalue($select=value)"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4f76e6f4-9e49-4209-a10d-37e6a4d6a6b3"
+              },
+              "type": "Compose",
+              "inputs": "@coalesce(first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['environmentvariabledefinition_environmentvariablevalue']?[0]?['value'], first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['defaultvalue'])"
+            },
+            "List_rows_-_Env_CTSS_Officer": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "bd2f7487-4e92-4ddd-89a6-2512f78489c7"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "environmentvariabledefinitions",
+                  "$filter": "schemaname eq 'ctss_CTSSOfficerUPN'",
+                  "$expand": "environmentvariabledefinition_environmentvariablevalue($select=value)"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Compose_-_CTSS_Officer_UPN": {
+              "runAfter": {
+                "List_rows_-_Env_CTSS_Officer": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a2cd728b-cfe1-4fe7-88d6-c008db504fbe"
+              },
+              "type": "Compose",
+              "inputs": "@toLower(trim(string(coalesce(first(body('List_rows_-_Env_CTSS_Officer')?['value'])?['environmentvariabledefinition_environmentvariablevalue']?[0]?['value'], first(body('List_rows_-_Env_CTSS_Officer')?['value'])?['defaultvalue']))))"
+            },
+            "Condition_-_Caller_Is_Authorized": {
+              "actions": {
+                "Condition_-_Reason_Length_Valid": {
+                  "actions": {
+                    "Switch_-_Entity_Name": {
+                      "runAfter": {},
+                      "cases": {
+                        "Case_-_SMR_Submission": {
+                          "case": "ctss_smrsubmission",
+                          "actions": {
+                            "Get_a_row_-_Archived_Submission": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "07eaa237-4690-4c98-941b-a433aaee2c24"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "GetItem",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "ctss_smrsubmissions",
+                                  "recordId": "@outputs('Compose_-_In_Record_ID')",
+                                  "$select": "ctss_smrsubmissionid,ctss_reporting_quarter,ctss_reporting_year,ctss_reporting_period_start,ctss_reporting_period_end,_ctss_qsmrreport_value"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Update_a_row_-_Reactivate_Submission": {
+                              "runAfter": {
+                                "Get_a_row_-_Archived_Submission": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "b4f05f61-bd3d-4629-91aa-53f05de32fcb"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "UpdateOnlyRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "ctss_smrsubmissions",
+                                  "recordId": "@outputs('Compose_-_In_Record_ID')",
+                                  "item/ctss_restorereason": "@concat('Restored on ', utcNow('yyyy-MM-dd HH:mm'), ' by ', outputs('Compose_-_In_Caller_UPN'), ': ', outputs('Compose_-_In_Restore_Reason'))",
+                                  "item/statecode": 0,
+                                  "item/statuscode": 193770003
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Condition_-_Reactivate_QSMR_Report": {
+                              "actions": {
+                                "Update_a_row_-_Reactivate_QSMR_Report": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "4415d9a3-347b-4a5f-971b-56ed65a9d8a6"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connectionName": "shared_commondataserviceforapps",
+                                      "operationId": "UpdateOnlyRecord",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                    },
+                                    "parameters": {
+                                      "entityName": "ctss_ctss_qsmrreports",
+                                      "recordId": "@body('Get_a_row_-_Archived_Submission')?['_ctss_qsmrreport_value']",
+                                      "item/statecode": 0,
+                                      "item/statuscode": 1
+                                    },
+                                    "authentication": "@parameters('$authentication')"
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Update_a_row_-_Reactivate_Submission": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "expression": {
+                                "not": {
+                                  "equals": [
+                                    "@body('Get_a_row_-_Archived_Submission')?['_ctss_qsmrreport_value']",
+                                    null
+                                  ]
+                                }
+                              },
+                              "metadata": {
+                                "operationMetadataId": "10c6819d-e1ad-4dd5-9f37-dbab9eeade06"
+                              },
+                              "type": "If"
+                            },
+                            "Compose_-_SP_Restore_Filter": {
+                              "runAfter": {
+                                "Condition_-_Reactivate_QSMR_Report": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "47c73159-cd60-48a9-8920-487a4f6b797f"
+                              },
+                              "type": "Compose",
+                              "inputs": "@concat('ReportingMonth ge ''', body('Get_a_row_-_Archived_Submission')?['ctss_reporting_period_start'], ''' and ReportingMonth le ''', body('Get_a_row_-_Archived_Submission')?['ctss_reporting_period_end'], ''' and ArchiveStatus eq ''Archived''')"
+                            },
+                            "Get_items_-_Archived_STP": {
+                              "runAfter": {
+                                "Compose_-_SP_Restore_Filter": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "a66a3d86-b615-4702-9ce0-0c3d5762893c"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_STP",
+                                  "$filter": "@outputs('Compose_-_SP_Restore_Filter')",
+                                  "$top": 5000
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_STP": {
+                              "foreach": "@body('Get_items_-_Archived_STP')?['value']",
+                              "actions": {
+                                "Update_item_-_Restore_STP": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "1d4a6e2f-af06-4102-bb5b-0469ecf979f0"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "093a57a5-d150-45a6-9a97-7d1404124dac",
+                                      "id": "@items('Apply_to_each_-_Restore_STP')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_items_-_Archived_STP": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "7d0047dc-6953-4a9f-b970-75b1e9113e19"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 10
+                                }
+                              }
+                            },
+                            "Get_items_-_Archived_ROLA": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_STP": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "3f7d5b30-e788-4383-9908-ace7df90def6"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_ROLARecord",
+                                  "$filter": "@outputs('Compose_-_SP_Restore_Filter')",
+                                  "$top": 100
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_ROLA": {
+                              "foreach": "@body('Get_items_-_Archived_ROLA')?['value']",
+                              "actions": {
+                                "Update_item_-_Restore_ROLA": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "8988350f-a1c3-4142-998b-c63fefa98e9d"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "630aa373-1419-4524-a7d8-6971a18f0b00",
+                                      "id": "@items('Apply_to_each_-_Restore_ROLA')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_items_-_Archived_ROLA": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "846eff72-1476-45e4-8877-517c88445c15"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 5
+                                }
+                              }
+                            },
+                            "Get_items_-_Archived_Production": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_ROLA": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "0a81314f-6d0f-49cf-8d3d-4241ad547a40"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_Production",
+                                  "$filter": "@outputs('Compose_-_SP_Restore_Filter')",
+                                  "$top": 100
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_Production": {
+                              "foreach": "@body('Get_items_-_Archived_Production')?['value']",
+                              "actions": {
+                                "Update_item_-_Restore_Production": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "9dfbed1f-9fbb-468b-bb31-078aa4b4a9d2"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                                      "id": "@items('Apply_to_each_-_Restore_Production')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_items_-_Archived_Production": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "22316186-2b57-4ab0-a4d0-57344fa8de81"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 5
+                                }
+                              }
+                            },
+                            "Get_items_-_Archived_WaterConsumption": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_Production": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "93fb1ee7-a952-4f16-80d3-e3f6d8d517b6"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_WaterConsumption",
+                                  "$filter": "@outputs('Compose_-_SP_Restore_Filter')",
+                                  "$top": 100
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_WaterConsumption": {
+                              "foreach": "@body('Get_items_-_Archived_WaterConsumption')?['value']",
+                              "actions": {
+                                "Update_item_-_Restore_WaterConsumption": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "498600c2-92e8-4501-9498-431fdd22e9a8"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "aa01f854-e3a0-478d-8eaf-f41f19fa0a8c",
+                                      "id": "@items('Apply_to_each_-_Restore_WaterConsumption')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_items_-_Archived_WaterConsumption": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "dad1c0f8-4824-4d0b-8725-67274282e64e"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 5
+                                }
+                              }
+                            },
+                            "Get_items_-_Archived_ROLAParameter": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_WaterConsumption": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "327f6fea-11aa-478d-ab00-dba50b04a2ed"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_ROLAParameter",
+                                  "$filter": "ArchiveStatus eq 'Archived'",
+                                  "$top": 1000
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_ROLAParameter": {
+                              "foreach": "@body('Get_items_-_Archived_ROLAParameter')?['value']",
+                              "actions": {
+                                "Update_item_-_Restore_ROLAParameter": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "cbd9e56b-3aad-447e-8914-63e277a70eed"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "d382ab2a-f3a6-460f-9c86-f4cf08bcd253",
+                                      "id": "@items('Apply_to_each_-_Restore_ROLAParameter')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_items_-_Archived_ROLAParameter": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "55bd3ea8-50f2-4b45-8ef2-a206719f9361"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 10
+                                }
+                              }
+                            },
+                            "Get_files_-_Archived_LabReports": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_ROLAParameter": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "ffd82380-9e71-49b9-a8d2-ff01430443e1"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_sharepointonline",
+                                  "operationId": "GetItems",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                },
+                                "parameters": {
+                                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                                  "table": "CTSS_LabReports",
+                                  "$filter": "ArchiveStatus eq 'Archived'",
+                                  "$top": 100
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Apply_to_each_-_Restore_LabReports": {
+                              "foreach": "@body('Get_files_-_Archived_LabReports')?['value']",
+                              "actions": {
+                                "Update_file_properties_-_Restore_LabReport": {
+                                  "runAfter": {},
+                                  "metadata": {
+                                    "operationMetadataId": "2aaea01d-a0ba-4fd8-b310-a5828219bd9c"
+                                  },
+                                  "type": "OpenApiConnection",
+                                  "inputs": {
+                                    "parameters": {
+                                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                                      "table": "5f54e593-6963-437a-b35d-631cf1e73fd1",
+                                      "id": "@items('Apply_to_each_-_Restore_LabReports')?['ID']",
+                                      "item/ArchiveStatus/Value": "Active"
+                                    },
+                                    "host": {
+                                      "connectionName": "shared_sharepointonline",
+                                      "operationId": "PatchItem",
+                                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                                    }
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "Get_files_-_Archived_LabReports": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "671a7ca5-32bf-447e-925f-9b2135c98003"
+                              },
+                              "type": "Foreach",
+                              "runtimeConfiguration": {
+                                "concurrency": {
+                                  "repetitions": 5
+                                }
+                              }
+                            },
+                            "Add_a_new_row_-_Audit_Log_SMR_Restored": {
+                              "runAfter": {
+                                "Apply_to_each_-_Restore_LabReports": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "59cff6e0-9820-4527-af11-e366a9dd00c3"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "CreateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "ctss_auditlogs",
+                                  "item/ctss_action_on": "@utcNow()",
+                                  "item/ctss_action_type": 193770005,
+                                  "item/ctss_description": "@concat('Restored by ', outputs('Compose_-_In_Caller_UPN'), '. Reason: ', outputs('Compose_-_In_Restore_Reason'))",
+                                  "item/ctss_name": "@concat('SMR Submission Restored: ', outputs('Compose_-_In_Record_ID'))",
+                                  "item/ctss_related_record_id": "@outputs('Compose_-_In_Record_ID')",
+                                  "item/ctss_related_table": "ctss_smrsubmission",
+                                  "item/ctss_source": 193770002,
+                                  "item/ctss_new_value": "Active / Submitted",
+                                  "item/ctss_old_value": "Inactive / Archived"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          }
+                        },
+                        "Case_-_Discharge_Permit": {
+                          "case": "ctss_ctss_dischargepermit",
+                          "actions": {
+                            "Update_a_row_-_Reactivate_Permit": {
+                              "runAfter": {},
+                              "metadata": {
+                                "operationMetadataId": "4c93a776-5904-4976-a18c-3d149755f1c6"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "UpdateOnlyRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "ctss_ctss_dischargepermits",
+                                  "recordId": "@outputs('Compose_-_In_Record_ID')",
+                                  "item/statecode": 0,
+                                  "item/statuscode": 193770000
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            },
+                            "Add_a_new_row_-_Audit_Log_Permit_Restored": {
+                              "runAfter": {
+                                "Update_a_row_-_Reactivate_Permit": [
+                                  "Succeeded"
+                                ]
+                              },
+                              "metadata": {
+                                "operationMetadataId": "262a34c5-18ed-45d5-8dc6-91b8d247e872"
+                              },
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_commondataserviceforapps",
+                                  "operationId": "CreateRecord",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                                },
+                                "parameters": {
+                                  "entityName": "ctss_auditlogs",
+                                  "item/ctss_action_on": "@utcNow()",
+                                  "item/ctss_action_type": 193770005,
+                                  "item/ctss_description": "@concat('Permit reactivated by ', outputs('Compose_-_In_Caller_UPN'), '. Reason: ', outputs('Compose_-_In_Restore_Reason'))",
+                                  "item/ctss_name": "@concat('Discharge Permit Restored: ', outputs('Compose_-_In_Record_ID'))",
+                                  "item/ctss_related_record_id": "@outputs('Compose_-_In_Record_ID')",
+                                  "item/ctss_related_table": "ctss_ctss_dischargepermit",
+                                  "item/ctss_source": 193770002,
+                                  "item/ctss_new_value": "Active / Valid",
+                                  "item/ctss_old_value": "Inactive / Archived"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "expression": "@outputs('Compose_-_In_Entity_Name')",
+                      "metadata": {
+                        "operationMetadataId": "ac636f81-eec2-4a4b-86e2-f1f2daaef9d0"
+                      },
+                      "type": "Switch"
+                    }
+                  },
+                  "runAfter": {},
+                  "else": {
+                    "actions": {
+                      "Response_-_400_Invalid_Reason": {
+                        "runAfter": {},
+                        "metadata": {
+                          "operationMetadataId": "36751aeb-3f97-4ea4-aff7-0337473d3125"
+                        },
+                        "type": "Response",
+                        "kind": "PowerApp",
+                        "inputs": {
+                          "statusCode": 200,
+                          "body": {
+                            "success": false,
+                            "message": "A valid restore reason of at least 10 characters is required to unarchive compliance records."
+                          },
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "success": {
+                                "title": "success",
+                                "x-ms-dynamically-added": true,
+                                "type": "boolean"
+                              },
+                              "message": {
+                                "title": "message",
+                                "x-ms-dynamically-added": true,
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "Terminate_-_Invalid_Reason": {
+                        "runAfter": {
+                          "Response_-_400_Invalid_Reason": [
+                            "Succeeded"
+                          ]
+                        },
+                        "metadata": {
+                          "operationMetadataId": "bcb44f36-bff3-4d54-8dde-32e33ac525e1"
+                        },
+                        "type": "Terminate",
+                        "inputs": {
+                          "runStatus": "Cancelled"
+                        }
+                      }
+                    }
+                  },
+                  "expression": {
+                    "greaterOrEquals": [
+                      "@length(outputs('Compose_-_In_Restore_Reason'))",
+                      10
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "bbec5097-8d3a-449d-acef-2bfc11ee6aa8"
+                  },
+                  "type": "If"
+                }
+              },
+              "runAfter": {
+                "Compose_-_CTSS_Officer_UPN": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Response_-_403_Unauthorized": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "753618a4-2b73-4f76-9edd-305331f2a058"
+                    },
+                    "type": "Response",
+                    "kind": "PowerApp",
+                    "inputs": {
+                      "statusCode": 200,
+                      "body": {
+                        "success": false,
+                        "message": "@concat('Access denied: Caller ', outputs('Compose_-_In_Caller_UPN'), ' is not authorized to restore archived records. CTSS-DGS officer role required.')"
+                      },
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "title": "success",
+                            "x-ms-dynamically-added": true,
+                            "type": "boolean"
+                          },
+                          "message": {
+                            "title": "message",
+                            "x-ms-dynamically-added": true,
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Terminate_-_Unauthorized": {
+                    "runAfter": {
+                      "Response_-_403_Unauthorized": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "85cd3748-6810-498e-be5f-bc366cb60b7a"
+                    },
+                    "type": "Terminate",
+                    "inputs": {
+                      "runStatus": "Cancelled"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "equals": [
+                  "@outputs('Compose_-_In_Caller_UPN')",
+                  "@outputs('Compose_-_CTSS_Officer_UPN')"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1c7e1ba1-a4fa-4700-97e7-846711aa47fe"
+              },
+              "type": "If"
+            },
+            "Response_-_200_Success": {
+              "runAfter": {
+                "Condition_-_Caller_Is_Authorized": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3124e225-405f-4da3-beba-3e834fd42300"
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "success": true,
+                  "message": "@concat('Record successfully restored to Active state on ', utcNow('yyyy-MM-dd HH:mm'))"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "c08a1288-a6de-4c5d-a469-bce5ff4350ec"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Add_a_new_row_-_Notification_Log_Error": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "fb66c26b-206f-45df-b19c-b04a29f80fce"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "Flow 13 Archive Restore Failure",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "@outputs('Compose_-_In_Entity_Name')",
+                  "item/ctss_messagesummary": "@concat('Failed to restore record ', outputs('Compose_-_In_Record_ID'), ' (', outputs('Compose_-_In_Entity_Name'), ') by ', outputs('Compose_-_In_Caller_UPN'), '. Reason provided: ', outputs('Compose_-_In_Restore_Reason'), '. Run URL: https://make.powerautomate.com/environments/', workflow()?['tags']?['environmentName'], '/flows/', workflow()?['name'], '/runs/', workflow()?['run']?['name'])",
+                  "item/ctss_related_record_id": "@outputs('Compose_-_In_Record_ID')",
+                  "item/ctss_status": 193770001
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Response_-_500_Catch_Error": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Error": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "03e9592b-65f0-44b5-ac79-0a61b360a82c"
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "success": false,
+                  "message": "An unexpected system error occurred while restoring the record. The failure has been logged."
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "Terminate_-_Failed": {
+              "runAfter": {
+                "Response_-_500_Catch_Error": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "eed1f1a5-bd50-440b-8b3f-4f540329c64f"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "message": "Flow 13 failed during restoration."
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "Failed",
+              "Skipped",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c1a76d04-ad0a-4765-9836-86ad741188d4"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

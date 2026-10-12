@@ -1,0 +1,36 @@
+// E5.12 — Discharge Permit status banner (Component D).
+// OnLoad of the SMR Submission main form: reads the related permit and shows a
+// form notification. Business Rules cannot read related-entity fields, hence JS.
+// Entity/column names verified against the live env (double-prefixed permit table).
+function CTSS_PermitBanner_onLoad(executionContext) {
+    var formContext = executionContext.getFormContext();
+    var permitAttr = formContext.getAttribute("ctss_ctss_dischargepermit");
+    if (!permitAttr || !permitAttr.getValue() || !permitAttr.getValue()[0]) {
+        formContext.ui.setFormNotification(
+            "No Discharge Permit is linked to this submission.", "WARNING", "permitBanner");
+        return;
+    }
+    var permitId = permitAttr.getValue()[0].id.replace(/[{}]/g, "");
+    Xrm.WebApi.retrieveRecord("ctss_ctss_dischargepermit", permitId,
+        "?$select=ctss_name,ctss_ctss_permit_validity_status,ctss_ctss_expiration_date,ctss_ctss_days_remaining"
+    ).then(function (permit) {
+        var status = (permit.ctss_ctss_permit_validity_status || "").toLowerCase();
+        var expiry = permit["ctss_ctss_expiration_date@OData.Community.Display.V1.FormattedValue"] || permit.ctss_ctss_expiration_date || "";
+        var name = permit.ctss_name || "";
+        var msg, level;
+        if (status.indexOf("expired") >= 0) {
+            msg = "Discharge Permit " + name + " is EXPIRED (expiry: " + expiry + "). QSMR submission is blocked.";
+            level = "ERROR";
+        } else if (status.indexOf("expir") >= 0 || (typeof permit.ctss_ctss_days_remaining === "number" && permit.ctss_ctss_days_remaining <= 90)) {
+            msg = "Discharge Permit " + name + " is expiring soon (expiry: " + expiry + ", " + permit.ctss_ctss_days_remaining + " days remaining).";
+            level = "WARNING";
+        } else {
+            msg = "Discharge Permit " + name + " is valid until " + expiry + ".";
+            level = "INFO";
+        }
+        formContext.ui.setFormNotification(msg, level, "permitBanner");
+    }, function (error) {
+        formContext.ui.setFormNotification(
+            "Could not read the Discharge Permit: " + error.message, "WARNING", "permitBanner");
+    });
+}

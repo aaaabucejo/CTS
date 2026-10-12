@@ -1,0 +1,346 @@
+<ImportExportXml version="9.2.26093.149" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.149" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00149">
+  <SolutionManifest>
+    <UniqueName>CTSSPortalLLDACore</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="CTSS Portal LLDA Core" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.0.0.1</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>ctss_</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CTSS" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>ctss</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>19377</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="ctss_auditlog" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_config" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_ctss_dischargepermit" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_ctss_qsmrreport" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_datacompleteness" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_establishmentprofile" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_notificationlog" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_production" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_rolaparameter" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_rolaparametermaster" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_rolarecord" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_smrduedate" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_smrsubmission" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_stp" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_waterconsumption" behavior="0" />
+      <RootComponent type="1" schemaName="ctss_watermeter" behavior="0" />
+      <RootComponent type="1" schemaName="systemuser" behavior="1" />
+      <RootComponent type="9" schemaName="ctss_capacityunit" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_chemicaltreatmentmethod" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_auditactiontype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_auditsource" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_businesstype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_completenesstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_datagroup" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_department" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_flowmetertype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_month" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_notificationstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_notificationtype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_permitvaliditystatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_processtype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_productionstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_productiontype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_qsmrpreparationstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_quarter" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_rolaapplicabletype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_rolaentrytype" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_rolapassfail" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_rolarecordstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_rolavalidationstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_secondarytreatmentkind" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_sludgedewateringmethod" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_sludgedisposalmethod" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_sludgedryingmethod" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_stprecordstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_unitofmeasure" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_waterbodyclassification" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_ctss_waterconsumptionstatus" behavior="0" />
+      <RootComponent type="9" schemaName="ctss_primarytreatmentmethod" behavior="0" />
+      <RootComponent type="20" id="{4ac3868e-5d7b-f111-ab0e-00224818f28b}" behavior="0" />
+      <RootComponent type="20" id="{7f0cac7c-5c7f-f111-ab0f-00224818f28b}" behavior="0" />
+      <RootComponent type="20" id="{c2b1f2f3-5c7b-f111-ab0e-00224818f28b}" behavior="0" />
+      <RootComponent type="20" id="{da05a968-5d7b-f111-ab0e-00224818f28b}" behavior="0" />
+      <RootComponent type="20" id="{de1bc7a4-5d7b-f111-ab0e-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{0c67e2b0-c896-f111-b8dc-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{22336dfd-4c95-f111-b8dc-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{32b5e1d9-a097-f111-b8dc-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{35d04589-a384-f111-ab0f-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{77801cfd-5b90-f111-8077-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{7c5c10a2-a09a-f111-b8dc-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{98039282-6b7f-f111-ab0f-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{a1c5f0b0-4a91-f111-8077-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{a2823ec5-27ac-f111-aaad-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{b74e661e-c980-f111-ab0f-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{c773f7ac-508c-f111-8077-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{df482618-09ab-f111-aaad-00224818f28b}" behavior="0" />
+      <RootComponent type="29" id="{f063bd46-5e99-f111-b8db-70a8a503a863}" behavior="0" />
+      <RootComponent type="183" id="{585a7b9f-cd80-4691-97db-8d840ab143cf}" schemaName="VCP_DS_cacc3f15-6fc3-40f3-8446-f9b923e3fa09" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariabledefinition" displayName="Environment Variable Definition" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - QSMR Report - Compute Aggregates" id="{22336dfd-4c95-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariabledefinition" displayName="Environment Variable Definition" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - QSMR Submitted - Lock Records" id="{32b5e1d9-a097-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariabledefinition" displayName="Environment Variable Definition" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - OnDemand - Archive Restore" id="{a2823ec5-27ac-f111-aaad-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - ROLA Lab Report - Upload PDF" id="{0c67e2b0-c896-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - OnModify CTSS_Production - Director Approval" id="{35d04589-a384-f111-ab0f-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - Daily - Soft Deadline Monitor" id="{77801cfd-5b90-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - MROD Report - Generate Word Report" id="{7c5c10a2-a09a-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - OnModify ctss_rolarecord - ROLA Validated Writeback" id="{a1c5f0b0-4a91-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - Daily - Overdue Check Recompute" id="{b74e661e-c980-f111-ab0f-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - Daily - Hard Deadline Alert" id="{c773f7ac-508c-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - Scheduled - Archive Sweep" id="{df482618-09ab-f111-aaad-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="environmentvariablevalue" displayName="Environment Variable Value" solution="EnvironmentVariables (1.0.2406.4)">
+          <package appName="EnvironmentVariables" version="1.0.2406.4">EnvironmentVariablesSolutionAnchor (1.0.2406.4)</package>
+        </Required>
+        <Dependent type="29" displayName="CTSS Portal - New Quarter - Initialize Submission" id="{f063bd46-5e99-f111-b8db-70a8a503a863}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_config" displayName="CTSS_Config" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_production" displayName="CTSS_Production" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_rolaparameter" displayName="CTSS_ROLAParameter" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_rolaparametermaster" displayName="CTSS_ROLAParameterMaster" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_rolarecord" displayName="CTSS_ROLARecord" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_stp" displayName="CTSS_STP" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_waterconsumption" displayName="CTSS_WaterConsumption" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_watermeter" displayName="CTSS_WaterMeter" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="183" schemaName="VCP_DS_cacc3f15-6fc3-40f3-8446-f9b923e3fa09" displayName="VCP_DS_cacc3f15-6fc3-40f3-8446-f9b923e3fa09" id="{585a7b9f-cd80-4691-97db-8d840ab143cf}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="61" schemaName="ctss_openqsmrform.js" displayName="ctss_openqsmrform.js" solution="Active" />
+        <Dependent type="50" schemaName="ctss_ctss_qsmrreport:RibbonDiffXml" displayName="ctss_ctss_qsmrreport:RibbonDiffXml" parentSchemaName="ribboncustomization" parentDisplayName="Application Ribbons" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="61" schemaName="ctss_permitbanner.js" displayName="ctss_permitbanner.js" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="SMR Submission" id="{1330c1e4-030e-485e-8cb3-236d0b9c686c}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="cr1d1_status" displayName="ctss_status" solution="Active" />
+        <Dependent type="2" schemaName="ctss_status" displayName="Status" parentSchemaName="ctss_notificationlog" parentDisplayName="Notification Log" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ctss__SharedMicrosoftTeams" solution="Active" id.connectionreferencelogicalname="ctss__SharedMicrosoftTeams" />
+        <Dependent type="29" displayName="CTSS Portal - Daily - Soft Deadline Monitor" id="{77801cfd-5b90-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ctss__SharedMicrosoftTeams" solution="Active" id.connectionreferencelogicalname="ctss__SharedMicrosoftTeams" />
+        <Dependent type="29" displayName="CTSS Portal - Post-Deadline Edit - Unlock Record" id="{98039282-6b7f-f111-ab0f-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ctss__SharedMicrosoftTeams" solution="Active" id.connectionreferencelogicalname="ctss__SharedMicrosoftTeams" />
+        <Dependent type="29" displayName="CTSS Portal - Daily - Hard Deadline Alert" id="{c773f7ac-508c-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedcommondataserviceforapps_d4ca7" solution="Active" id.connectionreferencelogicalname="new_sharedcommondataserviceforapps_d4ca7" />
+        <Dependent type="29" displayName="CTSS Portal - OnModify CTSS_Production - Director Approval" id="{35d04589-a384-f111-ab0f-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedsharepointonline_08ab3" solution="Active" id.connectionreferencelogicalname="new_sharedsharepointonline_08ab3" />
+        <Dependent type="29" displayName="CTSS Portal - QSMR Report - Compute Aggregates" id="{22336dfd-4c95-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedsharepointonline_6217c" solution="Active" id.connectionreferencelogicalname="new_sharedsharepointonline_6217c" />
+        <Dependent type="29" displayName="CTSS Portal - Daily - Soft Deadline Monitor" id="{77801cfd-5b90-f111-8077-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedsharepointonline_b54b9" solution="Active" id.connectionreferencelogicalname="new_sharedsharepointonline_b54b9" />
+        <Dependent type="29" displayName="CTSS Portal - Scheduled - Archive Sweep" id="{df482618-09ab-f111-aaad-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedteams_91e58" solution="Active" id.connectionreferencelogicalname="new_sharedteams_91e58" />
+        <Dependent type="29" displayName="CTSS Portal - ROLA Lab Report - Upload PDF" id="{0c67e2b0-c896-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedteams_91e58" solution="Active" id.connectionreferencelogicalname="new_sharedteams_91e58" />
+        <Dependent type="29" displayName="CTSS Portal - QSMR Report - Compute Aggregates" id="{22336dfd-4c95-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedteams_91e58" solution="Active" id.connectionreferencelogicalname="new_sharedteams_91e58" />
+        <Dependent type="29" displayName="CTSS Portal - MROD Report - Generate Word Report" id="{7c5c10a2-a09a-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedteams_91e58" solution="Active" id.connectionreferencelogicalname="new_sharedteams_91e58" />
+        <Dependent type="29" displayName="CTSS Portal - New Quarter - Initialize Submission" id="{f063bd46-5e99-f111-b8db-70a8a503a863}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedteams_ef9dc" solution="Active" id.connectionreferencelogicalname="new_sharedteams_ef9dc" />
+        <Dependent type="29" displayName="CTSS Portal - OnModify CTSS_Production - Director Approval" id="{35d04589-a384-f111-ab0f-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="new_sharedwordonlinebusiness_50427" solution="Active" id.connectionreferencelogicalname="new_sharedwordonlinebusiness_50427" />
+        <Dependent type="29" displayName="CTSS Portal - MROD Report - Generate Word Report" id="{7c5c10a2-a09a-f111-b8dc-00224818f28b}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="systemuser" displayName="SystemUser" parentSchemaName="" solution="msdyn_PowerAdminSettingsEmail (2.2.3538.1)" />
+        <Dependent type="1" schemaName="systemuser" displayName="SystemUser" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

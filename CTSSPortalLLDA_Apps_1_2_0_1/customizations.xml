@@ -1,0 +1,760 @@
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.149" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00149">
+  <Entities>
+    <Entity>
+      <Name LocalizedName="CTSS_ROLARecord" OriginalName="CTSS_ROLARecord">ctss_ROLARecord</Name>
+      <EntityInfo>
+        <entity Name="ctss_ROLARecord">
+          <LocalizedNames>
+            <LocalizedName description="CTSS_ROLARecord" languagecode="1033" />
+          </LocalizedNames>
+          <LocalizedCollectionNames>
+            <LocalizedCollectionName description="CTSS_ROLARecords" languagecode="1033" />
+          </LocalizedCollectionNames>
+          <Descriptions>
+            <Description description="Custom Entity " languagecode="1033" />
+          </Descriptions>
+          <attributes />
+          <EntitySetName>ctss_rolarecords</EntitySetName>
+          <IsDuplicateCheckSupported>0</IsDuplicateCheckSupported>
+          <IsBusinessProcessEnabled>0</IsBusinessProcessEnabled>
+          <IsRequiredOffline>0</IsRequiredOffline>
+          <IsInteractionCentricEnabled>0</IsInteractionCentricEnabled>
+          <IsCollaboration>0</IsCollaboration>
+          <AutoRouteToOwnerQueue>0</AutoRouteToOwnerQueue>
+          <IsConnectionsEnabled>0</IsConnectionsEnabled>
+          <IsDocumentManagementEnabled>0</IsDocumentManagementEnabled>
+          <AutoCreateAccessTeams>0</AutoCreateAccessTeams>
+          <IsOneNoteIntegrationEnabled>0</IsOneNoteIntegrationEnabled>
+          <IsKnowledgeManagementEnabled>0</IsKnowledgeManagementEnabled>
+          <IsSLAEnabled>0</IsSLAEnabled>
+          <IsDocumentRecommendationsEnabled>0</IsDocumentRecommendationsEnabled>
+          <DataProviderId>{b581d5dc-72e1-ea11-a81e-000d3af5fff1}</DataProviderId>
+          <DataSourceId>{585a7b9f-cd80-4691-97db-8d840ab143cf}</DataSourceId>
+          <IsBPFEntity>0</IsBPFEntity>
+          <OwnershipTypeMask>OrgOwned</OwnershipTypeMask>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsRetrieveAuditEnabled>0</IsRetrieveAuditEnabled>
+          <IsRetrieveMultipleAuditEnabled>0</IsRetrieveMultipleAuditEnabled>
+          <IsActivity>0</IsActivity>
+          <ActivityTypeMask></ActivityTypeMask>
+          <IsActivityParty>0</IsActivityParty>
+          <IsReplicated>0</IsReplicated>
+          <IsReplicationUserFiltered>0</IsReplicationUserFiltered>
+          <IsMailMergeEnabled>0</IsMailMergeEnabled>
+          <IsVisibleInMobile>0</IsVisibleInMobile>
+          <IsVisibleInMobileClient>0</IsVisibleInMobileClient>
+          <IsReadOnlyInMobileClient>0</IsReadOnlyInMobileClient>
+          <IsOfflineInMobileClient>0</IsOfflineInMobileClient>
+          <DaysSinceRecordLastModified>0</DaysSinceRecordLastModified>
+          <MobileOfflineFilters></MobileOfflineFilters>
+          <IsMapiGridEnabled>0</IsMapiGridEnabled>
+          <IsReadingPaneEnabled>0</IsReadingPaneEnabled>
+          <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
+          <SyncToExternalSearchIndex>0</SyncToExternalSearchIndex>
+          <IntroducedVersion>1.0</IntroducedVersion>
+          <IsCustomizable>1</IsCustomizable>
+          <IsRenameable>1</IsRenameable>
+          <IsMappable>1</IsMappable>
+          <CanModifyAuditSettings>1</CanModifyAuditSettings>
+          <CanModifyMobileVisibility>1</CanModifyMobileVisibility>
+          <CanModifyMobileClientVisibility>1</CanModifyMobileClientVisibility>
+          <CanModifyMobileClientReadOnly>1</CanModifyMobileClientReadOnly>
+          <CanModifyMobileClientOffline>1</CanModifyMobileClientOffline>
+          <CanModifyConnectionSettings>1</CanModifyConnectionSettings>
+          <CanModifyDuplicateDetectionSettings>1</CanModifyDuplicateDetectionSettings>
+          <CanModifyMailMergeSettings>1</CanModifyMailMergeSettings>
+          <CanModifyQueueSettings>1</CanModifyQueueSettings>
+          <CanCreateAttributes>1</CanCreateAttributes>
+          <CanCreateForms>1</CanCreateForms>
+          <CanCreateCharts>0</CanCreateCharts>
+          <CanCreateViews>1</CanCreateViews>
+          <CanModifyAdditionalSettings>1</CanModifyAdditionalSettings>
+          <CanEnableSyncToExternalSearchIndex>1</CanEnableSyncToExternalSearchIndex>
+          <EnforceStateTransitions>0</EnforceStateTransitions>
+          <CanChangeHierarchicalRelationship>1</CanChangeHierarchicalRelationship>
+          <EntityHelpUrlEnabled>0</EntityHelpUrlEnabled>
+          <ChangeTrackingEnabled>0</ChangeTrackingEnabled>
+          <CanChangeTrackingBeEnabled>0</CanChangeTrackingBeEnabled>
+          <IsEnabledForExternalChannels>0</IsEnabledForExternalChannels>
+          <ExternalName>630aa373-1419-4524-a7d8-6971a18f0b00</ExternalName>
+          <ExternalCollectionName>630aa373-1419-4524-a7d8-6971a18f0b00s</ExternalCollectionName>
+          <IsMSTeamsIntegrationEnabled>0</IsMSTeamsIntegrationEnabled>
+          <IsSolutionAware>0</IsSolutionAware>
+        </entity>
+      </EntityInfo>
+      <FormXml>
+        <forms type="main">
+          <systemform>
+            <formid>{1fc23646-0b1d-4a25-837c-d230af6f23a9}</formid>
+            <IntroducedVersion>1.0</IntroducedVersion>
+            <FormPresentation>1</FormPresentation>
+            <FormActivationState>1</FormActivationState>
+            <form>
+              <header id="{4B1BB002-2ED3-47E3-A88D-EE2EDA1B8A91}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+                <rows>
+                  <row>
+                    <cell id="{D83DA02F-2D7E-4B10-9936-781663476143}">
+                      <labels>
+                        <label description="Record Status" languagecode="1033" />
+                      </labels>
+                      <control id="header_ctss_recordstatus" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ctss_recordstatus" disabled="true" />
+                    </cell>
+                    <cell id="{9EEA0BE9-A7E6-4C3F-A428-5F08779194DA}">
+                      <labels>
+                        <label description="Validation Status" languagecode="1033" />
+                      </labels>
+                      <control id="header_ctss_validationstatus" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ctss_validationstatus" disabled="true" />
+                    </cell>
+                    <cell id="{F4E707F2-9EF3-49CF-8AC6-183DD540F534}">
+                      <labels>
+                        <label description="Submitted By" languagecode="1033" />
+                      </labels>
+                      <control id="header_ctss_submittedby" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_submittedby" disabled="true" />
+                    </cell>
+                  </row>
+                </rows>
+              </header>
+              <tabs>
+                <tab verticallayout="true" id="{01E0039F-4DA4-4693-80D9-1DE0D4A7A70F}" IsUserDefined="1" name="tab_general">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <columns>
+                    <column width="100%">
+                      <sections>
+                        <section showlabel="true" showbar="true" IsUserDefined="1" id="{54739542-837D-49C8-95CC-FC32A04D6153}" columns="11" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                          <labels>
+                            <label description="Submission (from BFU Canvas App — read-only)" languagecode="1033" />
+                          </labels>
+                          <rows>
+                            <row>
+                              <cell id="{F0EE9776-8D98-4CA3-BE25-CBF44AE895E8}">
+                                <labels>
+                                  <label description="Title" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_title" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ctss_title" disabled="true" />
+                              </cell>
+                              <cell id="{9267435E-479A-4F24-9EDE-E1922F64F2E6}">
+                                <labels>
+                                  <label description="Entry Type" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_entrytype" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ctss_entrytype" disabled="true" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{D96638A3-A950-45E0-9D89-8629CE36A27D}">
+                                <labels>
+                                  <label description="Reporting Month" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_reportingmonth" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ctss_reportingmonth" disabled="true" />
+                              </cell>
+                              <cell id="{9DDBF2C5-90C6-4923-9E10-A1AEFBD297A1}">
+                                <labels>
+                                  <label description="Lab Analysis Date" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_labanalysisdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ctss_labanalysisdate" disabled="true" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{A3242B17-F670-4FDB-B109-427C630CA3F0}">
+                                <labels>
+                                  <label description="Submitted By" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_submittedby" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_submittedby" disabled="true" />
+                              </cell>
+                              <cell id="{8CB6E617-5836-4EE2-A177-E3FDEF3B592C}">
+                                <labels>
+                                  <label description="Submitted On" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_submittedon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ctss_submittedon" disabled="true" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{EDE48458-165E-4409-806C-23F7A52E04F3}">
+                                <labels>
+                                  <label description="Lab Report (PDF)" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_labreporturl" classid="{71716B6C-711E-476c-8AB8-5D11542BFB47}" datafieldname="ctss_labreporturl" disabled="true" />
+                              </cell>
+                              <cell id="{0681CEB3-3CDA-44E8-9948-08F75285C76E}">
+                                <labels>
+                                  <label description="File Name" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_labreportfilename" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_labreportfilename" disabled="true" />
+                              </cell>
+                            </row>
+                          </rows>
+                        </section>
+                        <section showlabel="true" showbar="true" IsUserDefined="1" id="{F42027C6-A97F-4836-9F1C-2AE692102808}" columns="11" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                          <labels>
+                            <label description="CTSS Review" languagecode="1033" />
+                          </labels>
+                          <rows>
+                            <row>
+                              <cell id="{5C7EC987-22F7-41E6-868A-6A00309B0B27}">
+                                <labels>
+                                  <label description="Validation Status" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_validationstatus" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ctss_validationstatus" />
+                              </cell>
+                              <cell id="{840D6825-2DAB-4CA3-A577-FC15FF5750AD}">
+                                <labels>
+                                  <label description="Record Status" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_recordstatus" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ctss_recordstatus" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{27F73BE4-4118-4864-A12D-B8CEB055AE73}" rowspan="4" colspan="2">
+                                <labels>
+                                  <label description="Validation Notes" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_validationnotes" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_validationnotes" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{EF44CD06-089A-45DF-BD8D-3346378A5EC5}">
+                                <labels>
+                                  <label description="Validated By" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_validatedby" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_validatedby" disabled="true" />
+                              </cell>
+                              <cell id="{77DE2F1C-9F52-4A79-80C7-06D35D6E87B2}">
+                                <labels>
+                                  <label description="Validated On" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_validatedon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ctss_validatedon" disabled="true" />
+                              </cell>
+                            </row>
+                          </rows>
+                        </section>
+                        <section showlabel="true" showbar="true" IsUserDefined="1" id="{3D4CF96A-5338-4ABF-AAB2-BAAFA58C3752}" columns="11" labelwidth="115" celllabelalignment="Left" celllabelposition="Left">
+                          <labels>
+                            <label description="Lock" languagecode="1033" />
+                          </labels>
+                          <rows>
+                            <row>
+                              <cell id="{8FC52DC6-553D-4FD6-8212-D1C6C278EED6}">
+                                <labels>
+                                  <label description="Is Locked" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_islocked" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ctss_islocked" disabled="true" />
+                              </cell>
+                              <cell id="{7F37C8F9-0CAE-470C-B82F-F7C7F33A3FFA}">
+                                <labels>
+                                  <label description="Lock Override By" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_lockoverrideby" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_lockoverrideby" disabled="true" />
+                              </cell>
+                            </row>
+                            <row>
+                              <cell id="{D1B4C24A-852A-4098-B13F-37C5828789A8}" rowspan="2" colspan="2">
+                                <labels>
+                                  <label description="Lock Override Reason" languagecode="1033" />
+                                </labels>
+                                <control id="ctss_lockoverridereason" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ctss_lockoverridereason" disabled="true" />
+                              </cell>
+                            </row>
+                          </rows>
+                        </section>
+                      </sections>
+                    </column>
+                  </columns>
+                </tab>
+              </tabs>
+            </form>
+            <IsCustomizable>1</IsCustomizable>
+            <CanBeDeleted>1</CanBeDeleted>
+            <LocalizedNames>
+              <LocalizedName description="Information" languagecode="1033" />
+            </LocalizedNames>
+            <Descriptions>
+              <Description description="A form for this entity." languagecode="1033" />
+            </Descriptions>
+          </systemform>
+        </forms>
+      </FormXml>
+      <RibbonDiffXml>
+        <CustomActions />
+        <Templates>
+          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+        </Templates>
+        <CommandDefinitions />
+        <RuleDefinitions>
+          <TabDisplayRules />
+          <DisplayRules />
+          <EnableRules />
+        </RuleDefinitions>
+        <LocLabels />
+      </RibbonDiffXml>
+    </Entity>
+  </Entities>
+  <Roles></Roles>
+  <Workflows></Workflows>
+  <FieldSecurityProfiles></FieldSecurityProfiles>
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <WebResources>
+    <WebResource>
+      <WebResourceId>{154e3b1f-54a7-f111-aaad-00224818f28b}</WebResourceId>
+      <Name>ctss_openqsmrform.js</Name>
+      <DisplayName>CTSS Open QSMR Form Command</DisplayName>
+      <Description>E5.8 command bar handler - opens the E6 QSMR custom page</Description>
+      <WebResourceType>3</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/ctss_openqsmrformjs154E3B1F-54A7-F111-AAAD-00224818F28B</FileName>
+    </WebResource>
+    <WebResource>
+      <WebResourceId>{1f4e3b1f-54a7-f111-aaad-00224818f28b}</WebResourceId>
+      <Name>ctss_permitbanner.js</Name>
+      <DisplayName>CTSS Permit Status Banner</DisplayName>
+      <Description>E5.12 form notification - discharge permit validity banner on SMR Submission</Description>
+      <WebResourceType>3</WebResourceType>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <IsEnabledForMobileClient>0</IsEnabledForMobileClient>
+      <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+      <IsCustomizable>1</IsCustomizable>
+      <CanBeDeleted>1</CanBeDeleted>
+      <IsHidden>0</IsHidden>
+      <FileName>/WebResources/ctss_permitbannerjs1F4E3B1F-54A7-F111-AAAD-00224818F28B</FileName>
+    </WebResource>
+  </WebResources>
+  <CustomControls />
+  <AppModuleSiteMaps>
+    <AppModuleSiteMap>
+      <SiteMapUniqueName>ctss_portal_f8299137</SiteMapUniqueName>
+      <EnableCollapsibleGroups>False</EnableCollapsibleGroups>
+      <ShowHome>True</ShowHome>
+      <ShowPinned>True</ShowPinned>
+      <ShowRecents>True</ShowRecents>
+      <SiteMap IntroducedVersion="7.0.0.0">
+        <Area Id="area_ctss_portal" ShowGroups="true" IntroducedVersion="7.0.0.0">
+          <Titles>
+            <Title Title="CTSS Portal" LCID="1033" />
+          </Titles>
+          <Group Id="group_compliance" IsProfile="false" IntroducedVersion="7.0.0.0">
+            <Titles>
+              <Title Title="Compliance" LCID="1033" />
+            </Titles>
+            <SubArea Id="nav_smrsubmission" Entity="ctss_smrsubmission" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_qsmrreport" Entity="ctss_ctss_qsmrreport" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_dischargepermit" Entity="ctss_ctss_dischargepermit" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_establishmentprofile" Entity="ctss_establishmentprofile" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+          </Group>
+          <Group Id="group_reviewqueues" IsProfile="false" IntroducedVersion="7.0.0.0">
+            <Titles>
+              <Title Title="Review Queues" LCID="1033" />
+            </Titles>
+            <SubArea Id="nav_pendingreview" Url="/workplace/home_dashboards.aspx" DefaultDashboard="e5add001-0000-4e55-b1d0-000000000010" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All">
+              <Titles>
+                <Title Title="Pending Review Queues" LCID="1033" />
+              </Titles>
+            </SubArea>
+          </Group>
+          <Group Id="group_administration" IsProfile="false" IntroducedVersion="7.0.0.0">
+            <Titles>
+              <Title Title="Administration" LCID="1033" />
+            </Titles>
+            <SubArea Id="nav_auditlog" Entity="ctss_auditlog" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_notificationlog" Entity="ctss_notificationlog" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_smrduedate" Entity="ctss_smrduedate" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+            <SubArea Id="nav_datacompleteness" Entity="ctss_datacompleteness" IntroducedVersion="7.0.0.0" Client="All" AvailableOffline="false" Sku="All" />
+          </Group>
+          <Group Id="group_configuration" IsProfile="false" IntroducedVersion="7.0.0.0">
+            <Titles>
+              <Title Title="Configuration" LCID="1033" />
+            </Titles>
+          </Group>
+        </Area>
+      </SiteMap>
+      <LocalizedNames>
+        <LocalizedName description="CTSS Portal" languagecode="1033" />
+      </LocalizedNames>
+    </AppModuleSiteMap>
+  </AppModuleSiteMaps>
+  <AppModules>
+    <AppModule>
+      <UniqueName>ctss_portal_219d9d82</UniqueName>
+      <IntroducedVersion>1.0.0.0</IntroducedVersion>
+      <WebResourceId>953b9fac-1e5e-e611-80d6-00155ded156f</WebResourceId>
+      <OptimizedFor></OptimizedFor>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+      <FormFactor>1</FormFactor>
+      <ClientType>4</ClientType>
+      <NavigationType>0</NavigationType>
+      <AppModuleComponents>
+        <AppModuleComponent type="1" schemaName="ctss_notificationlog" />
+        <AppModuleComponent type="1" schemaName="ctss_smrduedate" />
+        <AppModuleComponent type="1" schemaName="ctss_config" />
+        <AppModuleComponent type="1" schemaName="ctss_rolaparametermaster" />
+        <AppModuleComponent type="1" schemaName="ctss_auditlog" />
+        <AppModuleComponent type="1" schemaName="ctss_ctss_qsmrreport" />
+        <AppModuleComponent type="1" schemaName="ctss_smrsubmission" />
+        <AppModuleComponent type="1" schemaName="ctss_datacompleteness" />
+        <AppModuleComponent type="1" schemaName="ctss_establishmentprofile" />
+        <AppModuleComponent type="1" schemaName="ctss_ctss_dischargepermit" />
+        <AppModuleComponent type="1" schemaName="ctss_watermeter" />
+        <AppModuleComponent type="60" id="{8d0477ed-19aa-f111-aaad-00224818f28b}" />
+        <AppModuleComponent type="60" id="{1330c1e4-030e-485e-8cb3-236d0b9c686c}" />
+        <AppModuleComponent type="60" id="{2ef3d811-24bb-4265-a714-2bbae579b65b}" />
+        <AppModuleComponent type="60" id="{27657e04-2942-41d0-8fe5-32fe26163473}" />
+        <AppModuleComponent type="60" id="{856aa690-144a-44de-a090-54b0af45aabb}" />
+        <AppModuleComponent type="60" id="{d07d5704-8427-4a2b-9863-54f391f1bc8e}" />
+        <AppModuleComponent type="60" id="{d6760e0d-aafc-4e49-b8cc-721b2d43d279}" />
+        <AppModuleComponent type="60" id="{6bca6a46-6195-4a59-8fac-7fffe22c09cd}" />
+        <AppModuleComponent type="60" id="{1c37324b-da1c-4262-9e9c-8df9bfe97180}" />
+        <AppModuleComponent type="60" id="{e04fb807-8d88-4480-a11c-a9ba992b32d5}" />
+        <AppModuleComponent type="60" id="{95eadaa7-91be-4d05-84b4-c352767aec6d}" />
+        <AppModuleComponent type="60" id="{d8f4ec7e-9589-4595-829f-decf4c284cd1}" />
+        <AppModuleComponent type="62" schemaName="ctss_portal_219d9d82" />
+        <AppModuleComponent type="26" id="{e7a6cfeb-25af-4fd6-9ae9-0bd148f6ec4e}" />
+        <AppModuleComponent type="26" id="{60601929-9b85-4458-bb4c-15ee218a0108}" />
+        <AppModuleComponent type="26" id="{f16be209-171d-4188-b003-213e1e206bfa}" />
+        <AppModuleComponent type="26" id="{7c8c92d7-fcc8-4ea3-acd1-26962232efde}" />
+        <AppModuleComponent type="26" id="{727e7330-05ca-4de8-9fe3-3e3b6469b621}" />
+        <AppModuleComponent type="26" id="{3bdf241f-8b47-4ec6-94b6-4926fc5cd515}" />
+        <AppModuleComponent type="26" id="{a877da6f-5ca7-4a5a-90aa-616da4212bf5}" />
+        <AppModuleComponent type="26" id="{18ebe956-a38d-4738-b8c6-6b05a234515c}" />
+        <AppModuleComponent type="26" id="{38139b7c-d264-4135-89fd-7d2460823034}" />
+        <AppModuleComponent type="26" id="{7a2d601c-14f4-457f-9106-8a2727bcd564}" />
+        <AppModuleComponent type="26" id="{c73bc529-9fc7-4c2a-a9b9-ab42833b1c64}" />
+        <AppModuleComponent type="26" id="{093dc36f-08da-46bd-8493-b0a40bf1674c}" />
+        <AppModuleComponent type="26" id="{dfd9ca4b-b242-4422-84e8-bcdbe9c5ae55}" />
+        <AppModuleComponent type="26" id="{5d4c5aea-b1c6-4c33-bb55-c3ea3607841f}" />
+        <AppModuleComponent type="26" id="{3cd8aa72-7b14-49ab-9c16-cab2da30943a}" />
+        <AppModuleComponent type="26" id="{184aae98-dad1-41a3-b3cf-d3a5da0fbed5}" />
+        <AppModuleComponent type="26" id="{f41ade69-a18f-46a2-b3f9-dcc673f4557f}" />
+        <AppModuleComponent type="26" id="{95a412c2-cbec-49bb-8081-ecebee6b193d}" />
+        <AppModuleComponent type="26" id="{a8776290-d945-4dc3-a16d-ef39626fe80b}" />
+      </AppModuleComponents>
+      <AppModuleRoleMaps>
+        <Role id="{627090ff-40a3-4053-8790-584edc5be201}" />
+        <Role id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+      </AppModuleRoleMaps>
+      <LocalizedNames>
+        <LocalizedName description="CTSS Portal" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="CTSS-DGS back-office portal for LLDA SMR compliance — review, validation, QSMR preparation" languagecode="1033" />
+      </Descriptions>
+      <appsettings>
+        <appsetting settingdefinitionid.uniquename="AppChannel">
+          <iscustomizable>1</iscustomizable>
+          <value>1</value>
+        </appsetting>
+      </appsettings>
+    </AppModule>
+  </AppModules>
+  <EntityDataProviders />
+  <CanvasApps>
+    <CanvasApp>
+      <Name>ctss_ctssportalmrod_5cf87</Name>
+      <AppVersion>2026-09-16T08:23:14Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260825T101958Z-3.26082.7.0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS Portal – BSPD</DisplayName>
+      <Description>update v.3
+
+- updated logging data issue
+- fixed navigation thru chevrons
+- fixed the condition to generate the report button
+- fixed the navigation sidebars
+
+- converted this to BSPD instead of initial MROD</Description>
+      <CommitMessage>Save app with description provided in publish dialog.</CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"1feb0651-0b21-47c8-a74b-90872b83ca2b":{"id":"/providers/microsoft.powerapps/apis/shared_logicflows","displayName":"Logic flows","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4908/logicflows/icon.png","dataSources":["CTSSPortal-MRODReport-GenerateWordReport"],"dependencies":["97f76a58-ccb8-4877-9c76-4cf5da405a93","4b7761a9-1ee8-4a67-9ec3-1dbe57bdd29a","5259de67-f771-44d6-954c-0d813bc858ad","8581b019-b1b5-400b-89e0-7a6c4c9e3d2a"],"dependents":[],"parameterHints":{"workflowName":{"value":"4bca7895-7d2d-4d67-9125-d6a8a46ddd19"},"workflowEntityId":{"value":"7c5c10a2-a09a-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - MROD Report - Generate Word Report"},"97f76a58-ccb8-4877-9c76-4cf5da405a93":{"value":"shared_commondataserviceforapps"},"5411d306-d512-49f3-a85c-a174283d7635":{"value":"shared_sharepointonline"},"5259de67-f771-44d6-954c-0d813bc858ad":{"value":"shared_wordonlinebusiness"},"8581b019-b1b5-400b-89e0-7a6c4c9e3d2a":{"value":"shared_teams"},"4b7761a9-1ee8-4a67-9ec3-1dbe57bdd29a":{"value":"shared_sharepointonline"}},"parameterHintsV2":{"workflowName":{"value":"4bca7895-7d2d-4d67-9125-d6a8a46ddd19"},"workflowEntityId":{"value":"7c5c10a2-a09a-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - MROD Report - Generate Word Report"},"shared_commondataserviceforapps":{"value":"97f76a58-ccb8-4877-9c76-4cf5da405a93"},"shared_sharepointonline":{"value":"4b7761a9-1ee8-4a67-9ec3-1dbe57bdd29a"},"shared_wordonlinebusiness":{"value":"5259de67-f771-44d6-954c-0d813bc858ad"},"shared_teams":{"value":"8581b019-b1b5-400b-89e0-7a6c4c9e3d2a"}},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["Run"]},"97f76a58-ccb8-4877-9c76-4cf5da405a93":{"id":"/providers/microsoft.powerapps/apis/shared_commondataserviceforapps","displayName":"Microsoft Dataverse","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4939/commondataserviceforapps/icon.png","dataSources":[],"dependencies":[],"dependents":["1feb0651-0b21-47c8-a74b-90872b83ca2b"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","authenticationType":"Oauth"},"4b7761a9-1ee8-4a67-9ec3-1dbe57bdd29a":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":["CTSS_Config","CTSS_Production"],"dependencies":[],"dependents":["1feb0651-0b21-47c8-a74b-90872b83ca2b"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{"https://wjl5s.sharepoint.com/sites/CTSPortal":{"dataSources":{"CTSS_Config":{"tableName":"7a7b597a-afe0-4379-912c-bed4d497d31d"},"CTSS_Production":{"tableName":"11fecce7-6da0-419f-9493-ccbdc7f4bd44"}}}},"apiTier":"Standard","actions":["providers/PowerPlatform.Governance/Operations/Read","providers/PowerPlatform.Governance/Operations/Write"]},"5259de67-f771-44d6-954c-0d813bc858ad":{"id":"/providers/microsoft.powerapps/apis/shared_wordonlinebusiness","displayName":"Word Online (Business)","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1818/1.0.1818.4788/wordonlinebusiness/icon.png","dataSources":[],"dependencies":[],"dependents":["1feb0651-0b21-47c8-a74b-90872b83ca2b"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium"},"8581b019-b1b5-400b-89e0-7a6c4c9e3d2a":{"id":"/providers/microsoft.powerapps/apis/shared_teams","displayName":"Microsoft Teams","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1826/1.0.1826.4868/teams/icon.png","dataSources":[],"dependencies":[],"dependents":["1feb0651-0b21-47c8-a74b-90872b83ca2b"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"},"19dafeb5-4029-40f8-ac04-ed5dd4ccedea":{"id":"/providers/microsoft.powerapps/apis/shared_office365users","displayName":"Office 365 Users","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1818/1.0.1818.4788/office365users/icon.png","dataSources":["Office365Users"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["MyProfile_V2"]}}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[{"appComponentName":"4fa9cb840b1d4c048bbca9685167d689","appName":"e503924a-0185-4718-92d3-02108df15e7e","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"adafe51f97e847c0b6c07b71a8c5697e","appName":"e503924a-0185-4718-92d3-02108df15e7e","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"b43d6431050f419f82cb1c3f4bfce31e","appName":"e503924a-0185-4718-92d3-02108df15e7e","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"c1c98dbb3eec498092ed7fc05e8fa460","appName":"e503924a-0185-4718-92d3-02108df15e7e","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"d753f55d6d5d4e96825a64d8e746eff0","appName":"e503924a-0185-4718-92d3-02108df15e7e","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"}]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>0</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"dependencyid":"7c5c10a2-a09a-f111-b8dc-00224818f28b","componenttype":29,"componenttypeplatformname":"Workflow"},{"logicalname":"ctss_ctssportalcomponentlib_e54e0","componenttype":300,"componenttypeplatformname":"CanvasApp"}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssportalmrod_5cf87_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssportalmrod_5cf87_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssportalmrod_5cf87_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssportalbspd_e8c62</Name>
+      <AppVersion>2026-09-16T08:28:00Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260912T062906Z-3.26085.11.0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS Portal – MROD</DisplayName>
+      <Description>Best version 9/12/16
+
+-&gt; fixed, cannot add a record
+-&gt; UI fix, removed redundancy on alerts
+-&gt; UI fix renamed to MROD</Description>
+      <CommitMessage>Save app with description provided in publish dialog.</CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"c3600c17-e542-4ea3-a3ab-7cd02f26d62d":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":["CTSS_Config","CTSS_Production"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{"https://wjl5s.sharepoint.com/sites/CTSPortal":{"dataSources":{"CTSS_Config":{"tableName":"7a7b597a-afe0-4379-912c-bed4d497d31d"},"CTSS_Production":{"tableName":"11fecce7-6da0-419f-9493-ccbdc7f4bd44"}}}},"apiTier":"Standard","actions":["providers/PowerPlatform.Governance/Operations/Read","providers/PowerPlatform.Governance/Operations/Write"]},"d9cbf302-88ef-4636-b82a-7cc2572d2315":{"id":"/providers/microsoft.powerapps/apis/shared_office365users","displayName":"Office 365 Users","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1818/1.0.1818.4788/office365users/icon.png","dataSources":["Office365Users"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["MyProfile_V2"]}}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[{"appComponentName":"adafe51f97e847c0b6c07b71a8c5697e","appName":"1998c166-f8f4-401a-bc35-281ddb7866c2","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"d753f55d6d5d4e96825a64d8e746eff0","appName":"1998c166-f8f4-401a-bc35-281ddb7866c2","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"b43d6431050f419f82cb1c3f4bfce31e","appName":"1998c166-f8f4-401a-bc35-281ddb7866c2","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"c1c98dbb3eec498092ed7fc05e8fa460","appName":"1998c166-f8f4-401a-bc35-281ddb7866c2","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"}]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>0</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"logicalname":"ctss_ctssportalcomponentlib_e54e0","componenttype":300,"componenttypeplatformname":"CanvasApp"}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssportalbspd_e8c62_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssportalbspd_e8c62_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssportalbspd_e8c62_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssportalmechanicalunit_75e87</Name>
+      <AppVersion>2026-09-15T02:26:37Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26085.11.0</CreatedByClientVersion>
+      <MinClientVersion>3.26085.11.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26085.11","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260908T055119Z-3.26084.7.0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS Portal – Mechanical Unit</DisplayName>
+      <Description xsi:nil="true"></Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"26b049e1-6765-4d02-9854-e7d6b25bb1ed":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":["CTSS_Config","CTSS_WaterMeter","CTSS_WaterConsumption"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{"https://wjl5s.sharepoint.com/sites/CTSPortal":{"dataSources":{"CTSS_Config":{"tableName":"7a7b597a-afe0-4379-912c-bed4d497d31d"},"CTSS_WaterMeter":{"tableName":"8233a923-8c8f-49fb-9fad-b2d437d5c417"},"CTSS_WaterConsumption":{"tableName":"aa01f854-e3a0-478d-8eaf-f41f19fa0a8c"}}}},"apiTier":"Standard","actions":["providers/PowerPlatform.Governance/Operations/Read","providers/PowerPlatform.Governance/Operations/Write"]},"a1e785f6-8378-4017-9642-8e6408516ba5":{"id":"/providers/microsoft.powerapps/apis/shared_office365users","displayName":"Office 365 Users","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1818/1.0.1818.4788/office365users/icon.png","dataSources":["Office365Users"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["MyProfile_V2"]}}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[{"appComponentName":"adafe51f97e847c0b6c07b71a8c5697e","appName":"47fd9eaa-fcb5-49c3-914f-4b9473ffbcd8","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"c1c98dbb3eec498092ed7fc05e8fa460","appName":"47fd9eaa-fcb5-49c3-914f-4b9473ffbcd8","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"d753f55d6d5d4e96825a64d8e746eff0","appName":"47fd9eaa-fcb5-49c3-914f-4b9473ffbcd8","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"4fa9cb840b1d4c048bbca9685167d689","appName":"47fd9eaa-fcb5-49c3-914f-4b9473ffbcd8","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-10T15:52:55Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"}]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>0</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"logicalname":"ctss_ctssportalcomponentlib_e54e0","componenttype":300,"componenttypeplatformname":"CanvasApp"}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssportalmechanicalunit_75e87_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssportalmechanicalunit_75e87_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssportalmechanicalunit_75e87_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_qsmrreportform_1b25a</Name>
+      <AppVersion>2026-09-17T08:17:50Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1845","primaryDeviceHeight":"3200","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true","sienaVersion":"20260917T061822Z-3.26091.9.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>QSMR Report Form</DisplayName>
+      <Description>v.4
+
+base update
+- No formula error base
+- UI update 1
+- UI update 2
+- UI update 3, hardcoded removed?
+- UI update 4, making progress with the D.4
+- UI update 5, near on D sections
+- UI update 6, black boxes are gone
+- UI update 7
+- Update 8, fixing WTP population
+- Update 9, Loaded WTP data
+-Update 10, updated qsmr</Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"f5160a4c-b566-4154-bc16-eeb6e4d3f362":{"id":"/providers/microsoft.powerapps/apis/shared_logicflows","displayName":"Logic flows","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4908/logicflows/icon.png","dataSources":["CTSSPortal-QSMRReport-ComputeAggregates"],"dependencies":["69840da1-a334-4121-b03e-5a9e0b545889","4939b1af-537e-4b35-9263-ee49df246394","2af97632-c701-4268-bb12-2f242bccdb38"],"dependents":[],"parameterHints":{"workflowName":{"value":"f02cf5cc-ede3-4ac5-9796-22e6e089f9cd"},"workflowEntityId":{"value":"22336dfd-4c95-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - QSMR Report - Compute Aggregates"},"69840da1-a334-4121-b03e-5a9e0b545889":{"value":"shared_commondataserviceforapps-1"},"4939b1af-537e-4b35-9263-ee49df246394":{"value":"shared_sharepointonline-2"},"2af97632-c701-4268-bb12-2f242bccdb38":{"value":"shared_teams-1"}},"parameterHintsV2":{"workflowName":{"value":"f02cf5cc-ede3-4ac5-9796-22e6e089f9cd"},"workflowEntityId":{"value":"22336dfd-4c95-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - QSMR Report - Compute Aggregates"},"shared_commondataserviceforapps-1":{"value":"69840da1-a334-4121-b03e-5a9e0b545889"},"shared_sharepointonline-2":{"value":"4939b1af-537e-4b35-9263-ee49df246394"},"shared_teams-1":{"value":"2af97632-c701-4268-bb12-2f242bccdb38"}},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["Run"]},"69840da1-a334-4121-b03e-5a9e0b545889":{"id":"/providers/microsoft.powerapps/apis/shared_commondataserviceforapps","displayName":"Microsoft Dataverse","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4939/commondataserviceforapps/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","authenticationType":"Oauth"},"4939b1af-537e-4b35-9263-ee49df246394":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"},"2af97632-c701-4268-bb12-2f242bccdb38":{"id":"/providers/microsoft.powerapps/apis/shared_teams","displayName":"Microsoft Teams","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1826/1.0.1826.4868/teams/icon.png","dataSources":[],"dependencies":[],"dependents":["f5160a4c-b566-4154-bc16-eeb6e4d3f362"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"}}</ConnectionReferences>
+      <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"QSMR Reports":{"entitySetName":"ctss_ctss_qsmrreports","logicalName":"ctss_ctss_qsmrreport"},"SMR Submissions":{"entitySetName":"ctss_smrsubmissions","logicalName":"ctss_smrsubmission"},"Discharge Permits":{"entitySetName":"ctss_ctss_dischargepermits","logicalName":"ctss_ctss_dischargepermit"},"Establishment Profiles":{"entitySetName":"ctss_establishmentprofiles","logicalName":"ctss_establishmentprofile"},"CTSS_ROLARecords":{"entitySetName":"ctss_rolarecords","logicalName":"ctss_rolarecord"},"CTSS_ROLAParameters":{"entitySetName":"ctss_rolaparameters","logicalName":"ctss_rolaparameter"},"CTSS_STPS":{"entitySetName":"ctss_stps","logicalName":"ctss_stp"}}}}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>2</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"dependencyid":"22336dfd-4c95-f111-b8dc-00224818f28b","componenttype":29,"componenttypeplatformname":"Workflow"},{"logicalname":"ctss_ctss_qsmrreport","componenttype":1},{"logicalname":"ctss_smrsubmission","componenttype":1},{"logicalname":"ctss_ctss_dischargepermit","componenttype":1},{"logicalname":"ctss_establishmentprofile","componenttype":1},{"logicalname":"ctss_rolarecord","componenttype":1},{"logicalname":"ctss_rolaparameter","componenttype":1},{"logicalname":"ctss_stp","componenttype":1}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_qsmrreportform_1b25a_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_qsmrreportform_1b25a_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_qsmrreportform_1b25a_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssdashboard_48673</Name>
+      <AppVersion>2026-09-16T08:56:32Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26091.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26091.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1357","primaryDeviceHeight":"533","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26091.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true","sienaVersion":"20260912T054349Z-3.26085.9.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS_Dashboard</DisplayName>
+      <Description xsi:nil="true"></Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{}</ConnectionReferences>
+      <DatabaseReferences>{"default.cds":{"databaseDetails":{"referenceType":"Environmental","environmentName":"default.cds","overrideValues":{"status":"NotSpecified","environmentVariableName":""}},"dataSources":{"SMR Submissions":{"entitySetName":"ctss_smrsubmissions","logicalName":"ctss_smrsubmission"},"Data Completenesses":{"entitySetName":"ctss_datacompletenesses","logicalName":"ctss_datacompleteness"}}}}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>2</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"logicalname":"ctss_smrsubmission","componenttype":1},{"logicalname":"ctss_datacompleteness","componenttype":1}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssdashboard_48673_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssdashboard_48673_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssdashboard_48673_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssportalbfu_7787f</Name>
+      <AppVersion>2026-09-29T18:57:35Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26093.9.0</CreatedByClientVersion>
+      <MinClientVersion>3.26093.9.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26093.9","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260825T044106Z-3.26082.7.0","coauthoringEnabled":"true","multipleWritersEnabled":"true","acceptedCoauthoringTerms":"true"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CTSS Portal – BFU</DisplayName>
+      <Description xsi:nil="true"></Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"8a9c8bc2-f984-45a2-be9b-a568d7105fd6":{"id":"/providers/microsoft.powerapps/apis/shared_logicflows","displayName":"Logic flows","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4908/logicflows/icon.png","dataSources":["CTSSPortal-ROLALabReport-UploadPDF"],"dependencies":["ba3e7343-7213-49b3-bbaf-a777c142bb6a","18b39070-f6e5-40eb-8c8b-c9fd965e828b","5f8021fa-a130-4f9a-9358-832bd4186d42"],"dependents":[],"parameterHints":{"workflowName":{"value":"4ebc66fd-7888-4b92-b0b1-ff76991bdb3c"},"workflowEntityId":{"value":"0c67e2b0-c896-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - ROLA Lab Report - Upload PDF"},"ba3e7343-7213-49b3-bbaf-a777c142bb6a":{"value":"shared_commondataserviceforapps"},"18b39070-f6e5-40eb-8c8b-c9fd965e828b":{"value":"shared_sharepointonline"},"5f8021fa-a130-4f9a-9358-832bd4186d42":{"value":"shared_teams"}},"parameterHintsV2":{"workflowName":{"value":"4ebc66fd-7888-4b92-b0b1-ff76991bdb3c"},"workflowEntityId":{"value":"0c67e2b0-c896-f111-b8dc-00224818f28b"},"workflowDisplayName":{"value":"CTSS Portal - ROLA Lab Report - Upload PDF"},"shared_commondataserviceforapps":{"value":"ba3e7343-7213-49b3-bbaf-a777c142bb6a"},"shared_sharepointonline":{"value":"18b39070-f6e5-40eb-8c8b-c9fd965e828b"},"shared_teams":{"value":"5f8021fa-a130-4f9a-9358-832bd4186d42"}},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["Run"]},"ba3e7343-7213-49b3-bbaf-a777c142bb6a":{"id":"/providers/microsoft.powerapps/apis/shared_commondataserviceforapps","displayName":"Microsoft Dataverse","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1831/1.0.1831.5064/commondataserviceforapps/icon.png","dataSources":[],"dependencies":[],"dependents":["8a9c8bc2-f984-45a2-be9b-a568d7105fd6"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Premium","authenticationType":"Oauth"},"18b39070-f6e5-40eb-8c8b-c9fd965e828b":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1827/1.0.1827.4913/sharepointonline/icon.png","dataSources":["CTSS_Config","CTSS_STP","CTSS_ROLARecord","CTSS_ROLAParameterMaster","CTSS_ROLAParameter"],"dependencies":[],"dependents":["8a9c8bc2-f984-45a2-be9b-a568d7105fd6"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{"https://wjl5s.sharepoint.com/sites/CTSPortal":{"dataSources":{"CTSS_Config":{"tableName":"7a7b597a-afe0-4379-912c-bed4d497d31d"},"CTSS_STP":{"tableName":"093a57a5-d150-45a6-9a97-7d1404124dac"},"CTSS_ROLARecord":{"tableName":"630aa373-1419-4524-a7d8-6971a18f0b00"},"CTSS_ROLAParameterMaster":{"tableName":"a027e46f-1d25-45e5-bad8-e40baab20c42"},"CTSS_ROLAParameter":{"tableName":"d382ab2a-f3a6-460f-9c86-f4cf08bcd253"}}}},"apiTier":"Standard","actions":["providers/PowerPlatform.Governance/Operations/Read","providers/PowerPlatform.Governance/Operations/Write"]},"5f8021fa-a130-4f9a-9358-832bd4186d42":{"id":"/providers/microsoft.powerapps/apis/shared_teams","displayName":"Microsoft Teams","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1829/1.0.1829.5052/teams/icon.png","dataSources":[],"dependencies":[],"dependents":["8a9c8bc2-f984-45a2-be9b-a568d7105fd6"],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard"},"0441ebf3-abc6-4eaf-850d-d3c9b20a7264":{"id":"/providers/microsoft.powerapps/apis/shared_office365users","displayName":"Office 365 Users","iconUri":"https://static.powerapps.com/resource/ppcr/releases/v1.0.1818/1.0.1818.4788/office365users/icon.png","dataSources":["Office365Users"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{},"apiTier":"Standard","actions":["MyProfile_V2"]}}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[{"appComponentName":"c1c98dbb3eec498092ed7fc05e8fa460","appName":"aa30afd9-3862-4449-952b-b741f3bb5627","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"adafe51f97e847c0b6c07b71a8c5697e","appName":"aa30afd9-3862-4449-952b-b741f3bb5627","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"},{"appComponentName":"b43d6431050f419f82cb1c3f4bfce31e","appName":"aa30afd9-3862-4449-952b-b741f3bb5627","appComponentLibraryName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appComponentLibraryVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","tenantId":"e04f6549-6575-4010-9158-d3728310963e","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a"}]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>0</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"dependencyid":"0c67e2b0-c896-f111-b8dc-00224818f28b","componenttype":29,"componenttypeplatformname":"Workflow"},{"logicalname":"ctss_ctssportalcomponentlib_e54e0","componenttype":300,"componenttypeplatformname":"CanvasApp"}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssportalbfu_7787f_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssportalbfu_7787f_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssportalbfu_7787f_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+    <CanvasApp>
+      <Name>ctss_ctssportalcomponentlib_e54e0</Name>
+      <AppVersion>2026-08-25T08:56:15Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26082.7.0</CreatedByClientVersion>
+      <MinClientVersion>3.26082.7.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"360","primaryDeviceHeight":"40","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Phone","showStatusBar":"false","publisherVersion":"3.26082.7","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","m365CopilotSettingValue":"0","sienaVersion":"20260810T144950Z-3.26074.11.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(251,101,60,1)</BackgroundColor>
+      <DisplayName>CTSSPortalComponentLib</DisplayName>
+      <Description>overridden</Description>
+      <CommitMessage>Save app with description provided in publish dialog.</CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[{"appComponentName":"c1c98dbb3eec498092ed7fc05e8fa460","displayName":"NavSidebar","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"d753f55d6d5d4e96825a64d8e746eff0","displayName":"StatusBadge","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"adafe51f97e847c0b6c07b71a8c5697e","displayName":"AppHeader","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"4fa9cb840b1d4c048bbca9685167d689","displayName":"MonthTabBar","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"b43d6431050f419f82cb1c3f4bfce31e","displayName":"EmptyState","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}},{"appComponentName":"ddb874ab088941248286930f9cd10bc9","displayName":"Component1","appName":"84c107b4-960e-43ee-a3f1-ebf163b3835a","appVersion":"2026-08-25T08:56:15Z","appComponentLibraryLogicalName":"ctss_ctssportalcomponentlib_e54e0","appDisplayName":"CTSSPortalComponentLib","environmentName":"1acd2e8a-7701-e04d-a996-ddc25330558a","owner":{"id":"8919523f-916f-4fbb-81cf-d7d083827d3f","displayName":"Klyde Gabriel Santos","email":"Klyde@wjl5s.onmicrosoft.com","type":"User","tenantId":"e04f6549-6575-4010-9158-d3728310963e","userPrincipalName":"Klyde@wjl5s.onmicrosoft.com"},"allowCustomization":true,"createdOn":"2026-07-27T07:07:25.738Z","lastModifiedOn":"2026-08-25T08:56:03.556Z","connectionReferences":{},"databaseReferences":{}}]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>1</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/ctss_ctssportalcomponentlib_e54e0_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/ctss_ctssportalcomponentlib_e54e0_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/ctss_ctssportalcomponentlib_e54e0_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+  </CanvasApps>
+  <connectionreferences>
+    <connectionreference connectionreferencelogicalname="ctss__SharedDataverse">
+      <connectionreferencedisplayname>ctss_SharedDataverse</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_securemessagedelivery</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="ctss__SharedMicrosoftTeams">
+      <connectionreferencedisplayname>ctss_SharedMicrosoftTeams</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="ctss__SharedOffice365Outlook">
+      <connectionreferencedisplayname>ctss_SharedOffice365Outlook</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="ctss__SharedPowerAppsforAdmins">
+      <connectionreferencedisplayname>ctss_SharedPowerAppsforAdmins</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_powerappsforadmins</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="ctss__SharedPowerAppsv2">
+      <connectionreferencedisplayname>ctss_SharedPowerAppsv2</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_powerappsnotificationv2</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+  </connectionreferences>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>

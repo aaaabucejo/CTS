@@ -1,0 +1,437 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedcommondataserviceforapps_0b82f"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedsharepointonline_94964"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ctss_sharedteams_4a03a"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_an_item_is_created_or_modified": {
+          "recurrence": {
+            "interval": 1,
+            "frequency": "Minute"
+          },
+          "splitOn": "@triggerOutputs()?['body/value']",
+          "metadata": {
+            "operationMetadataId": "8f82f227-7fbb-4d4b-b785-fb74cab6ac62"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+              "table": "630aa373-1419-4524-a7d8-6971a18f0b00"
+            },
+            "host": {
+              "connectionName": "shared_sharepointonline",
+              "operationId": "GetOnUpdatedItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            }
+          },
+          "conditions": [
+            {
+              "expression": "@and(or(equals(triggerOutputs()?['body/ValidationStatus']?['Value'], 'Passed'), equals(triggerOutputs()?['body/ValidationStatus']?['Value'], 'Failed')), or(equals(triggerOutputs()?['body/ValidatedOn'], null), not(equals(formatDateTime(triggerOutputs()?['body/ValidatedOn'], 'yyyy-MM-ddTHH:mm'), formatDateTime(triggerOutputs()?['body/Modified'], 'yyyy-MM-ddTHH:mm')))))"
+            }
+          ]
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "706e03ba-dba4-47c9-a40c-13b5e45be158"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$select": "value",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss__SharePointSiteUrl'",
+                  "$top": 1
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "5cc4ed63-4f8d-4126-9f94-f69212c52c47"
+              },
+              "type": "Compose",
+              "inputs": "@first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['value']"
+            },
+            "Compose_-_Modified_By_Name": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d48ceac1-24e5-4aaf-93d7-04dfc7293d8b"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/_modifiedby_value@OData.Community.Display.V1.FormattedValue']"
+            },
+            "Compose_-_Modified_By_Id": {
+              "runAfter": {
+                "Compose_-_Modified_By_Name": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1b3bd6e7-5e1a-4de2-8514-91acf18d221d"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/_modifiedby_value']"
+            },
+            "Compose_-_Row_Id": {
+              "runAfter": {
+                "Compose_-_Modified_By_Id": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4d6e24b3-f730-42ba-89e3-aba83fcf3718"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/ctss_rolarecordid']"
+            },
+            "Compose_-_Validation_Status_Label": {
+              "runAfter": {
+                "Compose_-_Row_Id": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "de0ba07e-fc5d-4db5-9342-8ff342b33ea8"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/ctss_validationstatus@OData.Community.Display.V1.FormattedValue']"
+            },
+            "Compose_-_Validation_Notes": {
+              "runAfter": {
+                "Compose_-_Validation_Status_Label": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "980a6c60-aada-448c-a963-dff1b285250b"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/ctss_validationnotes']"
+            },
+            "Compose_-_SP_Item_Id": {
+              "runAfter": {
+                "Compose_-_Validation_Notes": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "e69adc85-2ac3-48c5-90b1-380b35785674"
+              },
+              "type": "Compose",
+              "inputs": "@triggerOutputs()?['body/ctss_sharepointitemid']"
+            },
+            "Update_item_-_Write_Back_ROLA": {
+              "runAfter": {
+                "Compose_-_SP_Item_Id": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f06c18bf-da70-4c52-b421-3931e333741f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline",
+                  "operationId": "PatchItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "table": "CTSS_ROLARecord",
+                  "id": "@triggerBody()?['ID']",
+                  "item": {
+                    "ValidatedBy": "@{outputs('Compose_-_Modified_By_Name')}",
+                    "ValidatedOn": "@{utcNow()}",
+                    "ValidationNotes": "@{outputs('Compose_-_Validation_Notes')}",
+                    "RecordStatus": {
+                      "Value": "@{if(equals(triggerBody()?['ValidationStatus/Value'],'Passed'),'Accepted',triggerBody()?['RecordStatus/Value'])}"
+                    }
+                  }
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Add_a_new_row_-_Audit_Log": {
+              "runAfter": {
+                "Update_item_-_Write_Back_ROLA": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "65d8a794-13a0-42c3-8e82-4d09b9e2f210"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_auditlogs",
+                  "item/ctss_action_on": "@utcNow()",
+                  "item/ctss_action_type": 193770001,
+                  "item/ctss_description": "@concat('ROLA ', outputs('Compose_-_Validation_Status_Label'), ': ', outputs('Compose_-_Modified_By_Name'), ' set ValidationStatus on ROLA Record ', outputs('Compose_-_Row_Id'))",
+                  "item/ctss_name": "@concat('ROLA Validation - Record ', outputs('Compose_-_Row_Id'))",
+                  "item/ctss_related_record_id": "@outputs('Compose_-_Row_Id')",
+                  "item/ctss_related_table": "ctss_rolarecord",
+                  "item/ctss_source": 193770002,
+                  "item/ctss_new_value": "@concat('{\"ValidationStatus\":\"', outputs('Compose_-_Validation_Status_Label'), '\",\"ValidatedBy\":\"', outputs('Compose_-_Modified_By_Name'), '\",\"ValidatedOn\":\"', utcNow(), '\"}')",
+                  "item/ctss_old_value": "{\"ValidationStatus\":\"Not Reviewed\"}"
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Condition": {
+              "actions": {
+                "Compose_-_BFU_Submitter_UPN": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "4d00039b-a262-4a25-81a3-ed462284d90f"
+                  },
+                  "type": "Compose",
+                  "inputs": "@triggerOutputs()?['body/SubmittedBy']"
+                },
+                "Compose_-_ROLA_Month_Label": {
+                  "runAfter": {
+                    "Compose_-_BFU_Submitter_UPN": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "91bf34e2-32be-421e-8047-137622eb4fb9"
+                  },
+                  "type": "Compose",
+                  "inputs": "@triggerOutputs()?['body/ctss_reportingmonth@OData.Community.Display.V1.FormattedValue']"
+                },
+                "Post_message_-_Notify_BFU_ROLA_Returned": {
+                  "runAfter": {
+                    "Compose_-_ROLA_Month_Label": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "b74441e8-6bfd-4d4a-b760-3b3108bf97e3"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "poster": "Flow bot",
+                      "location": "Chat with Flow bot",
+                      "body/recipient": "@outputs('Compose_-_BFU_Submitter_UPN')",
+                      "body/messageBody": "<p class=\"editor-paragraph\">@{concat('? Your ROLA submission for ', outputs('Compose_-_ROLA_Month_Label'), ' has been returned by CTSS for correction. Notes: ', outputs('Compose_-_Validation_Notes'), '. Please open the BFU Canvas App, correct the record, and resubmit.')}</p>"
+                    },
+                    "host": {
+                      "connectionName": "shared_teams",
+                      "operationId": "PostMessageToConversation",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                    }
+                  }
+                },
+                "Add_a_new_row_-_Notification_Log_BFU_Returned": {
+                  "runAfter": {
+                    "Post_message_-_Notify_BFU_ROLA_Returned": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "061b68de-c9a3-4935-a5de-048190e23751"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_notificationlogs",
+                      "item/ctss_name": "@concat('ROLA Return Notification - ', outputs('Compose_-_ROLA_Month_Label'))",
+                      "item/ctss_notification_type": 193770006,
+                      "item/ctss__related_table": "ctss_rolarecord",
+                      "item/ctss_messagesummary": "@concat('ROLA for ', outputs('Compose_-_ROLA_Month_Label'), ' returned to BFU for correction.')",
+                      "item/ctss_senttoname": "@outputs('Compose_-_BFU_Submitter_UPN')"
+                    },
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Add_a_new_row_-_Audit_Log": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@triggerBody()?['ValidationStatus/Value']",
+                      "Failed"
+                    ]
+                  }
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ca962ee5-8b32-4496-86f5-0aec4fe9d248"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "231f26f9-9c04-40a4-8ec8-8248ccaca13e"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "2384a329-747f-44ab-afa9-c91de89a405d"
+              },
+              "type": "Compose",
+              "inputs": "@result('Scope_-_TryBlock')"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b3b0fa2f-6189-4f35-823e-17ff3b2a9c1c"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "@concat('ROLA Return Notification - ', outputs('Compose_-_ROLA_Month_Label'))",
+                  "item/ctss_notification_type": 193770006,
+                  "item/ctss__related_table": "ctss_rolarecord",
+                  "item/ctss_status": 801300001
+                },
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Post_message_-_Flow_Failure_Alert": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "0039517d-f8a9-49f6-a17b-0ad42f858d21"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@outputs('Compose_-_BFU_Submitter_UPN')",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('?? Flow failure: CTSS Portal - OnModify ctss_rolarecord - ROLA Validated Writeback. Error: ', substring(string(outputs('Compose_-_Error_Detail')), 0, 500))}</p>"
+                },
+                "host": {
+                  "connectionName": "shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Post_message_-_Flow_Failure_Alert": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cb315264-bfb9-434b-9df6-6c8384c61611"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "message": "@string(outputs('Compose_-_Error_Detail'))"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "95da93fe-aa4a-4a79-980f-0a89ba04db9b"
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

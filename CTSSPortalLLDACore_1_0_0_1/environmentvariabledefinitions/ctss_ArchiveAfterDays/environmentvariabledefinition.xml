@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="ctss_ArchiveAfterDays">
+  <defaultvalue>730</defaultvalue>
+  <description default="Dwell retention period in days (730 days = 2 years / 8 quarters) before submitted SMR submissions and their operational records become eligible for archiving.">
+    <label description="Dwell retention period in days (730 days = 2 years / 8 quarters) before submitted SMR submissions and their operational records become eligible for archiving." languagecode="1033" />
+  </description>
+  <displayname default="CTSS Archive After Days">
+    <label description="CTSS Archive After Days" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.1</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000001</type>
+</environmentvariabledefinition>

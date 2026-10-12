@@ -1,0 +1,432 @@
+<ImportExportXml version="9.2.26093.149" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26093.149" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26093.00149">
+  <SolutionManifest>
+    <UniqueName>CTSSPortalLLDA_Apps</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="CTSSPortalLLDA_Apps" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Upgrade of CTSSPortalLLDA_Apps_Backup " languagecode="1033" />
+    </Descriptions>
+    <Version>1.2.0.1</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>ctss_</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CTSS" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>ctss</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>19377</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode xsi:nil="true"></AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode xsi:nil="true"></ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="ctss_rolarecord" behavior="1" />
+      <RootComponent type="61" schemaName="ctss_openqsmrform.js" behavior="0" />
+      <RootComponent type="61" schemaName="ctss_permitbanner.js" behavior="0" />
+      <RootComponent type="62" schemaName="ctss_portal_f8299137" behavior="0" />
+      <RootComponent type="80" schemaName="ctss_portal_219d9d82" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssdashboard_48673" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssportalbfu_7787f" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssportalbspd_e8c62" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssportalcomponentlib_e54e0" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssportalmechanicalunit_75e87" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_ctssportalmrod_5cf87" behavior="0" />
+      <RootComponent type="300" schemaName="ctss_qsmrreportform_1b25a" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_auditlog" displayName="Audit Log" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_auditlog" displayName="Audit Log" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_config" displayName="CTSS_Config" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_dischargepermit" displayName="Discharge Permit" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_dischargepermit" displayName="Discharge Permit" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_dischargepermit" displayName="Discharge Permit" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_qsmrreport" displayName="QSMR Report" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_qsmrreport" displayName="QSMR Report" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_ctss_qsmrreport" displayName="QSMR Report" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_datacompleteness" displayName="Data Completeness" solution="Active" />
+        <Dependent type="300" schemaName="ctss_ctssdashboard_48673" displayName="CTSS_Dashboard" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_datacompleteness" displayName="Data Completeness" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_datacompleteness" displayName="Data Completeness" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_establishmentprofile" displayName="Establishment Profile" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_establishmentprofile" displayName="Establishment Profile" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_establishmentprofile" displayName="Establishment Profile" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_notificationlog" displayName="Notification Log" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_notificationlog" displayName="Notification Log" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_rolaparameter" displayName="CTSS_ROLAParameter" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_rolaparametermaster" displayName="CTSS_ROLAParameterMaster" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_rolarecord" displayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="1" schemaName="ctss_rolarecord" displayName="CTSS_ROLARecord" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrduedate" displayName="SMR Due Date " solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrduedate" displayName="SMR Due Date " solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrsubmission" displayName="SMR Submission" solution="Active" />
+        <Dependent type="300" schemaName="ctss_ctssdashboard_48673" displayName="CTSS_Dashboard" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrsubmission" displayName="SMR Submission" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrsubmission" displayName="SMR Submission" solution="Active" />
+        <Dependent type="62" schemaName="ctss_portal_f8299137" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_smrsubmission" displayName="SMR Submission" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_stp" displayName="CTSS_STP" solution="Active" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="ctss_watermeter" displayName="CTSS_WaterMeter" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="181" schemaName="Virtual Connector Data Provider" displayName="Virtual Connector Data Provider" solution="msft_ConnectorProvider (9.1.0.445)" id="{b581d5dc-72e1-ea11-a81e-000d3af5fff1}">
+          <package appName="Virtual Connectors Data Provider Package" version="9.1.0.445">msft_ConnectorProviderAnchor (9.1.0.445)</package>
+        </Required>
+        <Dependent type="1" schemaName="ctss_rolarecord" displayName="CTSS_ROLARecord" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_entrytype" displayName="EntryType" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_islocked" displayName="IsLocked" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_labanalysisdate" displayName="LabAnalysisDate" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_labreportfilename" displayName="LabReportFileName" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_labreporturl" displayName="LabReportURL" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_lockoverrideby" displayName="LockOverrideBy" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_lockoverridereason" displayName="LockOverrideReason" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_recordstatus" displayName="RecordStatus" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_reportingmonth" displayName="ReportingMonth" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_submittedby" displayName="SubmittedBy" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_submittedon" displayName="SubmittedOn" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_title" displayName="Title" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_validatedby" displayName="ValidatedBy" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_validatedon" displayName="ValidatedOn" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_validationnotes" displayName="ValidationNotes" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ctss_validationstatus" displayName="ValidationStatus" parentSchemaName="ctss_rolarecord" parentDisplayName="CTSS_ROLARecord" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="CTSS_ROLARecord" id="{1fc23646-0b1d-4a25-837c-d230af6f23a9}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active Data Completenesses" displayName="Active Data Completenesses" parentSchemaName="ctss_datacompleteness" parentDisplayName="Data Completeness" solution="Active" id="{093dc36f-08da-46bd-8493-b0a40bf1674c}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active ctss_qsmrreports" displayName="Active ctss_qsmrreports" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" solution="Active" id="{184aae98-dad1-41a3-b3cf-d3a5da0fbed5}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive Discharge Permits" displayName="Inactive Discharge Permits" parentSchemaName="ctss_ctss_dischargepermit" parentDisplayName="Discharge Permit" solution="Active" id="{18ebe956-a38d-4738-b8c6-6b05a234515c}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active Audit Logs" displayName="Active Audit Logs" parentSchemaName="ctss_auditlog" parentDisplayName="Audit Log" solution="Active" id="{38139b7c-d264-4135-89fd-7d2460823034}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive Notification Logs" displayName="Inactive Notification Logs" parentSchemaName="ctss_notificationlog" parentDisplayName="Notification Log" solution="Active" id="{3bdf241f-8b47-4ec6-94b6-4926fc5cd515}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active SMR Due Dates" displayName="Active SMR Due Dates" parentSchemaName="ctss_smrduedate" parentDisplayName="SMR Due Date " solution="Active" id="{3cd8aa72-7b14-49ab-9c16-cab2da30943a}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="All CTSS_Configs" displayName="All CTSS_Configs" parentSchemaName="ctss_config" parentDisplayName="CTSS_Config" solution="Active" id="{5d4c5aea-b1c6-4c33-bb55-c3ea3607841f}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive SMR Due Dates" displayName="Inactive SMR Due Dates" parentSchemaName="ctss_smrduedate" parentDisplayName="SMR Due Date " solution="Active" id="{60601929-9b85-4458-bb4c-15ee218a0108}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active Notification Logs" displayName="Active Notification Logs" parentSchemaName="ctss_notificationlog" parentDisplayName="Notification Log" solution="Active" id="{727e7330-05ca-4de8-9fe3-3e3b6469b621}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="All CTSS_WaterMeters" displayName="All CTSS_WaterMeters" parentSchemaName="ctss_watermeter" parentDisplayName="CTSS_WaterMeter" solution="Active" id="{7a2d601c-14f4-457f-9106-8a2727bcd564}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive Establishment Profiles" displayName="Inactive Establishment Profiles" parentSchemaName="ctss_establishmentprofile" parentDisplayName="Establishment Profile" solution="Active" id="{7c8c92d7-fcc8-4ea3-acd1-26962232efde}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active Discharge Permits" displayName="Active Discharge Permits" parentSchemaName="ctss_ctss_dischargepermit" parentDisplayName="Discharge Permit" solution="Active" id="{95a412c2-cbec-49bb-8081-ecebee6b193d}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive SMR Submissions" displayName="Inactive SMR Submissions" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" solution="Active" id="{a8776290-d945-4dc3-a16d-ef39626fe80b}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active SMR Submissions" displayName="Active SMR Submissions" parentSchemaName="ctss_smrsubmission" parentDisplayName="SMR Submission" solution="Active" id="{a877da6f-5ca7-4a5a-90aa-616da4212bf5}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive Audit Logs" displayName="Inactive Audit Logs" parentSchemaName="ctss_auditlog" parentDisplayName="Audit Log" solution="Active" id="{c73bc529-9fc7-4c2a-a9b9-ab42833b1c64}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="All CTSS_ROLAParameterMasters" displayName="All CTSS_ROLAParameterMasters" parentSchemaName="ctss_rolaparametermaster" parentDisplayName="CTSS_ROLAParameterMaster" solution="Active" id="{dfd9ca4b-b242-4422-84e8-bcdbe9c5ae55}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Active Establishment Profiles" displayName="Active Establishment Profiles" parentSchemaName="ctss_establishmentprofile" parentDisplayName="Establishment Profile" solution="Active" id="{e7a6cfeb-25af-4fd6-9ae9-0bd148f6ec4e}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive Data Completenesses" displayName="Inactive Data Completenesses" parentSchemaName="ctss_datacompleteness" parentDisplayName="Data Completeness" solution="Active" id="{f16be209-171d-4188-b003-213e1e206bfa}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="26" schemaName="Inactive ctss_qsmrreports" displayName="Inactive ctss_qsmrreports" parentSchemaName="ctss_ctss_qsmrreport" parentDisplayName="QSMR Report" solution="Active" id="{f41ade69-a18f-46a2-b3f9-dcc673f4557f}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="29" displayName="CTSS Portal - ROLA Lab Report - Upload PDF" solution="Active" id="{0c67e2b0-c896-f111-b8dc-00224818f28b}" />
+        <Dependent type="300" schemaName="ctss_ctssportalbfu_7787f" displayName="CTSS Portal – BFU" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="29" displayName="CTSS Portal - QSMR Report - Compute Aggregates" solution="Active" id="{22336dfd-4c95-f111-b8dc-00224818f28b}" />
+        <Dependent type="300" schemaName="ctss_qsmrreportform_1b25a" displayName="QSMR Report Form" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="29" displayName="CTSS Portal - MROD Report - Generate Word Report" solution="Active" id="{7c5c10a2-a09a-f111-b8dc-00224818f28b}" />
+        <Dependent type="300" schemaName="ctss_ctssportalmrod_5cf87" displayName="CTSS Portal – BSPD" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="SMR Submission" solution="Active" id="{1330c1e4-030e-485e-8cb3-236d0b9c686c}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="CTSS_ROLAParameterMaster" solution="Active" id="{1c37324b-da1c-4262-9e9c-8df9bfe97180}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="Establishment Profile" solution="Active" id="{27657e04-2942-41d0-8fe5-32fe26163473}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="SMR Due Date " solution="Active" id="{2ef3d811-24bb-4265-a714-2bbae579b65b}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="QSMR Report" solution="Active" id="{6bca6a46-6195-4a59-8fac-7fffe22c09cd}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="CTSS_Config" solution="Active" id="{856aa690-144a-44de-a090-54b0af45aabb}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Pending Review Queues" solution="Active" id="{8d0477ed-19aa-f111-aaad-00224818f28b}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="Notification Log" solution="Active" id="{95eadaa7-91be-4d05-84b4-c352767aec6d}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="CTSS_WaterMeter" solution="Active" id="{d07d5704-8427-4a2b-9863-54f391f1bc8e}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="Data Completeness" solution="Active" id="{d6760e0d-aafc-4e49-b8cc-721b2d43d279}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="Audit Log" solution="Active" id="{d8f4ec7e-9589-4595-829f-decf4c284cd1}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="60" displayName="Information" parentDisplayName="Discharge Permit" solution="Active" id="{e04fb807-8d88-4480-a11c-a9ba992b32d5}" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="61" schemaName="msdyn_/Images/AppModule_Default_Icon.png" displayName="msdyn_/Images/AppModule_Default_Icon.png" solution="AppModuleWebResources (2.5)">
+          <package appName="AppModule Web Resources Package" version="2.5">AppModuleWebResources (2.5)</package>
+        </Required>
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="62" schemaName="ctss_portal_219d9d82" solution="Active" />
+        <Dependent type="80" schemaName="ctss_portal_219d9d82" displayName="CTSS Portal" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="SettingDefinition" displayName="AppChannel" solution="msdyn_AppFrameworkInfraExtensions (1.0.0.20)" id.uniquename="AppChannel">
+          <package appName="PowerAppsAppFramework Package" version="1.0.0.26">PowerAppsAppFramework_Anchor (1.0.0.26)</package>
+        </Required>
+        <Dependent type="AppSetting" displayName="parentappmoduleid.uniquename=ctss_portal_219d9d82,settingdefinitionid.uniquename=AppChannel" id.parentappmoduleid.uniquename="ctss_portal_219d9d82" id.settingdefinitionid.uniquename="AppChannel" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

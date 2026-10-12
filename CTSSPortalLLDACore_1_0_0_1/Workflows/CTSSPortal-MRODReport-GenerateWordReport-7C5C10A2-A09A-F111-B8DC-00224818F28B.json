@@ -1,0 +1,635 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_b9c41"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_216a0"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_wordonlinebusiness": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedwordonlinebusiness_50427"
+        },
+        "api": {
+          "name": "shared_wordonlinebusiness"
+        }
+      },
+      "shared_teams": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedteams_91e58"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "d14804b0-3ebd-4ae2-88a1-498fcd3803ea"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "description": "Please enter a number",
+                  "title": "quarter",
+                  "type": "number",
+                  "x-ms-content-hint": "NUMBER",
+                  "x-ms-dynamically-added": true
+                },
+                "number_1": {
+                  "description": "Please enter a number",
+                  "title": "fiscalYear",
+                  "type": "number",
+                  "x-ms-content-hint": "NUMBER",
+                  "x-ms-dynamically-added": true
+                },
+                "text": {
+                  "description": "Please enter your input",
+                  "title": "triggeredBy",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "number",
+                "number_1",
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariablevalues",
+                  "$filter": "EnvironmentVariableDefinitionId/schemaname eq 'ctss_SharePointSiteUrl'"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@first(outputs('List_rows_-_Env_SP_Site_Url')?['body/value'])?['value']"
+            },
+            "Compose_-_Quarter": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['number']"
+            },
+            "Compose_-_Fiscal_Year": {
+              "runAfter": {
+                "Compose_-_Quarter": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@triggerBody()?['number_1']"
+            },
+            "Compose_-_Quarter_Label": {
+              "runAfter": {
+                "Compose_-_Fiscal_Year": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@concat('Q', string(outputs('Compose_-_Quarter')), ' FY', string(outputs('Compose_-_Fiscal_Year')), ' (', if(equals(outputs('Compose_-_Quarter'),1),'Aug - Oct',if(equals(outputs('Compose_-_Quarter'),2),'Nov - Jan',if(equals(outputs('Compose_-_Quarter'),3),'Feb - Apr','May - Jul'))), ')')"
+            },
+            "Compose_-_Quarter_Start": {
+              "runAfter": {
+                "Compose_-_Quarter_Label": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@if(equals(outputs('Compose_-_Quarter'),1),concat(string(sub(int(outputs('Compose_-_Fiscal_Year')),1)),'-08-01T00:00:00Z'),if(equals(outputs('Compose_-_Quarter'),2),concat(string(sub(int(outputs('Compose_-_Fiscal_Year')),1)),'-11-01T00:00:00Z'),if(equals(outputs('Compose_-_Quarter'),3),concat(string(outputs('Compose_-_Fiscal_Year')),'-02-01T00:00:00Z'),concat(string(outputs('Compose_-_Fiscal_Year')),'-05-01T00:00:00Z'))))"
+            },
+            "Compose_-_Quarter_End": {
+              "runAfter": {
+                "Compose_-_Quarter_Start": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Compose",
+              "inputs": "@addToTime(outputs('Compose_-_Quarter_Start'), 3, 'Month', 'yyyy-MM-ddTHH:mm:ssZ')"
+            },
+            "Get_items_-_MROD_Production": {
+              "runAfter": {
+                "Compose_-_Quarter_End": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                  "table": "11fecce7-6da0-419f-9493-ccbdc7f4bd44",
+                  "$filter": "@concat('Department eq ''BSPD'' and ProductionType eq ''Banknotes'' and ReportingMonth ge ''', outputs('Compose_-_Quarter_Start'), ''' and ReportingMonth lt ''', outputs('Compose_-_Quarter_End'), '''')",
+                  "$orderby": "ReportingMonth asc",
+                  "$top": 3
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "GetItems",
+                  "connectionName": "shared_sharepointonline"
+                }
+              }
+            },
+            "Condition_-_Records_Found": {
+              "actions": {
+                "Compose_-_Month1_Record": {
+                  "type": "Compose",
+                  "inputs": "@body('Get_items_-_MROD_Production')?['value']?[0]"
+                },
+                "Compose_-_Month1_Label": {
+                  "runAfter": {
+                    "Compose_-_Month1_Record": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@formatDateTime(outputs('Compose_-_Month1_Record')?['ReportingMonth'], 'MMMM yyyy')"
+                },
+                "Compose_-_Month1_Production": {
+                  "runAfter": {
+                    "Compose_-_Month1_Label": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(empty(outputs('Compose_-_Month1_Record')), '0', string(coalesce(outputs('Compose_-_Month1_Record')?['ProductionValue'], outputs('Compose_-_Month1_Record')?['TotalProduction'], 0)))"
+                },
+                "Compose_-_Month2_Label": {
+                  "runAfter": {
+                    "Compose_-_Month2_Record": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@formatDateTime(outputs('Compose_-_Month2_Record')?['ReportingMonth'], 'MMMM yyyy')"
+                },
+                "Compose_-_Month2_Production": {
+                  "runAfter": {
+                    "Compose_-_Month2_Label": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(empty(outputs('Compose_-_Month2_Record')), '0', string(coalesce(outputs('Compose_-_Month2_Record')?['ProductionValue'], outputs('Compose_-_Month2_Record')?['TotalProduction'], 0)))"
+                },
+                "Compose_-_Month3_Label": {
+                  "runAfter": {
+                    "Compose_-_Month3_Record": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@formatDateTime(outputs('Compose_-_Month3_Record')?['ReportingMonth'], 'MMMM yyyy')"
+                },
+                "Compose_-_Month3_Production": {
+                  "runAfter": {
+                    "Compose_-_Month3_Label": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@if(empty(outputs('Compose_-_Month3_Record')), '0', string(coalesce(outputs('Compose_-_Month3_Record')?['ProductionValue'], outputs('Compose_-_Month3_Record')?['TotalProduction'], 0)))"
+                },
+                "Compose_-_Total_Production": {
+                  "runAfter": {
+                    "Compose_-_Month2_Production": [
+                      "Succeeded"
+                    ],
+                    "Compose_-_Month1_Production": [
+                      "Succeeded"
+                    ],
+                    "Compose_-_Month3_Production": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@float(formatNumber(add(add(float(outputs('Compose_-_Month1_Production')), float(outputs('Compose_-_Month2_Production'))), float(outputs('Compose_-_Month3_Production'))), '0.##'))"
+                },
+                "Compose_-_Report_File_Name": {
+                  "runAfter": {
+                    "Compose_-_Total_Production": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@concat('BSPD_Production_Report_Q', string(outputs('Compose_-_Quarter')), '_FY', string(outputs('Compose_-_Fiscal_Year')), '_', formatDateTime(utcNow(), 'yyyyMMddHHmmss'), '.docx')"
+                },
+                "Compose_-_Month2_Record": {
+                  "type": "Compose",
+                  "inputs": "@body('Get_items_-_MROD_Production')?['value']?[1]"
+                },
+                "Compose_-_Month3_Record": {
+                  "type": "Compose",
+                  "inputs": "@body('Get_items_-_MROD_Production')?['value']?[2]"
+                },
+                "Populate_a_Microsoft_Word_template_-_MROD_Report": {
+                  "runAfter": {
+                    "Compose_-_Report_File_Name": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "017M2QMZ4XNBONIUBPO5HLS6H6SOFCO5OR": "/Templates/MROD_Production_Report_Template.docx",
+                    "017M2QMZ6Z5OCFSWDXKNBKUHPXWXVNAGAI": "/Templates/MROD_Production_Report_Template.docx"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "source": "sites/wjl5s.sharepoint.com,9daa4acd-81fb-47ed-8432-2b48340238d6,c2f4af7b-4ff3-4b7a-9d5b-fcfcdf0f72bc",
+                      "drive": "b!zUqqnfuB7UeEMitINAI41nuv9MLzT3pLnVv8_N8PcrzkF4JEz09ATo78DTP1CVnv",
+                      "file": "017M2QMZ6Z5OCFSWDXKNBKUHPXWXVNAGAI",
+                      "dynamicFileSchema/1001": "@outputs('Compose_-_Quarter_Label')",
+                      "dynamicFileSchema/1002": "@formatDateTime(utcNow(), 'dd-MMM-yyyy HH:mm')",
+                      "dynamicFileSchema/1003": "@triggerBody()?['text']",
+                      "dynamicFileSchema/1004": "@outputs('Compose_-_Month1_Label')",
+                      "dynamicFileSchema/1005": "@outputs('Compose_-_Month1_Production')",
+                      "dynamicFileSchema/1006": "@outputs('Compose_-_Month2_Label')",
+                      "dynamicFileSchema/1007": "@outputs('Compose_-_Month2_Production')",
+                      "dynamicFileSchema/1008": "@outputs('Compose_-_Month3_Label')",
+                      "dynamicFileSchema/1009": "@outputs('Compose_-_Month3_Production')",
+                      "dynamicFileSchema/1010": "@outputs('Compose_-_Total_Production')"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_wordonlinebusiness",
+                      "operationId": "CreateFileItem",
+                      "connectionName": "shared_wordonlinebusiness"
+                    }
+                  }
+                },
+                "Create_file_-_Save_Report": {
+                  "runAfter": {
+                    "Populate_a_Microsoft_Word_template_-_MROD_Report": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                      "folderPath": "@concat('/CTSS_LabReports/BSPD_Reports/Q', string(outputs('Compose_-_Quarter')), '_FY', string(outputs('Compose_-_Fiscal_Year')))",
+                      "name": "@outputs('Compose_-_Report_File_Name')",
+                      "body": "@body('Populate_a_Microsoft_Word_template_-_MROD_Report')"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                      "operationId": "CreateFile",
+                      "connectionName": "shared_sharepointonline"
+                    }
+                  },
+                  "runtimeConfiguration": {
+                    "contentTransfer": {
+                      "transferMode": "Chunked"
+                    }
+                  }
+                },
+                "Get_file_metadata_-_Report_Url": {
+                  "runAfter": {
+                    "Create_file_-_Save_Report": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "dataset": "https://wjl5s.sharepoint.com/sites/CTSPortal",
+                      "id": "@outputs('Create_file_-_Save_Report')?['body/Id']"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                      "operationId": "GetFileMetadata",
+                      "connectionName": "shared_sharepointonline"
+                    }
+                  }
+                },
+                "Compose_-_File_Url": {
+                  "runAfter": {
+                    "Get_file_metadata_-_Report_Url": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Compose",
+                  "inputs": "@concat(outputs('Compose_-_SP_Site_Url'), replace(body('Get_file_metadata_-_Report_Url')?['Path'], ' ', '%20'))"
+                },
+                "Add_a_new_row_-_Audit_Log": {
+                  "runAfter": {
+                    "Compose_-_File_Url": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "parameters": {
+                      "entityName": "ctss_auditlogs",
+                      "item/ctss_action_on": "@utcNow()",
+                      "item/ctss_action_type": 193770003,
+                      "item/ctss_description": "@concat('BSPD Banknotes Production Report generated for ', outputs('Compose_-_Quarter_Label'), ' by ', triggerBody()?['text'], '. File: ', outputs('Compose_-_Report_File_Name'))\r\n",
+                      "item/ctss_name": "CTSS Portal - MROD Report - Generate Word Report",
+                      "item/ctss_related_record_id": "BSPD",
+                      "item/ctss_related_table": "CTSS_Production",
+                      "item/ctss_source": 193770002,
+                      "item/ctss_new_value": "@concat('{\"fileUrl\":\"', outputs('Compose_-_File_Url'), '\",\"totalProduction\":', string(outputs('Compose_-_Total_Production')), '}')"
+                    },
+                    "host": {
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "connectionName": "shared_commondataserviceforapps"
+                    }
+                  }
+                },
+                "Response_-_200_Success": {
+                  "runAfter": {
+                    "Add_a_new_row_-_Audit_Log": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "title": "success",
+                          "type": "boolean",
+                          "x-ms-content-hint": "BOOLEAN",
+                          "x-ms-dynamically-added": true
+                        },
+                        "fileurl": {
+                          "title": "fileUrl",
+                          "type": "string",
+                          "x-ms-content-hint": "TEXT",
+                          "x-ms-dynamically-added": true
+                        },
+                        "filename": {
+                          "title": "fileName",
+                          "type": "string",
+                          "x-ms-content-hint": "TEXT",
+                          "x-ms-dynamically-added": true
+                        },
+                        "message": {
+                          "title": "message",
+                          "type": "string",
+                          "x-ms-content-hint": "TEXT",
+                          "x-ms-dynamically-added": true
+                        }
+                      },
+                      "additionalProperties": {}
+                    },
+                    "statusCode": 200,
+                    "body": {
+                      "success": true,
+                      "fileurl": "@{outputs('Compose_-_File_Url')}",
+                      "filename": "@{outputs('Compose_-_Report_File_Name')}",
+                      "message": "Report generated successfully"
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Get_items_-_MROD_Production": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Response_-_404_No_Records": {
+                    "type": "Response",
+                    "kind": "PowerApp",
+                    "inputs": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "title": "success",
+                            "type": "boolean",
+                            "x-ms-content-hint": "BOOLEAN",
+                            "x-ms-dynamically-added": true
+                          },
+                          "message": {
+                            "title": "message",
+                            "type": "string",
+                            "x-ms-content-hint": "TEXT",
+                            "x-ms-dynamically-added": true
+                          },
+                          "fileurl": {
+                            "title": "fileUrl",
+                            "type": "string",
+                            "x-ms-content-hint": "TEXT",
+                            "x-ms-dynamically-added": true
+                          },
+                          "filename": {
+                            "title": "fileName",
+                            "type": "string",
+                            "x-ms-content-hint": "TEXT",
+                            "x-ms-dynamically-added": true
+                          }
+                        },
+                        "additionalProperties": {}
+                      },
+                      "statusCode": 200,
+                      "body": {
+                        "success": false,
+                        "message": "@{concat('No BSPD Banknotes production records found for ', outputs('Compose_-_Quarter_Label'), '. Ensure production data has been entered and submitted for all 3 months.')}"
+                      }
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "and": [
+                  {
+                    "greater": [
+                      "@length(body('Get_items_-_MROD_Production')?['value'])",
+                      0
+                    ]
+                  }
+                ]
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "type": "Compose",
+              "inputs": "@json(result('Scope_-_TryBlock'))"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "Flow Failure: BSPD Report Generation",
+                  "item/ctss_notification_type": 193770005,
+                  "item/ctss__related_table": "CTSS_Production",
+                  "item/ctss_senttoname": "@triggerBody()?['text']"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps"
+                }
+              }
+            },
+            "Post_message_in_a_chat_or_channel": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@triggerBody()?['text']",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('?? Flow Failure: CTSS Portal - MROD Report - Generate Word Report failed for ', outputs('Compose_-_Quarter_Label'), '. Error: ', substring(string(outputs('Compose_-_Error_Detail')), 0, 500))}</p>"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "connectionName": "shared_teams"
+                }
+              }
+            },
+            "Response_-_500_Error": {
+              "runAfter": {
+                "Post_message_in_a_chat_or_channel": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "type": "boolean",
+                      "x-ms-content-hint": "BOOLEAN",
+                      "x-ms-dynamically-added": true
+                    },
+                    "message": {
+                      "title": "message",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "fileurl": {
+                      "title": "fileUrl",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    },
+                    "filename": {
+                      "title": "fileName",
+                      "type": "string",
+                      "x-ms-content-hint": "TEXT",
+                      "x-ms-dynamically-added": true
+                    }
+                  },
+                  "additionalProperties": {}
+                },
+                "statusCode": 200,
+                "body": {
+                  "success": false,
+                  "message": "@{substring(string(outputs('Compose_-_Error_Detail')), 0, 500)}"
+                }
+              }
+            },
+            "Terminate_-_No_Records_1": {
+              "runAfter": {
+                "Response_-_500_Error": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "500",
+                  "message": "string(@{outputs('Compose_-_Error_Detail')})"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "TimedOut",
+              "Skipped",
+              "Failed"
+            ]
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

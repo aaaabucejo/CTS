@@ -1,0 +1,654 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps-1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedcommondataserviceforapps_b9c41"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_sharepointonline-2": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedsharepointonline_08ab3"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams-1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "new_sharedteams_91e58"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "387a6af3-b782-4a43-823f-12f2a39e878c"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "qsmrreportid",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "GUID of the ctss_qsmrreport record to update",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "quarter",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "BSP fiscal quarter as text: \"1\"-\"4\"",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "year",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "BSP fiscal year as text, e.g. \"2025\"",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_3": {
+                  "title": "triggeredBy",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Display name of the CTSS officer",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_-_TryBlock": {
+          "actions": {
+            "List_rows_-_Env_SP_Site_Url": {
+              "metadata": {
+                "operationMetadataId": "b7f4ad8e-8f26-4381-8ff8-47a4d428aab4"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "environmentvariabledefinitions",
+                  "$filter": "schemaname eq 'ctss__SharePointSiteUrl'",
+                  "$expand": "environmentvariabledefinition_environmentvariablevalue($select=value)"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "connectionName": "shared_commondataserviceforapps-1"
+                }
+              }
+            },
+            "Compose_-_SP_Site_Url": {
+              "runAfter": {
+                "List_rows_-_Env_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "49eb4810-b511-4421-bfc9-7366f144141c"
+              },
+              "type": "Compose",
+              "inputs": "@coalesce(first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['environmentvariabledefinition_environmentvariablevalue']?[0]?['value'], first(body('List_rows_-_Env_SP_Site_Url')?['value'])?['defaultvalue'])\r\n"
+            },
+            "Compose_-_Quarter_Start": {
+              "runAfter": {
+                "Compose_-_SP_Site_Url": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c4b56064-bd37-436b-8acc-2f20a83371ff"
+              },
+              "type": "Compose",
+              "inputs": "@addToTime(concat(string(sub(int(outputs('Compose_-_In_Year')), 1)), '-08-01T00:00:00Z'), mul(3, sub(int(outputs('Compose_-_In_Quarter')), 1)), 'Month', 'yyyy-MM-ddTHH:mm:ssZ')"
+            },
+            "Compose_-_Quarter_End": {
+              "runAfter": {
+                "Compose_-_Quarter_Start": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a202fd29-f74c-4ca4-a2d0-74c25167b073"
+              },
+              "type": "Compose",
+              "inputs": "@addToTime(outputs('Compose_-_Quarter_Start'), 3, 'Month', 'yyyy-MM-ddTHH:mm:ssZ')"
+            },
+            "Compose_-_SP_Month_Filter": {
+              "runAfter": {
+                "Compose_-_Quarter_End": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "927be255-a171-42dd-b4bd-a6f87802f467"
+              },
+              "type": "Compose",
+              "inputs": "@concat('ReportingMonth ge ''',formatDateTime(outputs('Compose_-_Quarter_Start'),'yyyy-MM-dd'),''' and ReportingMonth lt ''',formatDateTime(outputs('Compose_-_Quarter_End'),'yyyy-MM-dd'),'''')"
+            },
+            "Get_items_-_STP_Quarter_Records": {
+              "runAfter": {
+                "Compose_-_SP_Month_Filter": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "557cda6d-595c-4362-9440-5c46400e5da0"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "table": "CTSS_STP",
+                  "$filter": "@concat(outputs('Compose_-_SP_Month_Filter'),' and RecordStatus eq ''Reviewed''')",
+                  "$top": 5000
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "GetItems",
+                  "connectionName": "shared_sharepointonline-2"
+                }
+              }
+            },
+            "Select_-_STP_Effluent_Flows": {
+              "runAfter": {
+                "Get_items_-_STP_Quarter_Records": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "faf987f6-ff4c-4528-a9de-9ef30bc492e7"
+              },
+              "type": "Select",
+              "inputs": {
+                "from": "@body('Get_items_-_STP_Quarter_Records')?['value']",
+                "select": "@item()?['EffluentFlowReading']"
+              }
+            },
+            "Compose_-_Total_Effluent_Flow": {
+              "runAfter": {
+                "Select_-_STP_Effluent_Flows": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "b7c6e770-7984-4f28-9ae6-a91c9c3fae81"
+              },
+              "type": "Compose",
+              "inputs": "@if(\r\n  empty(body('Select_-_STP_Effluent_Flows')),\r\n  0,\r\n  float(xpath(xml(json(concat('{\"root\":{\"val\":', body('Select_-_STP_Effluent_Flows'), '}}'))), 'sum(//val)'))\r\n)"
+            },
+            "Select_-_STP_Reading_Dates": {
+              "runAfter": {
+                "Compose_-_Total_Effluent_Flow": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ee8b9036-085b-4ad4-a418-57465641377d"
+              },
+              "type": "Select",
+              "inputs": {
+                "from": "@body('Get_items_-_STP_Quarter_Records')?['value']",
+                "select": "@formatDateTime(item()?['ReadingDate'], 'yyyy-MM-dd')"
+              }
+            },
+            "Compose_-_Distinct_Reading_Dates": {
+              "runAfter": {
+                "Select_-_STP_Reading_Dates": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "677204ba-2076-4dea-96ba-9efff71eef52"
+              },
+              "type": "Compose",
+              "inputs": "@union(body('Select_-_STP_Reading_Dates'), body('Select_-_STP_Reading_Dates'))"
+            },
+            "Compose_-_Operating_Days": {
+              "runAfter": {
+                "Compose_-_Distinct_Reading_Dates": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d9dcc58a-b273-49a3-a114-d9c91483254b"
+              },
+              "type": "Compose",
+              "inputs": "@length(outputs('Compose_-_Distinct_Reading_Dates'))"
+            },
+            "Compose_-_Domestic_Wastewater": {
+              "runAfter": {
+                "Compose_-_Operating_Days": [
+                  "Succeeded"
+                ],
+                "Compose_-_Total_Effluent_Flow": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "4a5a0d58-b8cd-42a7-b705-dac56e0cff13"
+              },
+              "type": "Compose",
+              "inputs": "@if(greater(outputs('Compose_-_Operating_Days'), 0), div(float(outputs('Compose_-_Total_Effluent_Flow')), float(outputs('Compose_-_Operating_Days'))), 0)"
+            },
+            "Get_items_-_Production_Quarter_Records": {
+              "runAfter": {
+                "Compose_-_Domestic_Wastewater": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "442496b1-21e1-45f9-b496-2b54941ead95"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "dataset": "@outputs('Compose_-_SP_Site_Url')",
+                  "table": "CTSS_Production",
+                  "$filter": "@concat(outputs('Compose_-_SP_Month_Filter'),' and (RecordStatus eq ''Director Approved'' or RecordStatus eq ''For CTSS Review'' or RecordStatus eq ''Locked'')')",
+                  "$top": 5000
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+                  "operationId": "GetItems",
+                  "connectionName": "shared_sharepointonline-2"
+                }
+              }
+            },
+            "Select_-_Production_Quantities": {
+              "runAfter": {
+                "Get_items_-_Production_Quarter_Records": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "d901e35b-1031-486d-a624-f17866ec3ae2"
+              },
+              "type": "Select",
+              "inputs": {
+                "from": "@body('Get_items_-_Production_Quarter_Records')?['value']",
+                "select": {
+                  "t": "@item()?['ProductionType']?['Value']",
+                  "v": "@coalesce(item()?['ProductionValue'],0)"
+                }
+              }
+            },
+            "Compose_-_Total_Production": {
+              "runAfter": {
+                "Select_-_Production_Quantities": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f1661457-c1c8-4b17-a15c-b1f20eef1991"
+              },
+              "type": "Compose",
+              "inputs": "@if(empty(body('Select_-_Production_Quantities')), 0, float(xpath(xml(json(concat('{\"root\":{\"val\":', body('Select_-_Production_Quantities'), '}}'))), 'sum(//val[t=''Banknotes'']/v)')))"
+            },
+            "Compose_-_Avg_Production": {
+              "runAfter": {
+                "Compose_-_Total_Production": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "7e90e1a5-b6a0-4d7d-8cdb-784029884421"
+              },
+              "type": "Compose",
+              "inputs": "@div(float(outputs('Compose_-_Total_Production')), 3)"
+            },
+            "Update_a_row_-_QSMR_Report": {
+              "runAfter": {
+                "Compose_-_Avg_Production": [
+                  "Succeeded"
+                ],
+                "Compose_-_Domestic_Wastewater": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "0e7bef72-ebbc-4f9d-ae7e-47cba3d9f8dc"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_ctss_qsmrreports",
+                  "recordId": "@outputs('Compose_-_In_QSMRReportId')",
+                  "item/ctss_avg_production_per_month": "@float(outputs('Compose_-_Avg_Production'))",
+                  "item/ctss_p2_avg_production_per_month": "@if(empty(body('Select_-_Production_Quantities')), 0, div(float(xpath(xml(json(concat('{\"root\":{\"val\":', body('Select_-_Production_Quantities'), '}}'))), 'sum(//val[t=''Circulation Coins'' or t=''Commemorative Coins'']/v)')), 3))",
+                  "item/ctss_p3_avg_production_per_month": "@if(empty(body('Select_-_Production_Quantities')), 0, div(float(xpath(xml(json(concat('{\"root\":{\"val\":', body('Select_-_Production_Quantities'), '}}'))), 'sum(//val[t=''Gold Delivery Bars'']/v)')), 3))",
+                  "item/ctss_aggregates_last_computed": "@utcNow()",
+                  "item/ctss_domestic_wastewater": "@float(outputs('Compose_-_Domestic_Wastewater'))"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord",
+                  "connectionName": "shared_commondataserviceforapps-1"
+                }
+              }
+            },
+            "Add_a_new_row_-_Audit_Log": {
+              "runAfter": {
+                "Update_a_row_-_QSMR_Report": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cc458e13-6209-4af0-982c-d6a830e3ab9f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_auditlogs",
+                  "item/ctss_action_on": "@utcNow()",
+                  "item/ctss_action_type": 193770007,
+                  "item/ctss_description": "@concat(outputs('Compose_-_In_TriggeredBy'),' computed QSMR aggregates for Q',outputs('Compose_-_In_Quarter'),' FY',outputs('Compose_-_In_Year'),'. Domestic Wastewater: ',string(outputs('Compose_-_Domestic_Wastewater')),' m?/day (', string(outputs('Compose_-_Operating_Days')),' operating days). Avg Production: ',string(outputs('Compose_-_Avg_Production')),'.')\r\n",
+                  "item/ctss_name": "QSMR Audit",
+                  "item/ctss_related_record_id": "@outputs('Compose_-_In_QSMRReportId')",
+                  "item/ctss_related_table": "ctss_qsmrreport",
+                  "item/ctss_source": 193770002
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps-1"
+                }
+              }
+            },
+            "Response_-_200_Success": {
+              "runAfter": {
+                "Add_a_new_row_-_Audit_Log": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "10ed442f-3500-4758-b198-b8a0515feec4"
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    },
+                    "domesticwastewater": {
+                      "title": "domesticWastewater",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    },
+                    "avgproduction": {
+                      "title": "avgProduction",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    },
+                    "operatingdays": {
+                      "title": "operatingDays",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": {}
+                },
+                "statusCode": 200,
+                "body": {
+                  "success": "@true",
+                  "message": "Aggregates computed successfully.",
+                  "domesticwastewater": "@outputs('Compose_-_Domestic_Wastewater')",
+                  "avgproduction": "@outputs('Compose_-_Avg_Production')",
+                  "operatingdays": "@outputs('Compose_-_Operating_Days')"
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Compose_-_In_TriggeredBy": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9b3f62c6-41ee-4552-8a8d-f47d2336d478"
+          },
+          "type": "Scope"
+        },
+        "Scope_-_CatchBlock": {
+          "actions": {
+            "Compose_-_Error_Detail": {
+              "runAfter": {
+                "Filter_array_-_Failed_Actions": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "70587d74-3f9d-4386-b5b9-13a2696b741f"
+              },
+              "type": "Compose",
+              "inputs": "@if(empty(body('Filter_array_-_Failed_Actions')), 'Unknown error', body('Filter_array_-_Failed_Actions')?[0]?['outputs']?['body']?['error']?['message'])"
+            },
+            "Add_a_new_row_-_Notification_Log_Failed": {
+              "runAfter": {
+                "Compose_-_Error_Detail": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "dd0b296f-6a85-4e0b-9e0e-6cb49622b501"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "entityName": "ctss_notificationlogs",
+                  "item/ctss_name": "QSMR Aggregates Computation Failed",
+                  "item/ctss_notification_type": 193770002,
+                  "item/ctss__related_table": "ctss_qsmrreport"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "connectionName": "shared_commondataserviceforapps-1"
+                }
+              }
+            },
+            "Post_message_-_Flow_Failure_Alert": {
+              "runAfter": {
+                "Add_a_new_row_-_Notification_Log_Failed": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "a445ddac-229e-46eb-b974-411d210ab781"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Chat with Flow bot",
+                  "body/recipient": "@triggerOutputs()?['headers']?['x-ms-user-email']",
+                  "body/messageBody": "<p class=\"editor-paragraph\">@{concat('?? Flow Failure Alert: QSMR Aggregates Calculation', decodeUriComponent('%0A%0A'), 'Report ID: ', triggerBody()?['qsmrreportid'], decodeUriComponent('%0A'), 'Period: Q', triggerBody()?['quarter'], ' FY', triggerBody()?['year'], decodeUriComponent('%0A'), 'Triggered By: ', triggerBody()?['triggeredBy'], decodeUriComponent('%0A%0A'), 'Error Details:', decodeUriComponent('%0A'), string(outputs('Compose_-_Error_Detail')))}</p>"
+                },
+                "host": {
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams",
+                  "operationId": "PostMessageToConversation",
+                  "connectionName": "shared_teams-1"
+                }
+              }
+            },
+            "Response_-_500_Error": {
+              "runAfter": {
+                "Post_message_-_Flow_Failure_Alert": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "aa843e59-c9ff-48fc-8860-aaa271a57812"
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "title": "success",
+                      "x-ms-dynamically-added": true,
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "title": "message",
+                      "x-ms-dynamically-added": true,
+                      "type": "string"
+                    },
+                    "domesticwastewater": {
+                      "title": "domesticWastewater",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    },
+                    "avgproduction": {
+                      "title": "avgProduction",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    },
+                    "operatingdays": {
+                      "title": "operatingDays",
+                      "x-ms-dynamically-added": true,
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": {}
+                },
+                "statusCode": 200,
+                "body": {
+                  "success": "@false",
+                  "message": "@{take(string(outputs('Compose_-_Error_Detail')), 500)}",
+                  "domesticwastewater": 0,
+                  "avgproduction": 0,
+                  "operatingdays": 0
+                }
+              }
+            },
+            "Terminate_-_Flow_Failed": {
+              "runAfter": {
+                "Response_-_500_Error": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ec33d763-3bcf-4782-b884-402561bb47d0"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed"
+              }
+            },
+            "Filter_array_-_Failed_Actions": {
+              "type": "Query",
+              "inputs": {
+                "from": "@result('Scope_-_TryBlock')",
+                "where": "@equals(item()?['status'],'Failed')"
+              }
+            }
+          },
+          "runAfter": {
+            "Scope_-_TryBlock": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7c7e9a72-4a20-45ab-8cc5-c8ea1a1274b6"
+          },
+          "type": "Scope"
+        },
+        "Compose_-_In_QSMRReportId": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "7ba64b1d-c7dc-4dc4-b1ff-ef1c37fd667e"
+          },
+          "type": "Compose",
+          "inputs": "@triggerBody()?['text']"
+        },
+        "Compose_-_In_Quarter": {
+          "runAfter": {
+            "Compose_-_In_QSMRReportId": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1e3cd8d9-e35b-4c5e-bdbb-a8841d6fe743"
+          },
+          "type": "Compose",
+          "inputs": "@last(split(toUpper(trim(coalesce(string(triggerBody()?['text_1']),''))),'Q'))"
+        },
+        "Compose_-_In_Year": {
+          "runAfter": {
+            "Compose_-_In_Quarter": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "12e1d220-4b09-4076-9fd1-ab5e43f8cb00"
+          },
+          "type": "Compose",
+          "inputs": "@trim(coalesce(string(triggerBody()?['text_2']),''))"
+        },
+        "Compose_-_In_TriggeredBy": {
+          "runAfter": {
+            "Compose_-_In_Year": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "9149ede8-b5cc-43f0-9283-d5b291ed64ab"
+          },
+          "type": "Compose",
+          "inputs": "@trim(coalesce(string(triggerBody()?['text_3']),''))"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
